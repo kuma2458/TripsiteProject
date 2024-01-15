@@ -9,9 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController {
 
 	@RequestMapping("/")
-	public ModelAndView index(ModelAndView view) {
-		view.setViewName("main_page");
-		return view;
+	public String index() {
+		return "redirect:/main";
 	}
 	@RequestMapping("/main")
 	public ModelAndView mainpage(ModelAndView view) {
@@ -20,7 +19,7 @@ public class MainController {
 	}
 	@RequestMapping("/main/search")
 	public ModelAndView searchpage(ModelAndView view) {
-		view.setViewName("main_page");
+		view.setViewName("search");
 		return view;
 	}
 	
@@ -70,6 +69,11 @@ public class MainController {
 	@RequestMapping("/main/inquiry")
 	public ModelAndView inquirypage(ModelAndView view) {
 		view.setViewName("inquiry");
+		return view;
+	}
+	@RequestMapping("/main/cscenter/request")
+	public ModelAndView cscenterrequestpage(ModelAndView view) {
+		view.setViewName("customer_center_request");
 		return view;
 	}
 	
