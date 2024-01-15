@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객센터 문의</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body{
+            padding-top: 50px;
+            padding-bottom: 50px;
+            height: 100vh;
+            width: 100vw;
+            background-image: url(/img/cliam.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        } 
+
+        nav > h2 {            
+            font-size: 2.5em;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        section {
+            display: flex;
+
+            justify-content: center;
+        }
+
+
+        textarea {
+            width: 600px;
+            height: 600px;
+        }
+        footer {
+            display: flex;
+            flex-flow: row nowrap;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+        footer button {
+            width: 220px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background-color: black;
+            margin: 0 20px;
+       
+        }
+        footer button a {
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<th:block th:include="/fragments/header.html"></th:block>
+    <nav>
+        <h2>고객센터 문의</h2>
+    </nav>
+    <section>
+        <form action="">
+            <textarea placeholder="내용을 입력하세요"></textarea>
+        </form>
+    </section>
+    <footer>
+        <form action="">
+            <button><a href="">등록하기</a></button>
+            <button><a href="">취소하기</a></button>
+        </form>
+    </footer>
+</body>
+</html>
