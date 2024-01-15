@@ -23,9 +23,9 @@ public class MainController {
 		return view;
 	}
 	
-	@GetMapping("/main/searchresult")
-	public ModelAndView searchresult(ModelAndView view) {
-		view.setViewName("search_result_page");
+	@GetMapping("/main/country")
+	public ModelAndView country_page(ModelAndView view) {
+		view.setViewName("country_page");
 		return view;
 	}
 	
