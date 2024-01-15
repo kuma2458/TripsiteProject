@@ -46,8 +46,7 @@
             height: 70px;
             border-radius: 10px;
             border: 1px solid rgba(0, 0, 0, 0.4);
-            background: rgba(255, 255, 255, 0.51);
-        
+            background: rgba(255, 255, 255, 0.51);  
             color: rgba(0, 0, 0, 0.70);
             font-size: 24px;
             line-height: 24px;
@@ -105,6 +104,19 @@
 
 
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+	$(function(){
+    		console.log('a');
+        $('.frm_search').submit(function(e){
+        	if($('input[name=country]').val()==''){	
+            	alert('검색어를 입력해주세요');
+                e.preventDefault();
+        	}
+        })
+	})
+
+    </script>
 </head>
 <body>
 	<th:block th:include="/fragments/header.html"></th:block>
@@ -114,10 +126,10 @@
     <section>
         <h1>국가 정보 검색</h1>
         <article class="section_container">
-            <form action="/main/country" method="get" class="frm_search">
+            <form action="/main/country" method="get" class="frm_search" >
                 <div class="search_container">
                         <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
-                        <button type="submit" class="ct_search">검색</button>
+                        <button type=""  class="ct_search">검색</button>
                 </div>
             </form>
         </article>
