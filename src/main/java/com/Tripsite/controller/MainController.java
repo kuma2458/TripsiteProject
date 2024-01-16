@@ -9,7 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+<<<<<<< HEAD
 import com.Tripsite.dto.QnaDTO;
+=======
+import com.Tripsite.dto.MemberDTO;
+import com.Tripsite.service.MemberService;
+
+
+import jakarta.servlet.http.HttpSession;
+>>>>>>> ee993b35fdfc7ddc73a8446e54e5638539944f2c
 import com.Tripsite.dto.ReviewDTO;
 import com.Tripsite.dto.memberDTO;
 import com.Tripsite.service.MemberService;
@@ -17,24 +25,43 @@ import com.Tripsite.service.QnaService;
 import com.Tripsite.service.ReviewService;
 import com.Tripsite.vo.PagginVO;
 
+<<<<<<< HEAD
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.server.PathParam;
+=======
+>>>>>>> ee993b35fdfc7ddc73a8446e54e5638539944f2c
 
 @Controller
 public class MainController {
-	
+	private MemberService service;
 	private ReviewService reviewService;
+<<<<<<< HEAD
 	private MemberService memberService;
 	private QnaService qnaService;
 
 	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService) {
+=======
+	
+	public MainController(MemberService service, ReviewService reviewService) {
+		this.service = service;
+>>>>>>> ee993b35fdfc7ddc73a8446e54e5638539944f2c
 		this.reviewService = reviewService;
 		this.memberService = memberService;
 		this.qnaService = qnaService;
 	}
+<<<<<<< HEAD
+=======
+
+
+	public MainController() {
+	}
+
+
+>>>>>>> ee993b35fdfc7ddc73a8446e54e5638539944f2c
 	@RequestMapping("/")
-	public String index() {
-		return "redirect:/main";
+	public ModelAndView index(ModelAndView view) {
+		view.setViewName("main_page");
+		return view;
 	}
 	@RequestMapping("/main")
 	public ModelAndView mainpage(ModelAndView view) {
@@ -43,13 +70,13 @@ public class MainController {
 	}
 	@RequestMapping("/main/search")
 	public ModelAndView searchpage(ModelAndView view) {
-		view.setViewName("search");
+		view.setViewName("main_page");
 		return view;
 	}
 	
-	@GetMapping("/main/country")
-	public ModelAndView country_page(ModelAndView view) {
-		view.setViewName("country_page");
+	@GetMapping("/main/searchresult")
+	public ModelAndView searchresult(ModelAndView view) {
+		view.setViewName("search_result_page");
 		return view;
 	}
 	
@@ -71,6 +98,27 @@ public class MainController {
 	    session.setAttribute("member", dto);
 
 	    return "redirect:/main";
+	  }
+	
+	@RequestMapping("/main/logout")
+	public ModelAndView logoutpage(ModelAndView view) {
+		view.setViewName("main-page logout");
+		return view;
+	}
+	
+	@PostMapping("/main/login")
+	 public String login(String mId, String mPass, HttpSession session) {
+		
+	    MemberDTO dto = service.login(mId, mPass);
+	    if(dto == null) 
+//	    	session.setAttribute("msg", "아이디와 비밀번호 다시 확인해주세요");
+//	    	session.setAttribute("url", "/main/login");
+//	    	return "alert";
+	    
+	    	return "redirect:/main/login";
+	    session.setAttribute("member", dto);
+
+	    return "redirect:/main/logout";
 	  }
 	
 	@RequestMapping("/main/register")
@@ -120,11 +168,6 @@ public class MainController {
 		view.addObject("pagging", pagging);
 		view.addObject("qnalist", qnalist);
 		view.setViewName("inquiry");
-		return view;
-	}
-	@RequestMapping("/main/cscenter/request")
-	public ModelAndView cscenterrequestpage(ModelAndView view) {
-		view.setViewName("customer_center_request");
 		return view;
 	}
 	
