@@ -166,6 +166,9 @@
     p{
         color: yellow;
     }
+    td > a{
+    color:black;
+    }
     </style>
 </head>
 <body>
@@ -187,22 +190,15 @@
                 <thead>
                     <tr>
                         <td>글번호</td>
-                        <td>작성일</td>
                         <td>제목</td>
-                        <td>조회수</td>
-                        <td>작성자</td>
-                        <td>좋아요</td>
+                        <td>카테고리</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="r:${reviewlist}">
-                        <td>[[${r.rno}]]</td>
-                        <td><a>[[${r.rTitle}]]</a></td>
-                        <td>[[${r.rTime}]]</td>
-                        <td>[[${r.rCount}]]</td>
-                        <td>[[${r.rNick}]]</td>
-                        <td>[[${r.rLike}]]</td>
-                        <td>[[${r.rHate}]]</td>
+                    <tr th:each="q:${qnalist}">
+                        <td>[[${q.qNo}]]</td>
+                        <td><a>[[${q.qTitle}]]</a></td>
+                        <td>[[${q.qItem}]]</td>
                     </tr>
                 </tbody>
                     </table>
@@ -218,8 +214,8 @@
             <button class="left">◁</button>
             <th:block th:each="i : ${#numbers.sequence(pagging.startPageOfPageGroup, pagging.endPageOfPageGroup)}">
 				    <th:block th:switch="${i}">
-            	<button th:case="${pagging.currentPageNo}" class="number active"><a  th:href="@{/main/review(pageNo=${i})}">[[${i}]]</a></button>
-            	<button th:case="*" class="number"><a  th:href="@{/main/review(pageNo=${i})}" class="pageNo">[[${i}]]</a></button>
+            	<button th:case="${pagging.currentPageNo}" class="number active"><a  th:href="@{/main/inquiry(pageNo=${i})}">[[${i}]]</a></button>
+            	<button th:case="*" class="number"><a  th:href="@{/main/inquiry(pageNo=${i})}" class="pageNo">[[${i}]]</a></button>
 				    </th:block>
 				</th:block>
             <button class="right">▷</button>
