@@ -36,11 +36,6 @@ public class MainController {
 		this.qnaService = qnaService;
 	}
 
-
-	public MainController() {
-	}
-
-
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
 		view.setViewName("main_page");
@@ -84,8 +79,9 @@ public class MainController {
 	  }
 	
 	@RequestMapping("/main/logout")
-	public ModelAndView logoutpage(ModelAndView view) {
-		view.setViewName("main-page logout");
+	public ModelAndView logoutpage(ModelAndView view, HttpSession session) {
+		session.removeAttribute("member");
+		view.setViewName("main_page");
 		return view;
 	}
 
@@ -106,6 +102,26 @@ public class MainController {
 		view.setViewName("cscenter");
 		return view;
 	}
+	@RequestMapping("/main/csnotice")
+	public ModelAndView csnoticepage(ModelAndView view) {
+		view.setViewName("cscenter_notice");
+		return view;
+	}
+	@RequestMapping("/main/csQnA")
+	public ModelAndView csQnApage(ModelAndView view) {
+		view.setViewName("cscenter_QnA");
+		return view;
+	}
+	@RequestMapping("/main/cschat")
+	public ModelAndView cschatpage(ModelAndView view) {
+		view.setViewName("cscenter_chat");
+		return view;
+	}
+	@RequestMapping("/main/csinquiry")
+	public ModelAndView csinquirypage(ModelAndView view) {
+		view.setViewName("cscenter_inquiry");
+		return view;
+	}
 	@RequestMapping("/main/mypage")
 	public ModelAndView mypage(ModelAndView view) {
 		view.setViewName("mypage");
@@ -124,6 +140,17 @@ public class MainController {
 	@RequestMapping("/main/change")
 	public ModelAndView chagepage(ModelAndView view) {
 		view.setViewName("change");
+		return view;
+	}
+	@RequestMapping("/main/write")
+	public ModelAndView writepage(ModelAndView view) {
+		view.setViewName("write");
+		return view;
+	}
+
+	@RequestMapping("/main/comment")
+	public ModelAndView commentpage(ModelAndView view) {
+		view.setViewName("comment");
 		return view;
 	}
 	@RequestMapping("/main/inquiry")
