@@ -144,6 +144,93 @@
         color: blue;
     }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    //아이디
+        function checkId(){
+
+    let reg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+console.log(reg.test($(".id").val()));
+
+if(!reg.test($(".id").val())){
+    $('.id_result').html('아이디는 이메일형식으로 작성하세요');
+    $('.id_result').removeClass('true');
+    $('.id_result').addClass('false');
+    return false;
+}
+
+$('.id_result').html('사용이 가능한 아이디 입니다.');
+$('.id_result').removeClass('false');
+$('.id_result').addClass('true');
+return true;
+}
+//비밀번호
+function checkPassword(){
+    var reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
+
+            if(!reg.test($('.passwd').val())){
+                $('.pass_result').html('암호는 영어랑 숫자 조합으로 8~15자리입력하세요');
+                $('.pass_result').addClass('false');
+                $('.pass_result').removeClass('true');
+                return false;
+            }
+            
+            if($('.passwd').val() != $('.passwd_chk').val()){
+                $('.pass_result').html('암호가 일치하지 않습니다.');
+                $('.pass_result').addClass('false');
+                $('.pass_result').removeClass('true');
+                return false;
+            }
+            $('.pass_result').html('암호가 일치합니다.');
+            $('.pass_result').removeClass('false');
+            $('.pass_result').addClass('true');
+
+            return true;
+        }
+        //생년월일
+        function checkbirth(){
+    var reg = /^[0-9]{8}$/;
+    if(!reg.test($(".birth").val())){
+    $('.birth_result').html('생년월일로입력하세요 ex)20000412');
+    $('.birth_result').removeClass('true');
+    $('.birth_result').addClass('false');
+    return false;
+}
+$('.birth_result').html('잘 적으셨습니다');
+            $('.birth_result').removeClass('false');
+            $('.birth_result').addClass('true');
+
+            return true;
+        }
+        function checkNick(){
+            let reg = /^[.\S]{1,20}$/
+            if(!reg.test($(".nick").val())){
+                $('.nick').removeClass('true');
+                $('.nick').addClass('false');
+                return false;
+            }
+            $('.nick').removeClass('false');
+            $('.nick').addClass('true');
+            
+            return true;
+        }
+$(() => {
+            //아이디 입력시 checkId 함수 연결
+            $('.id').keyup(checkId);
+            $('.passwd').keyup(checkPassword);
+            $('.passwd_chk').keyup(checkPassword);
+            $('.birth').keyup(checkbirth);
+            $('.nick').keyup(checkNick);
+
+
+            //폼 연결
+            $('.login_form').submit((e) => {
+                if(!checkId() || !checkPassword() || !checkbirth() || !checkNick()){
+                    e.preventDefault();
+                }
+            });
+        });
+</script>
 <body>
     <div class="container"></div>
     <header>

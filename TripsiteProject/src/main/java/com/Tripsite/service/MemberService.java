@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.springframework.stereotype.Service;
 
-import com.Tripsite.dto.memberDTO;
+import com.Tripsite.dto.MemberDTO;
 import com.Tripsite.mapper.MemberMapper;
 
 @Service
@@ -16,7 +16,7 @@ public class MemberService {
 		this.mapper = mapper;
 	}
 
-	public memberDTO login(String mId, String mPass) {
+	public MemberDTO login(String mId, String mPass) {
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 	    map.put("mId", mId);
 	    map.put("mPass", mPass);
