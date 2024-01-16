@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>리뷰</title>
+    <title>댓글</title>
     <style>
         *{
             margin: 0px;
@@ -15,7 +15,7 @@
             padding-bottom: 50px;
             height: 100vh;
             width: 100vw;
-            background-image: url(/img/claim.png);
+            background-image: url(/img/airplane.jpg);
             background-repeat: no-repeat;
             background-size: cover;
         } 
@@ -46,7 +46,7 @@
             font-weight: 400;
 
             padding-left: 20px;
-            background-image: url("/img/search.png");
+            background-image: url("img/search.png");
             background-repeat: no-repeat;
             background-position: 10px center;
 
@@ -120,6 +120,9 @@
             flex-flow: row nowrap;
             
         }
+        tbody{
+            background-color: white;
+        }
       a{
         text-decoration: none;
         color: white;
@@ -150,30 +153,21 @@
             border-radius: 10px;
     }
     .left, .right{
-        width: 30px;
-        height: 30px;
-        margin-right: 10px;
-        background-color: black;
-        color: white;
-        border-radius: 5px;
-    }
-    tbody > tr{
-    	background-color: white;
-    }
-    td > a{
-    color:black;
+        width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            background-color: black;
+            color: white;
+            border-radius: 5px;
     }
     .pageNo{
         color: black;
-    }
-    .active{
-    	background-color: black;
-    	color:white;
     }
     p{
         color: yellow;
     }
     </style>
+    
 </head>
 <body>
 	<th:block th:include="/fragments/header.html"></th:block>
@@ -187,31 +181,103 @@
     </nav>
     <section>
         <article>
-        <h2>리뷰 페이지</h2>
+        <h2>내 작성 댓글</h2>
     </article>
         <article>
         <table>
                 <thead>
                     <tr>
                         <td>글번호</td>
-                        <td>제목</td>
                         <td>작성일</td>
+                        <td>제목</td>
                         <td>조회수</td>
                         <td>작성자</td>
                         <td>좋아요</td>
-                        <td>싫어요</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="r:${reviewlist}">
-                        <td>[[${r.rno}]]</td>
-                        <td><a>[[${r.rTitle}]]</a></td>
-                        <td>[[${r.rTime}]]</td>
-                        <td>[[${r.rCount}]]</td>
-                        <td>[[${r.rNick}]]</td>
-                        <td>[[${r.rLike}]]</td>
-                        <td>[[${r.rHate}]]</td>
+                    <tr>
+                        <td>1</td>
+                        <td>2024.1.12</td>
+                        <td>제목대충지어</td>
+                        <td>33</td>
+                        <td>나님</td>
+                        <td>777</td>
                     </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>2024.1.12</td>
+                        <td>제목대충지어</td>
+                        <td>33</td>
+                        <td>나님</td>
+                        <td>777</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>2024.1.12</td>
+                        <td>제목대충지어</td>
+                        <td>33</td>
+                        <td>나님</td>
+                        <td>777</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>2024.1.12</td>
+                        <td>제목대충지어</td>
+                        <td>33</td>
+                        <td>나님</td>
+                        <td>777</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>2024.1.12</td>
+                        <td>제목대충지어</td>
+                        <td>33</td>
+                        <td>나님</td>
+                        <td>777</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>2024.1.12</td>
+                        <td>제목대충지어</td>
+                        <td>33</td>
+                        <td>나님</td>
+                        <td>777</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>2024.1.12</td>
+                        <td>제목대충지어</td>
+                        <td>33</td>
+                        <td>나님</td>
+                        <td>777</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>2024.1.12</td>
+                        <td>제목대충지어</td>
+                        <td>33</td>
+                        <td>나님</td>
+                        <td>777</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>2024.1.12</td>
+                        <td>제목대충지어</td>
+                        <td>33</td>
+                        <td>나님</td>
+                        <td>777</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>2024.1.12</td>
+                        <td>제목대충지어</td>
+                        <td>33</td>
+                        <td>나님</td>
+                        <td>777</td>
+                    </tr>
+                   
+
                 </tbody>
                     </table>
     </article>
@@ -224,14 +290,13 @@
         </div>
         <div class="f2">
             <button class="left">◁</button>
-            <th:block th:each="i : ${#numbers.sequence(pagging.startPageOfPageGroup, pagging.endPageOfPageGroup)}">
-				    <th:block th:switch="${i}">
-            	<button th:case="${pagging.currentPageNo}" class="number active"><a  th:href="@{/main/review(pageNo=${i})}">[[${i}]]</a></button>
-            	<button th:case="*" class="number"><a  th:href="@{/main/review(pageNo=${i})}" class="pageNo">[[${i}]]</a></button>
-				    </th:block>
-				</th:block>
+            <button class="number"><a href="" class="pageNo">1</a></button>
+            <button class="number"><a href="" class="pageNo">2</a></button>
+            <button class="number"><a href="" class="pageNo">3</a></button>
+            <button class="number"><a href="" class="pageNo">4</a></button>
+            <button class="number"><a href="" class="pageNo">5</a></button>
             <button class="right">▷</button>
-            <p>of [[${pagging.getTotalPage()}]]pages</p>
+            <p>of 17pages</p>
         </div>
         <div class="f3"></div>
 

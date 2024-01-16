@@ -10,8 +10,11 @@ public class ReviewDTO {
 	private String rTime;
 	private String rId;
 	private String rNick;
-	private String rcount;
-	public ReviewDTO(int rno, String rTitle, String rContent, String rTime, String rId, String rNick, String rcount) {
+	private String rCount;
+	private int rHate;
+	private int rLike;
+	public ReviewDTO(int rno, String rTitle, String rContent, String rTime, String rId, String rNick, String rCount,
+			int rHate, int rLike) {
 		super();
 		this.rno = rno;
 		this.rTitle = rTitle;
@@ -19,7 +22,9 @@ public class ReviewDTO {
 		this.rTime = rTime;
 		this.rId = rId;
 		this.rNick = rNick;
-		this.rcount = rcount;
+		this.rCount = rCount;
+		this.rHate = rHate;
+		this.rLike = rLike;
 	}
 	public int getRno() {
 		return rno;
@@ -57,17 +62,30 @@ public class ReviewDTO {
 	public void setrNick(String rNick) {
 		this.rNick = rNick;
 	}
-	public String getRcount() {
-		return rcount;
+	public String getrCount() {
+		return rCount;
 	}
-	public void setRcount(String rcount) {
-		this.rcount = rcount;
+	public void setrCount(String rCount) {
+		this.rCount = rCount;
+	}
+	public int getrHate() {
+		return rHate;
+	}
+	public void setrHate(int rHate) {
+		this.rHate = rHate;
+	}
+	public int getrLike() {
+		return rLike;
+	}
+	public void setrLike(int rLike) {
+		this.rLike = rLike;
 	}
 	@Override
 	public String toString() {
 		return "ReviewDTO [rno=" + rno + ", rTitle=" + rTitle + ", rContent=" + rContent + ", rTime=" + rTime + ", rId="
-				+ rId + ", rNick=" + rNick + ", rcount=" + rcount + "]";
+				+ rId + ", rNick=" + rNick + ", rCount=" + rCount + ", rHate=" + rHate + ", rLike=" + rLike + "]";
 	}
-	
+
+
 	
 }

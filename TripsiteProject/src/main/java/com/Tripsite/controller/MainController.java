@@ -1,45 +1,28 @@
 package com.Tripsite.controller;
 
-import java.util.List;
-
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-<<<<<<< HEAD
-import com.Tripsite.dto.MemberDTO;
+import com.Tripsite.dto.memberDTO;
 import com.Tripsite.service.MemberService;
 
 
 import jakarta.servlet.http.HttpSession;
-=======
-import com.Tripsite.dto.ReviewDTO;
-import com.Tripsite.service.ReviewService;
-import com.Tripsite.vo.PagginVO;
-
-import jakarta.websocket.server.PathParam;
->>>>>>> 54578ca7484126786228e4c3412749bff4321473
 
 @Controller
 public class MainController {
 	private MemberService service;
 	
-<<<<<<< HEAD
 	
 	
 	
 	public MainController(MemberService service) {
 		
 		this.service = service;
-=======
-	private ReviewService reviewService;
-
-	public MainController(ReviewService reviewService) {
-		this.reviewService = reviewService;
->>>>>>> 54578ca7484126786228e4c3412749bff4321473
 	}
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
@@ -78,7 +61,7 @@ public class MainController {
 	@PostMapping("/main/login")
 	 public String login(String mId, String mPass, HttpSession session) {
 		
-	    MemberDTO dto = service.login(mId, mPass);
+	    memberDTO dto = service.login(mId, mPass);
 	    if(dto == null) 
 //	    	session.setAttribute("msg", "아이디와 비밀번호 다시 확인해주세요");
 //	    	session.setAttribute("url", "/main/login");
@@ -112,14 +95,8 @@ public class MainController {
 		return view;
 	}
 	@RequestMapping("/main/review")
-	public ModelAndView reviewpage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo) {
-		List<ReviewDTO> reviewlist=reviewService.selectAllreview(pageNo);
-		int count = reviewService.countreview();
-		PagginVO pagging = new PagginVO(count, pageNo, 10, 5);
-		view.addObject("pagging", pagging);
-		view.addObject("reviewlist", reviewlist);
+	public ModelAndView reviewpage(ModelAndView view) {
 		view.setViewName("review");
-		System.out.println(pagging.getStartPageOfPageGroup() + " "+pagging.getEndPageOfPageGroup());
 		return view;
 	}
 	@RequestMapping("/main/change")
