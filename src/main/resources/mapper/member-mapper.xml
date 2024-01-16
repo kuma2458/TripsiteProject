@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Tripsite.mapper.MemberMapper">
+	<resultMap id="member" type="member">
+		<id column="member_id" property="mId" />
+		<result column="member_passwd" property="mPass" />
+		<result column="member_nick" property="mNick" />
+		<result column="member_tel" property="mTel" />
+		<result column="member_email" property="mEmail" />
+		<result column="member_birth" property="mBirth" />
+		<result column="member_gender" property="mGender" />
+		<result column="member_name" property="mName" />
+	</resultMap>
+	<select id="login" resultMap="member" parameterType="hashmap"> 
+		select * from member where member_id like #{mId} and member_passwd like #{mPass}
+	</select>
+
+	
+
+	
+</mapper>
