@@ -9,46 +9,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-<<<<<<< HEAD
 import com.Tripsite.dto.MemberDTO;
 import com.Tripsite.service.MemberService;
 
 
 import jakarta.servlet.http.HttpSession;
-=======
 import com.Tripsite.dto.ReviewDTO;
 import com.Tripsite.service.ReviewService;
 import com.Tripsite.vo.PagginVO;
 
-import jakarta.websocket.server.PathParam;
->>>>>>> 54578ca7484126786228e4c3412749bff4321473
 
 @Controller
 public class MainController {
 	private MemberService service;
-	
-<<<<<<< HEAD
-	
-	
-	
-	public MainController(MemberService service) {
-		
-		this.service = service;
-=======
 	private ReviewService reviewService;
-
-	public MainController(ReviewService reviewService) {
+	
+	public MainController(MemberService service, ReviewService reviewService) {
+		this.service = service;
 		this.reviewService = reviewService;
->>>>>>> 54578ca7484126786228e4c3412749bff4321473
 	}
+
+
+	public MainController() {
+	}
+
+
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
-		view.setViewName("main-page");
+		view.setViewName("main_page");
 		return view;
 	}
 	@RequestMapping("/main")
 	public ModelAndView mainpage(ModelAndView view) {
-		view.setViewName("main-page");
+		view.setViewName("main_page");
 		return view;
 	}
 	@RequestMapping("/main/search")
