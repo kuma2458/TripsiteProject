@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body{
+            padding-top: 50px;
+            padding-bottom: 50px;
+            height: 100vh;
+            width: 100vw;
+            background-image: url("/img/black.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        } 
+
+
+        .frm_search{
+            width: 1200px;
+            height: 70px;
+            display: flex; 
+        }
+        .search_container{
+            width: 1200px;
+            height: 70px;
+            display: flex; 
+            flex-flow: row wrap;
+            justify-content: center; 
+            box-sizing: border-box;
+            
+        }
+        .frm_search{
+            width: 1200px;
+            margin: 0 auto;
+
+        }
+
+        .ct{
+            width: 764px;
+            height: 70px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.51);
+        
+            color: rgba(0, 0, 0, 0.70);
+            font-size: 24px;
+            line-height: 24px;
+            font-weight: 400;
+
+            padding-left: 70px;
+            background-image: url(img/search.png);
+            background-repeat: no-repeat;
+            background-position: 33px center;
+        }
+
+        .ct_search{
+            width: 204px;
+            font-size: 32px;
+            padding: 9px, 11.48px, 7.03px 12px;
+            align-items: center;
+            margin-left: 22.42px;
+            border-radius: 10px;
+            border: 1px solid #000;
+            background: #000;
+            font-weight: 700;
+            line-height: 32px;
+            color: white;
+        }
+ 
+        section{
+            width: 1400px;
+            height: 900px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            
+
+        }
+        section h1 {
+            color: white;
+            font-size: 67px;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 220px;
+        }
+
+        .section_container{
+            margin-top:50px;
+        }
+
+        #first_box{
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        #last_box{
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+
+    </style>
+</head>
+<body>
+	<th:block th:include="/fragments/header.html"></th:block>
+    <nav>
+
+    </nav>
+    <section>
+        <h1>국가 정보 검색</h1>
+        <article class="section_container">
+            <form action="/main/searchresult" method="get" class="frm_search">
+                <div class="search_container">
+                        <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
+                        <button type="submit" class="ct_search">검색</button>
+                </div>
+            </form>
+        </article>
+    </section>
+
+</body>
+</html>

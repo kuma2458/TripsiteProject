@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가입</title>
+</head>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+       
+    }
+    body{
+        padding-top: 50px;
+        padding-bottom: 50px;
+        height: 100vh;
+        width: 100vw;
+        background-image: url(/img/login.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    header{
+        width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 50px;
+        padding-top: 30px;
+    }
+    nav{
+        width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    section{
+        width: 1200px;
+        margin: 0 auto;
+    }
+    .login_form{
+        width: 600px;
+        margin: 0 auto;
+        display: flex;
+        flex-flow: column wrap;
+        text-align: center;
+    }
+    .gender{
+        width: 400px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+                
+    }
+    label{
+        
+        width: 100px;
+    }
+    .id, .passwd, .email, .birth, .nick{
+        width: 400px;
+        height: 48px;
+        border-radius: 10px;
+        margin-bottom: 40px;
+        border: 1px solid rgb(95,95,95);
+        
+        background-color: rgba(0, 0, 0, 0);
+    }
+    
+    .radio{
+        width: 30px;
+        height: 16px;
+        display: inline-block;
+        background-clip: content-box;
+        padding: 1px;
+        border-radius: 8px;
+        box-sizing: border-box;
+        position: relative;
+        top: 2px;
+        left: 0px;
+    }    
+    input[type=radio]{
+        width: 30px;
+        height: 16px;
+    }
+    label{
+        display: inline-block;
+        width: 60px;
+        padding-bottom: 20px;
+        color: aliceblue;
+    }
+    .btn_login{
+        width: 400px;
+        height: 48px;
+        border-radius: 10px;
+        background-color: #A95D27;
+        color: white;
+        margin-bottom: 30px;
+        font-size: 16px;
+    }
+    
+    .kakao_login{
+        width: 400px;
+        height: 48px;
+        border-radius: 10px;
+        background-color:yellow;
+        color: black;
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 16px;
+        background-image: url(/img/free-icon-kakao-talk-2111466.png);
+        background-size: 24px 24px;
+        background-repeat: no-repeat;
+        background-position: 10px center;
+        
+    }
+    .google_login{
+        width: 400px;
+        height: 48px;
+        border-radius: 10px;
+        background-color: none;
+        color: black;
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 30px;
+        background-image: url(/img/free-icon-google-300221.png);
+        background-repeat: no-repeat;
+        background-size: 24px 24px;
+        background-position: 10px center;
+        box-sizing: border-box;
+    }
+    p{
+        margin-bottom: 20px;
+    }
+    .already{
+        text-decoration: underline;
+        margin-right: 20px;
+    }
+    .check{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        
+    }
+    a{
+        color: blue;
+    }
+</style>
+<body>
+    <div class="container"></div>
+    <header>
+        <h1>회원가입</h1>
+    </header>
+    <nav>
+        <h3>회원가입정보</h3>
+    </nav>
+    <section>
+        <div class="login_form">
+         <form action="">
+        <input type="text" name="id" class="id" placeholder="아이디를 입력하세요">
+        <input type="password" name="passwd" class="passwd" placeholder="비밀번호를 입력하세요">
+        <input type="password" name="passwd" class="passwd" placeholder="비밀번호를 한번더 입력하세요">
+            <div class="gender">
+                <label for="radio1"><span class="radio"></span>남</label><input type="radio" name="items" id="radio1">
+                <label for="radio2"><span class="radio"></span>여</label><input type="radio" name="items" id="radio2"> 
+             </div> 
+             <input type="email" name="email" class="email" placeholder="이메일을 입력하세요">
+             <input type="text" name="birth" class="birth" placeholder="생년월일을 입력하세요">
+             <input type="text" name="nick" class="nick" placeholder="닉네임을 입력하세요"><br>
+             <button type="submit" class="btn_login">회원가입 하기</button>
+             <p>Or With</p>
+             <button type="submit" class="google_login">구글로 로그인</button>
+             <button type="submit" class="kakao_login">카카오톡으로 로그인</button>
+         </form>
+         <div class="check">
+         <p class="already">이미 회원가입을 하셨습니까?</p>  
+         <a href="">로그인</a>
+        </div>
+        </div>
+        
+    </section>
+
+
+</body>
+</html>
