@@ -1,5 +1,6 @@
 package com.Tripsite.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +21,18 @@ public class ReviewService {
 
 	public int countreview() {
 		return mapper.countreview();
+	}
+
+	public List<ReviewDTO> selectmyreview(String mId, int pageNo) {
+		HashMap<String, Object> map =new HashMap<String,Object>();
+		map.put("mId", mId);
+		map.put("pageNo", pageNo);
+		
+		return mapper.selectmyreview(map);
+	}
+
+	public int countmyreview(String mId) {
+		return mapper.countmyreview(mId);
 	}
 	
 	

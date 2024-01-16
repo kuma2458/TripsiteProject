@@ -166,6 +166,18 @@ public class MainController {
 		view.setViewName("inquiry");
 		return view;
 	}
-	
+	@RequestMapping("/main/mypage/myreview")
+	public ModelAndView myreviewpage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo, HttpSession session) {
+		MemberDTO member=(MemberDTO)session.getAttribute("member");
+		String mId=member.getmId();
+		System.out.println(member.getmId());
+		List<ReviewDTO> reviewlist=reviewService.selectmyreview(mId,pageNo);
+		int count = reviewService.countmyreview(mId);
+		PagginVO pagging = new PagginVO(count, pageNo, 10, 5);
+		view.addObject("pagging", pagging);
+		view.addObject("reviewlist", reviewlist);
+		view.setViewName("review");
+		return view;
+	}
 
 }
