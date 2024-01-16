@@ -1,16 +1,23 @@
 package com.Tripsite.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.Tripsite.dto.ReviewDTO;
 import com.Tripsite.service.ReviewService;
+import com.Tripsite.vo.PagginVO;
+
+import jakarta.websocket.server.PathParam;
 
 @Controller
 public class MainController {
 	
-	ReviewService reviewService;
+	private ReviewService reviewService;
 
 	public MainController(ReviewService reviewService) {
 		this.reviewService = reviewService;
@@ -65,8 +72,14 @@ public class MainController {
 		return view;
 	}
 	@RequestMapping("/main/review")
-	public ModelAndView reviewpage(ModelAndView view) {
+	public ModelAndView reviewpage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo) {
+		List<ReviewDTO> reviewlist=reviewService.selectAllreview(pageNo);
+		int count = reviewService.countreview();
+		PagginVO pagging = new PagginVO(count, pageNo, 10, 5);
+		view.addObject("pagging", pagging);
+		view.addObject("reviewlist", reviewlist);
 		view.setViewName("review");
+		System.out.println(pagging.getStartPageOfPageGroup() + " "+pagging.getEndPageOfPageGroup());
 		return view;
 	}
 	@RequestMapping("/main/change")
