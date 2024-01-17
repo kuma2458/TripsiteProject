@@ -9,8 +9,9 @@
                 <li><a href="/main/mypage" title="마이페이지 메뉴">마이페이지</a></li>
             </ul>
             <div class="header_btn">
-                <button id="left_btn"><a href="/main/login">로그인</a></button>
-                <button id="right_btn"><a href="/main/register">회원가입</a></button>
+                <button id="left_btn" th:if="${session.member}==null"><a href="/main/login">로그인</a></button>
+                <button id="right_btn" th:if="${session.member}==null"><a href="/main/register">회원가입</a></button>
+           		<button id="out_btn" th:if="${session.member}!=null"><a href="/logout">로그아웃</a></button>
             </div>
        </div>  
     </header>
@@ -71,7 +72,7 @@
             font-size: 20px;
         }
 
-        #left_btn, #right_btn{
+        #left_btn, #right_btn, #out_btn{
             border-radius: 8px;
             height: 40px;
             width: 130px;

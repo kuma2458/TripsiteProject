@@ -135,7 +135,7 @@
             <div class="header_btn">
                 <button id="left_btn" th:if="${session.member}==null"><a href="/main/login">로그인</a></button>
                 <button id="right_btn" th:if="${session.member}==null"><a href="/main/register">회원가입</a></button>
-           		<button id="out_btn" th:if="${session.member}!=null"><a href="/main">로그아웃</a></button>
+           		<button id="out_btn" th:if="${session.member}!=null"><a href="/logout">로그아웃</a></button>
             </div>
        </div>  
     </header>
