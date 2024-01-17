@@ -46,13 +46,13 @@ public class MainController {
 		view.setViewName("main_page");
 		return view;
 	}
-	@RequestMapping("/main/search")
+	@RequestMapping("/search")
 	public ModelAndView searchpage(ModelAndView view) {
-		view.setViewName("main_page");
+		view.setViewName("search");
 		return view;
 	}
 	
-	@GetMapping("/main/searchresult")
+	@GetMapping("/search/country")
 	public ModelAndView searchresult(ModelAndView view) {
 		view.setViewName("search_result_page");
 		return view;
@@ -85,49 +85,43 @@ public class MainController {
 		return view;
 	}
 
-	
 	@RequestMapping("/main/register")
 	public ModelAndView registerpage(ModelAndView view) {
 		view.setViewName("register");
 		return view;
 	}
 	
-	@RequestMapping("/main/notice")
-	public ModelAndView noticerpage(ModelAndView view) {
-		view.setViewName("notice");
-		return view;
-	}
-	@RequestMapping("/main/cscenter")
+	@RequestMapping("/cscenter")
 	public ModelAndView cscenterpage(ModelAndView view) {
 		view.setViewName("cscenter");
 		return view;
 	}
-	@RequestMapping("/main/csnotice")
+	@RequestMapping("/cscenter/csnotice")
 	public ModelAndView csnoticepage(ModelAndView view) {
 		view.setViewName("cscenter_notice");
 		return view;
 	}
-	@RequestMapping("/main/csQnA")
+	@RequestMapping("/cscenter/csQnA")
 	public ModelAndView csQnApage(ModelAndView view) {
 		view.setViewName("cscenter_QnA");
 		return view;
 	}
-	@RequestMapping("/main/cschat")
+	@RequestMapping("/cscenter/cschat")
 	public ModelAndView cschatpage(ModelAndView view) {
 		view.setViewName("cscenter_chat");
 		return view;
 	}
-	@RequestMapping("/main/csinquiry")
+	@RequestMapping("/cscenter/csinquiry")
 	public ModelAndView csinquirypage(ModelAndView view) {
 		view.setViewName("cscenter_inquiry");
 		return view;
 	}
-	@RequestMapping("/main/mypage")
+	@RequestMapping("/mypage")
 	public ModelAndView mypage(ModelAndView view) {
 		view.setViewName("mypage");
 		return view;
 	}
-	@RequestMapping("/main/review")
+	@RequestMapping("/review")
 	public ModelAndView reviewpage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo) {
 		List<ReviewDTO> reviewlist=reviewService.selectAllreview(pageNo);
 		int count = reviewService.countreview();
@@ -137,12 +131,12 @@ public class MainController {
 		view.setViewName("review");
 		return view;
 	}
-	@RequestMapping("/main/change")
+	@RequestMapping("/mypage/change")
 	public ModelAndView chagepage(ModelAndView view) {
 		view.setViewName("change");
 		return view;
 	}
-	@RequestMapping("/main/write")
+	@RequestMapping("/review/write")
 	public ModelAndView writepage(ModelAndView view) {
 		view.setViewName("write");
 		return view;
@@ -153,7 +147,7 @@ public class MainController {
 		view.setViewName("comment");
 		return view;
 	}
-	@RequestMapping("/main/inquiry")
+	@RequestMapping("/mypage/inquiry")
 	public ModelAndView inquirypage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo,HttpSession session) {
 		MemberDTO member=(MemberDTO)session.getAttribute("member");
 		String mId=member.getmId();
@@ -166,7 +160,7 @@ public class MainController {
 		view.setViewName("inquiry");
 		return view;
 	}
-	@RequestMapping("/main/mypage/myreview")
+	@RequestMapping("/mypage/myreview")
 	public ModelAndView myreviewpage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo, HttpSession session) {
 		MemberDTO member=(MemberDTO)session.getAttribute("member");
 		String mId=member.getmId();

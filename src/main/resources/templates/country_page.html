@@ -255,7 +255,7 @@
 <body>
 <th:block th:include="/fragments/header.html"></th:block>
     <nav>
-        <form class="frm_search">
+        <form action="/search/country" method="get" class="frm_search">
             <div class="search_container">
                 <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
                 <button type="submit" class="ct_search">검색</button>
