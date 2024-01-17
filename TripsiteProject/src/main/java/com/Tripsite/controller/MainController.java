@@ -132,13 +132,12 @@ public class MainController {
 		return view;
 	}
 		@RequestMapping("/main/csinquiry")
-		public String csInquiry(QnaDTO qna, HttpSession session) {
+		public String csInquiry(HttpSession session) {
 
 			MemberDTO member = (MemberDTO) session.getAttribute("member");
-			qna.setqId(member.getmId());
 			
-			if(member == null) 
-				return "redirect:/main/cscenter";
+//			if(member == null) 
+//				return "redirect:/main/cscenter";
 					
 			return "redirect:/main/cscenter_inquiry";
 		}

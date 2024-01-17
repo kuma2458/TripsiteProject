@@ -94,6 +94,7 @@
 			border-collapse: collapse;
 			margin: 0 auto;
 		}
+	
 
 		#container th {
 			width: 150px !important;
@@ -152,13 +153,13 @@
 	.ck-editor__editable_inline {
 			min-height: 500px;
 		}
-		#plus, #minus{
+	#plus, #minus{
 			width: 40px;
 		}
 		      	
 	.write{
 		margin: 0 auto;
-		width: 600px;
+		width: 660px;
 		display: flex;
 		flex-flow: row nowrap;
 		justify-content: end;
@@ -171,24 +172,33 @@
 <script src="/js/ckeditor.js"></script>
 <script src="/js/UploadAdapter.js"></script>
 <script >
-
-ClassicEditor
-.create( document.querySelector( '#content' ),{
-	extraPlugins:[uploadAdapterPlugin]
-	
-})
-.catch( error => {
-    console.error( error );
-});
-
-function uploadAdapterPlugin(editor){
-	editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-		return new UploadAdapter(loader);
+$(function(){
+	ClassicEditor
+	.create( document.querySelector( '#content' ),{
+		extraPlugins:[uploadAdapterPlugin]
 		
+	})
+	.catch( error => {
+	    console.error( error );
+	});
+
+	function uploadAdapterPlugin(editor){
+		editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+			return new UploadAdapter(loader);
+			
+		}
 	}
-}
+
+})
+
 
 </script>
+</style>
+  <script th:if="${session.member == null  }" >
+    alert('로그인하셔야 이용가능합니다.');
+    location.href='/main/login';
+
+  </script>
 
 </head>
 <body>
