@@ -130,7 +130,7 @@
 <body>
 	<th:block th:include="/fragments/header.html"></th:block>
     <nav>
-        <form class="frm_search">
+        <form action="/search/country" method="get" class="frm_search">
             <div class="search_container">
                 <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
                 <button type="submit" class="ct_search">검색</button>
@@ -140,10 +140,10 @@
     <section>
         <h1>마이 페이지</h1>
         <article class="section_container">
-            <div class="mypage" id="first_box"><a href="/main/change" title="개인정보 수정">개인정보 수정</a></div>
-            <div class="mypage"><a href="#" title="작성 글 관리">내가 작성한 글 관리</a></div>
+            <div class="mypage" id="first_box"><a href="/mypage/change" title="개인정보 수정">개인정보 수정</a></div>
+            <div class="mypage"><a href="/mypage/myreview" title="작성 글 관리">내가 작성한 글 관리</a></div>
             <div class="mypage"><a href="#" title="작성 댓글 관리">내가 작성한 댓글 관리</a></div>
-            <div class="mypage" id="last_box"><a href="/main/inquiry" title="고객센터 문의 내역">고객센터 문의 내역</a></div>
+            <div class="mypage" id="last_box"><a href="/mypage/inquiry" title="고객센터 문의 내역">고객센터 문의 내역</a></div>
         </article>
     </section>
 

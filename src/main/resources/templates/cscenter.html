@@ -130,7 +130,7 @@
 <body>
 	<th:block th:include="/fragments/header.html"></th:block>
     <nav>
-        <form class="frm_search">
+        <form action="/search/country" method="get" class="frm_search">
             <div class="search_container">
                 <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
                 <button type="submit" class="ct_search">검색</button>
@@ -140,10 +140,10 @@
     <section>
         <h1>고객 센터</h1>
         <article class="section_container">
-            <div class="mypage" id="first_box"><a href="/main/notice" title="공지사항">공지사항</a></div>
-            <div class="mypage"><a href="#" title="QnA">QnA 자주 묻는 질문</a></div>
-            <div class="mypage"><a href="#" title="채팅 상담">채팅 상담</a></div>
-            <div class="mypage" id="last_box"><a href="/main/cscenter/request" title="고객센터 문의하기">고객센터 문의하기</a></div>
+            <div class="mypage" id="first_box"><a href="/cscenter/csnotice" title="공지사항">공지사항</a></div>
+            <div class="mypage"><a href="/cscenter/csQnA" title="QnA">QnA 자주 묻는 질문</a></div>
+            <div class="mypage"><a href="/cscenter/cschat" title="채팅 상담">채팅 상담</a></div>
+            <div class="mypage" id="last_box"><a href="/cscenter/csinquiry" title="고객센터 문의하기">고객센터 문의하기</a></div>
         </article>
     </section>
 

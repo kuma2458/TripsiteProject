@@ -166,12 +166,15 @@
     p{
         color: yellow;
     }
+    td > a{
+    color:black;
+    }
     </style>
 </head>
 <body>
 	<th:block th:include="/fragments/header.html"></th:block>
     <nav>
-        <form class="frm_search">
+        <form action="/search/country" method="get" class="frm_search">
             <div class="search_container">
                 <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
                 <button type="submit" class="ct_search">검색</button>
@@ -187,96 +190,16 @@
                 <thead>
                     <tr>
                         <td>글번호</td>
-                        <td>작성일</td>
                         <td>제목</td>
-                        <td>조회수</td>
-                        <td>작성자</td>
-                        <td>좋아요</td>
+                        <td>카테고리</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>2024.1.12</td>
-                        <td>제목대충지어</td>
-                        <td>33</td>
-                        <td>나님</td>
-                        <td>777</td>
+                    <tr th:each="q:${qnalist}">
+                        <td>[[${q.qNo}]]</td>
+                        <td><a>[[${q.qTitle}]]</a></td>
+                        <td>[[${q.qItem}]]</td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>2024.1.12</td>
-                        <td>제목대충지어</td>
-                        <td>33</td>
-                        <td>나님</td>
-                        <td>777</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>2024.1.12</td>
-                        <td>제목대충지어</td>
-                        <td>33</td>
-                        <td>나님</td>
-                        <td>777</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>2024.1.12</td>
-                        <td>제목대충지어</td>
-                        <td>33</td>
-                        <td>나님</td>
-                        <td>777</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>2024.1.12</td>
-                        <td>제목대충지어</td>
-                        <td>33</td>
-                        <td>나님</td>
-                        <td>777</td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>2024.1.12</td>
-                        <td>제목대충지어</td>
-                        <td>33</td>
-                        <td>나님</td>
-                        <td>777</td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>2024.1.12</td>
-                        <td>제목대충지어</td>
-                        <td>33</td>
-                        <td>나님</td>
-                        <td>777</td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>2024.1.12</td>
-                        <td>제목대충지어</td>
-                        <td>33</td>
-                        <td>나님</td>
-                        <td>777</td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>2024.1.12</td>
-                        <td>제목대충지어</td>
-                        <td>33</td>
-                        <td>나님</td>
-                        <td>777</td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>2024.1.12</td>
-                        <td>제목대충지어</td>
-                        <td>33</td>
-                        <td>나님</td>
-                        <td>777</td>
-                    </tr>
-                   
-
                 </tbody>
                     </table>
     </article>
@@ -289,13 +212,14 @@
         </div>
         <div class="f2">
             <button class="left">◁</button>
-            <button class="number"><a href="" class="pageNo">1</a></button>
-            <button class="number"><a href="" class="pageNo">2</a></button>
-            <button class="number"><a href="" class="pageNo">3</a></button>
-            <button class="number"><a href="" class="pageNo">4</a></button>
-            <button class="number"><a href="" class="pageNo">5</a></button>
+            <th:block th:each="i : ${#numbers.sequence(pagging.startPageOfPageGroup, pagging.endPageOfPageGroup)}">
+				    <th:block th:switch="${i}">
+            	<button th:case="${pagging.currentPageNo}" class="number active"><a  th:href="@{/main/inquiry(pageNo=${i})}">[[${i}]]</a></button>
+            	<button th:case="*" class="number"><a  th:href="@{/main/inquiry(pageNo=${i})}" class="pageNo">[[${i}]]</a></button>
+				    </th:block>
+				</th:block>
             <button class="right">▷</button>
-            <p>of 17pages</p>
+            <p>of [[${pagging.getTotalPage()}]]pages</p>
         </div>
         <div class="f3"></div>
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Tripsite.mapper.QnaMapper">
+	<resultMap type="qna" id="qna">
+		<id column="QNA_NO" property="qNo" />
+		<result column="QNA_TITLE" property="qTitle" />
+		<result column="QNA_CONTENT" property="qContent" />
+		<result column="QNA_ITEM" property="qItem" />
+		<result column="MEMBER_ID" property="qId" />
+	</resultMap>
+
+	<select id="selectMyQna" resultMap="qna" parameterType="hashmap">
+		SELECT * from(
+		SELECT CEIL(rownum/10) AS pageno , d.* from(
+		SELECT q.QNA_TITLE ,q.QNA_CONTENT,q.MEMBER_ID, q.QNA_NO ,q.QNA_ITEM
+		FROM QNA q
+		where q.MEMBER_ID like #{mId}
+		ORDER BY q.QNA_NO DESC) d)
+		WHERE pageno=#{pageNo}
+	</select>
+	
+	<select id="countQna">
+		select count(*) from REVIEW
+	</select>
+</mapper>
+
+
+
+
+
+
+

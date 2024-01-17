@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.Tripsite.dto.memberDTO;
+import com.Tripsite.dto.MemberDTO;
 
 @Mapper
 public interface MemberMapper {
 
-	memberDTO login(HashMap<String, Object> map);
+	MemberDTO login(HashMap<String, Object> map);
 
 }

@@ -12,7 +12,6 @@ public class MemberService {
 	private MemberMapper mapper;
 	
 	public MemberService(MemberMapper mapper) {
-		
 		this.mapper = mapper;
 	}
 

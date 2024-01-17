@@ -9,31 +9,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.Tripsite.dto.QnaDTO;
 import com.Tripsite.dto.MemberDTO;
 import com.Tripsite.service.MemberService;
 
 
 import jakarta.servlet.http.HttpSession;
 import com.Tripsite.dto.ReviewDTO;
+import com.Tripsite.service.QnaService;
 import com.Tripsite.service.ReviewService;
 import com.Tripsite.vo.PagginVO;
 
 
 @Controller
 public class MainController {
-	private MemberService service;
 	private ReviewService reviewService;
+	private MemberService memberService;
+	private QnaService qnaService;
 	
 
-	public MainController(MemberService service, ReviewService reviewService) {
-		this.service = service;
+	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService) {
 		this.reviewService = reviewService;
+		this.memberService = memberService;
+		this.qnaService = qnaService;
 	}
-
-
-	public MainController() {
-	}
-
 
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
@@ -45,13 +44,13 @@ public class MainController {
 		view.setViewName("main_page");
 		return view;
 	}
-	@RequestMapping("/main/search")
+	@RequestMapping("/search")
 	public ModelAndView searchpage(ModelAndView view) {
-		view.setViewName("main_page");
+		view.setViewName("search");
 		return view;
 	}
 	
-	@GetMapping("/main/searchresult")
+	@GetMapping("/search/country")
 	public ModelAndView searchresult(ModelAndView view) {
 		view.setViewName("search_result_page");
 		return view;
@@ -62,17 +61,10 @@ public class MainController {
 		view.setViewName("login");
 		return view;
 	}
-	
-	@RequestMapping("/main/logout")
-	public ModelAndView logoutpage(ModelAndView view) {
-		view.setViewName("main-page logout");
-		return view;
-	}
-	
 	@PostMapping("/main/login")
 	 public String login(String mId, String mPass, HttpSession session) {
 		
-	    MemberDTO dto = service.login(mId, mPass);
+	    MemberDTO dto = memberService.login(mId, mPass);
 	    if(dto == null) 
 //	    	session.setAttribute("msg", "아이디와 비밀번호 다시 확인해주세요");
 //	    	session.setAttribute("url", "/main/login");
@@ -81,31 +73,53 @@ public class MainController {
 	    	return "redirect:/main/login";
 	    session.setAttribute("member", dto);
 
-	    return "redirect:/main/logout";
+	    return "redirect:/main";
 	  }
 	
+	@RequestMapping("/main/logout")
+	public ModelAndView logoutpage(ModelAndView view, HttpSession session) {
+		session.removeAttribute("member");
+		view.setViewName("main_page");
+		return view;
+	}
+
 	@RequestMapping("/main/register")
 	public ModelAndView registerpage(ModelAndView view) {
 		view.setViewName("register");
 		return view;
 	}
 	
-	@RequestMapping("/main/notice")
-	public ModelAndView noticerpage(ModelAndView view) {
-		view.setViewName("notice");
-		return view;
-	}
-	@RequestMapping("/main/cscenter")
+	@RequestMapping("/cscenter")
 	public ModelAndView cscenterpage(ModelAndView view) {
 		view.setViewName("cscenter");
 		return view;
 	}
-	@RequestMapping("/main/mypage")
+	@RequestMapping("/cscenter/csnotice")
+	public ModelAndView csnoticepage(ModelAndView view) {
+		view.setViewName("cscenter_notice");
+		return view;
+	}
+	@RequestMapping("/cscenter/csQnA")
+	public ModelAndView csQnApage(ModelAndView view) {
+		view.setViewName("cscenter_QnA");
+		return view;
+	}
+	@RequestMapping("/cscenter/cschat")
+	public ModelAndView cschatpage(ModelAndView view) {
+		view.setViewName("cscenter_chat");
+		return view;
+	}
+	@RequestMapping("/cscenter/csinquiry")
+	public ModelAndView csinquirypage(ModelAndView view) {
+		view.setViewName("cscenter_inquiry");
+		return view;
+	}
+	@RequestMapping("/mypage")
 	public ModelAndView mypage(ModelAndView view) {
 		view.setViewName("mypage");
 		return view;
 	}
-	@RequestMapping("/main/review")
+	@RequestMapping("/review")
 	public ModelAndView reviewpage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo) {
 		List<ReviewDTO> reviewlist=reviewService.selectAllreview(pageNo);
 		int count = reviewService.countreview();
@@ -113,26 +127,55 @@ public class MainController {
 		view.addObject("pagging", pagging);
 		view.addObject("reviewlist", reviewlist);
 		view.setViewName("review");
-		System.out.println(pagging.getStartPageOfPageGroup() + " "+pagging.getEndPageOfPageGroup());
 		return view;
 	}
-	@RequestMapping("/main/change")
+	@RequestMapping("/mypage/change")
 	public ModelAndView chagepage(ModelAndView view) {
 		view.setViewName("change");
 		return view;
 	}
-	@RequestMapping("/main/inquiry")
-	public ModelAndView inquirypage(ModelAndView view) {
+	@RequestMapping("/review/write")
+	public ModelAndView writepage(ModelAndView view) {
+		view.setViewName("write");
+		return view;
+	}
+
+	@RequestMapping("/main/comment")
+	public ModelAndView commentpage(ModelAndView view) {
+		view.setViewName("comment");
+		return view;
+	}
+	@RequestMapping("/mypage/inquiry")
+	public ModelAndView inquirypage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo,HttpSession session) {
+		MemberDTO member=(MemberDTO)session.getAttribute("member");
+		String mId=member.getmId();
+		System.out.println(member.getmId());
+		List<QnaDTO> qnalist=qnaService.selectMyQna(mId,pageNo);
+		int count = qnaService.countQna();
+		PagginVO pagging = new PagginVO(count, pageNo, 10, 5);
+		view.addObject("pagging", pagging);
+		view.addObject("qnalist", qnalist);
 		view.setViewName("inquiry");
 		return view;
 	}
 
 	@PostMapping("/member/insert")
 	public String insertMember(MemberDTO dto) {
-		System.out.println(dto);
-	        service.insertMember(dto);
+	        memberService.insertMember(dto);
 	        return "redirect:/main";
-
+	}
+	@RequestMapping("/mypage/myreview")
+	public ModelAndView myreviewpage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo, HttpSession session) {
+		MemberDTO member=(MemberDTO)session.getAttribute("member");
+		String mId=member.getmId();
+		System.out.println(member.getmId());
+		List<ReviewDTO> reviewlist=reviewService.selectmyreview(mId,pageNo);
+		int count = reviewService.countmyreview(mId);
+		PagginVO pagging = new PagginVO(count, pageNo, 10, 5);
+		view.addObject("pagging", pagging);
+		view.addObject("reviewlist", reviewlist);
+		view.setViewName("review");
+		return view;
 	}
 
 }

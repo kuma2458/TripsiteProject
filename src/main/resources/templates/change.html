@@ -37,7 +37,7 @@
         width: 1200px;
         margin: 0 auto;
     }
-    .login_form{
+    .change_form{
         width: 600px;
         margin: 0 auto;
         display: flex;
@@ -66,20 +66,14 @@
         padding-bottom: 20px;
         color: aliceblue;
     }
-    .id, .passwd, .email1, .birth{
+    .id, .passwd, .passwd_chk, .email, .birth, .tel, .nick{
         width: 400px;
-        height: 48px;
+        height: 40px;
         border-radius: 10px;
         margin-bottom: 40px;
         border: 1px solid rgb(95,95,95);
         
         background-color: rgba(0, 0, 0, 0);
-    }
-    .email1{
-        width: 250px;
-        height: 50px;
-        border-radius: 10px;
-        margin-bottom: 30px;
     }
     .email2{
         width: 150px;
@@ -88,7 +82,6 @@
         margin-bottom: 30px;
         padding-left: 10px;
         border: 1px solid rgb(95,95,95);
-        
         background-color: rgba(0, 0, 0, 0);
         font-weight: bold;
     }
@@ -190,9 +183,134 @@
         flex-wrap: row;
         justify-content: center;
     }
-  
+
+    .true{
+            color:blue;
+            font-weight: bold;
+        }
+     .false{
+            color:red;
+            font-weight: bold;
+        }
     
 </style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    //아이디
+  function checkId(){
+	  var reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/;
+	console.log(reg.test($(".id").val()));
+
+		if(!reg.test($(".id").val())){
+   			 $('.id_result').html('아이디는 영어와 숫자로 작성하세요 8~12자이내');
+    		 $('.id_result').removeClass('true');
+   			 $('.id_result').addClass('false');
+  		  	 return false;
+		}
+		$('.id_result').html('사용이 가능한 아이디 입니다.');
+		$('.id_result').removeClass('false');
+		$('.id_result').addClass('true');
+		return true;
+	}
+	//비밀번호
+	function checkPassword(){
+    var reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
+            if(!reg.test($('.passwd').val())){
+                $('.pass_result').html('암호는 영어랑 숫자 조합으로 8~15자리입력하세요');
+                $('.pass_result').addClass('false');
+                $('.pass_result').removeClass('true');
+                return false;
+            }
+            
+            if($('.passwd').val() != $('.passwd_chk').val()){
+                $('.pass_result').html('암호가 일치하지 않습니다.');
+                $('.pass_result').addClass('false');
+                $('.pass_result').removeClass('true');
+                return false;
+            }
+            $('.pass_result').html('암호가 일치합니다.');
+            $('.pass_result').removeClass('false');
+            $('.pass_result').addClass('true');
+
+            return true;
+        } 
+        //생년월일
+    function checkbirth(){
+    	var reg = /^[0-9]{8}$/;
+    	if(!reg.test($(".birth").val())){
+    	$('.birth_result').html('생년월일로입력하세요 ex)20000412');
+    	$('.birth_result').removeClass('true');
+    	$('.birth_result').addClass('false');
+    	return false;
+	}
+			$('.birth_result').html('잘 적으셨습니다');
+            $('.birth_result').removeClass('false');
+            $('.birth_result').addClass('true');
+            return true;
+        }
+    //이메일확인
+    function checkEmail(){
+
+        let reg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    console.log(reg.test($(".email").val()));
+
+    if(!reg.test($(".email").val())){
+        $('.email_result').html('이메일형식으로 작성하세요 ex) korea@naver.com');
+        $('.email_result').removeClass('true');
+        $('.email_result').addClass('false');
+        return false;
+    }
+    $('.email_result').html('사용이 가능한 이메일 입니다.');
+    $('.email_result').removeClass('false');
+    $('.email_result').addClass('true');
+    return true;
+    }
+    //핸드폰번호
+    function checkTel(){
+var reg = /^[0-9]{11}$/;
+if(!reg.test($(".tel").val())){
+$('.tel_result').html('휴대폰 번호 11자리를 입력하세요 ex)01088887777');
+$('.tel_result').removeClass('true');
+$('.tel_result').addClass('false');
+return false;
+}
+$('.tel_result').html('잘 적으셨습니다');
+        $('.tel_result').removeClass('false');
+        $('.tel_result').addClass('true');
+
+        return true;
+    }
+     function checkNick(){
+         let reg = /^[.\S]{1,20}$/
+            if(!reg.test($(".nick").val())){
+                $('.nick').removeClass('true');
+                $('.nick').addClass('false');
+                return false;
+            }
+            $('.nick').removeClass('false');
+            $('.nick').addClass('true');
+            
+            return true;
+        }
+			$(() => {
+            //아이디 입력시 checkId 함수 연결
+            $('.id').keyup(checkId);
+            $('.passwd').keyup(checkPassword);
+            $('.passwd_chk').keyup(checkPassword);
+            $('.email').keyup(checkEmail);
+            $('.tel').keyup(checkTel);
+            $('.birth').keyup(checkbirth);
+            $('.nick').keyup(checkNick);
+
+            //폼 연결
+            $('.change_form').submit((e) => {
+                if(!checkId() || !checkPassword() || !checkbirth()|| !checkEmail()|| !checkTel() || !checkNick()){
+                    e.preventDefault();
+                }
+            });
+        });
+</script>
 <body>
     <div class="container"></div>
     <header>
@@ -202,23 +320,29 @@
         <h3>개인 정보 수정</h3>
     </nav>
     <section>
-        <div class="login_form">
-         <form action="">
-        <input type="text" name="id" class="id" placeholder="본인 아이디">
-        <input type="password" name="passwd" class="passwd" placeholder="핸드폰 번호">
-        <input type="text" name="id" class="email1" placeholder="이메일을 입력하세요">
-        <select name="email" class="email2">
-            <option value="g">@google.com</option>
-            <option value="n">@naver.com</option>
-            <option value="d">@daum.net</option>
-        </select>
+        <div class="change_form">
+         <form action="/update" method= "post">
+        <input type="text" name="id" class="id" placeholder="가입한 본인 아이디">
+        <p class="id_result"></p>
+             <input type="password" name="passwd" class="passwd" placeholder="비밀번호를 입력하세요">
+             <input type="password" name="passwd_chk" class="passwd_chk" placeholder="비밀번호를 한번더 입력하세요">
+             <p class="pass_result"></p>
+        <input type="text" name="tel" class="tel" placeholder="핸드폰 번호">
+        <p class="tel_result"></p>
             <div class="gender">
                 <label for="radio1"><span class="radio"></span>남</label><input type="radio" name="items" id="radio1">
                 <label for="radio2"><span class="radio"></span>여</label><input type="radio" name="items" id="radio2"> 
              </div> 
-             <input type="text" name="name" class="id" placeholder="닉네임">
-             <input type="password" name="passwd" class="passwd" placeholder="비밀번호를 입력하세요">
-             <input type="password" name="passwd" class="passwd" placeholder="비밀번호를 한번더 입력하세요">
+        <input type="text" name="email" class="email" placeholder="이메일을 입력하세요 ex) korea@naver.com">
+        	<p class="email_result"></p>
+        <input type="text" name="birth" class="birth" placeholder="생년월일을 입력하세요">
+        	<p class="birth_result"></p>
+        <input type="text" name="nick" class="nick" placeholder="닉네임">
+ <!--       <select name="email" class="email2">
+            <option value="g">@google.com</option>
+            <option value="n">@naver.com</option>
+            <option value="d">@daum.net</option>
+        </select> --> 
              
              <div class="select">
              <ul>

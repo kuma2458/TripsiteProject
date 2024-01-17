@@ -3,7 +3,7 @@ package com.Tripsite.dto;
 import org.apache.ibatis.type.Alias;
 
 @Alias("member")
-public class memberDTO {
+public class MemberDTO {
 	private String mId;
 	private String mPass;
 	private String mNick;
@@ -14,11 +14,11 @@ public class memberDTO {
 	private String mName;
 	
 	
-	public memberDTO() {
+	public MemberDTO() {
 	}
 
 
-	public memberDTO(String mId, String mPass, String mNick, int mTel, String mEmail, String mBirth, String mGender,
+	public MemberDTO(String mId, String mPass, String mNick, int mTel, String mEmail, String mBirth, String mGender,
 			String mName) {
 		
 		this.mId = mId;
