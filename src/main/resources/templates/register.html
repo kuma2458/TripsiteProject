@@ -53,7 +53,7 @@
     label{
         width: 100px;
     }
-    .id, .passwd, .email, .birth, .nick, .passwd_chk,.agree{
+    .id, .passwd, .email, .birth, .nick, .passwd_chk,.agree,.person{
         width: 400px;
         height: 48px;
         border-radius: 10px;
@@ -61,6 +61,27 @@
         border: 1px solid rgb(95,95,95);
         
         background-color: rgba(0, 0, 0, 0);
+    }
+    /* .phone{
+        width: 400px;
+        height: 48px;
+        margin-bottom: 20px;
+        border: 1px solid rgb(95,95,95);
+        margin: 0 auto;
+    } */
+    input{
+        padding-left: 10px;
+    }
+    select{
+        border-radius: 10px;
+        width: 48px;
+        height: 50px;
+        margin-bottom: 20px;
+    }
+    .phone .tel{
+        border-radius: 10px;
+        width: 350px;
+        height: 50px;
     }
     
     .radio{
@@ -79,10 +100,7 @@
         width: 30px;
         height: 16px;
     }
-    label{
-        /* 컬러넣었을떄 안보여서 뻄 */
-        /* color: aliceblue; */
-    }
+
     .agree{
         display: flex;
         flex-flow: row nowrap; 
@@ -171,11 +189,11 @@
     //아이디
         function checkId(){
 
-    let reg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    let reg = /^(?=.*[a-zA-Z])[a-zA-Z\d]{8,20}$/;
 console.log(reg.test($(".id").val()));
 
 if(!reg.test($(".id").val())){
-    $('.id_result').html('아이디는 이메일형식으로 작성하세요');
+    $('.id_result').html('8~20자리입력하세요');
     $('.id_result').removeClass('true');
     $('.id_result').addClass('false');
     return false;
@@ -236,6 +254,21 @@ $('.birth_result').html('잘 적으셨습니다');
             
             return true;
         }
+                //핸드폰
+                function checktel(){
+    var reg = /^[0-9]{8}$/;
+    if(!reg.test($(".tel").val())){
+    $('.tel_result').html('핸드폰번호를입력하세요');
+    $('.tel_result').removeClass('true');
+    $('.tel_result').addClass('false');
+    return false;
+}
+$('.tel_result').html('잘 적으셨습니다');
+            $('.tel_result').removeClass('false');
+            $('.tel_result').addClass('true');
+
+            return true;
+        }
 $(() => {
             //아이디 입력시 checkId 함수 연결
             $('.id').keyup(checkId);
@@ -243,11 +276,12 @@ $(() => {
             $('.passwd_chk').keyup(checkPassword);
             $('.birth').keyup(checkbirth);
             $('.nick').keyup(checkNick);
+            $('.tel').keyup(checktel);
 
 
             //폼 연결
             $('.login_form').submit((e) => {
-                if(!checkId() || !checkPassword() || !checkbirth() || !checkNick()){
+                if(!checkId() || !checkPassword() || !checkbirth() || !checkNick()||!checktel()){
                     e.preventDefault();
                 }
             });
@@ -263,20 +297,28 @@ $(() => {
     </nav>
     <section>
         <div class="login_form">
-         <form action="/login" method="post">
-        <input type="text" name="id" class="id" placeholder="아이디를 입력하세요">
+         <form action="/member/insert" method="post">
+        <input type="text" name="mId" class="id" placeholder="아이디를 입력하세요">
         <p class="id_result"></p>
-        <input type="password" name="passwd" class="passwd" placeholder="비밀번호를 입력하세요">
+        <input type="password" name="mPass" class="passwd" placeholder="비밀번호를 입력하세요">
         <input type="password" name="passwd" class="passwd_chk" placeholder="비밀번호를 한번더 입력하세요">
         <p class="pass_result"></p>
             <div class="gender">
-                <label for="radio1"><span class="radio"></span>남</label><input type="radio" name="items" id="radio1">
-                <label for="radio2"><span class="radio"></span>여</label><input type="radio" name="items" id="radio2"> 
+                <label for="radio1"><span class="radio"></span>남</label><input type="radio" name="mGender" id="radio1">
+                <label for="radio2"><span class="radio"></span>여</label><input type="radio" name="mGender" id="radio2"> 
              </div> 
-             <input type="email" name="email" class="email" placeholder="이메일을 입력하세요">
-             <input type="text" name="birth" class="birth" placeholder="생년월일을 입력하세요">
+             <input type="email" name="mEmail" class="email" placeholder="이메일을 입력하세요">
+             <input type="text" name="mBirth" class="birth" placeholder="생년월일을 입력하세요">
              <p class="birth_result"></p>
-             <input type="text" name="nick" class="nick" placeholder="닉네임을 입력하세요"><br>
+             <input type="text" name="mNick" class="nick" placeholder="닉네임을 입력하세요"><br>
+             <div class="phone">
+                <select name="tel">
+                    <option value="010">+82</option>
+                </select>
+             <input type="text" name="mTel" class="tel" placeholder="핸드폰번호를 입력하세요">
+             <p class="tel_result"></p>
+            </div>
+             <input type="text" name="mName" class="person" placeholder="이름을 입력하세요">
              <div class="agree">
              <input type="checkbox" name="agree" required>
              <label for="agree" >이용약관에 동의하십니까?</label>
@@ -288,7 +330,7 @@ $(() => {
          </form>
          <div class="check">
          <p class="already">이미 회원가입을 하셨습니까?</p>  
-         <a href="login.html">로그인</a>
+         <a href="login">로그인</a>
         </div>
         </div>
         

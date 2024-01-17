@@ -9,7 +9,7 @@ import com.Tripsite.mapper.ReviewMapper;
 
 @Service
 public class ReviewService {
-	ReviewMapper mapper;
+	private ReviewMapper mapper;
 
 	public ReviewService(ReviewMapper mapper) {
 		this.mapper = mapper;

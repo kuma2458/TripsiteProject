@@ -10,11 +10,13 @@ import com.Tripsite.mapper.MemberMapper;
 @Service
 public class MemberService {
 	private MemberMapper mapper;
-
+	
 	public MemberService(MemberMapper mapper) {
 		
 		this.mapper = mapper;
 	}
+
+
 
 	public MemberDTO login(String mId, String mPass) {
 	    HashMap<String, Object> map = new HashMap<String, Object>();
@@ -22,6 +24,12 @@ public class MemberService {
 	    map.put("mPass", mPass);
 	    return mapper.login(map);
 	}
+
+	public void insertMember(MemberDTO dto) {
+		mapper.insertMember(dto);
+	}
+
+
 	
 	
 }

@@ -24,6 +24,7 @@ public class MainController {
 	private MemberService service;
 	private ReviewService reviewService;
 	
+
 	public MainController(MemberService service, ReviewService reviewService) {
 		this.service = service;
 		this.reviewService = reviewService;
@@ -125,6 +126,13 @@ public class MainController {
 		view.setViewName("inquiry");
 		return view;
 	}
-	
+
+	@PostMapping("/member/insert")
+	public String insertMember(MemberDTO dto) {
+		System.out.println(dto);
+	        service.insertMember(dto);
+	        return "redirect:/main";
+
+	}
 
 }

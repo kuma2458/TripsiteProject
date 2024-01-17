@@ -14,7 +14,10 @@
 	<select id="login" resultMap="member" parameterType="hashmap"> 
 		select * from member where member_id like #{mId} and member_passwd like #{mPass}
 	</select>
-
+	<insert id="insertMember" parameterType="member">
+		insert into member
+		values (#{mId},#{mPass},#{mNick},#{mTel},#{mEmail},#{mBirth},#{mGender},#{mName})
+	</insert>
 	
 
 	

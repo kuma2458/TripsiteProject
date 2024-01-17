@@ -7,9 +7,9 @@ public class MemberDTO {
 	private String mId;
 	private String mPass;
 	private String mNick;
-	private int mTel;
+	private String mTel;
 	private String mEmail;
-	private String mBirth;
+	private int mBirth;
 	private String mGender;
 	private String mName;
 	
@@ -18,9 +18,9 @@ public class MemberDTO {
 	}
 
 
-	public MemberDTO(String mId, String mPass, String mNick, int mTel, String mEmail, String mBirth, String mGender,
+	public MemberDTO(String mId, String mPass, String mNick, String mTel, String mEmail, int mBirth, String mGender,
 			String mName) {
-		
+		super();
 		this.mId = mId;
 		this.mPass = mPass;
 		this.mNick = mNick;
@@ -62,12 +62,12 @@ public class MemberDTO {
 	}
 
 
-	public int getmTel() {
+	public String getmTel() {
 		return mTel;
 	}
 
 
-	public void setmTel(int mTel) {
+	public void setmTel(String mTel) {
 		this.mTel = mTel;
 	}
 
@@ -82,12 +82,12 @@ public class MemberDTO {
 	}
 
 
-	public String getmBirth() {
+	public int getmBirth() {
 		return mBirth;
 	}
 
 
-	public void setmBirth(String mBirth) {
+	public void setmBirth(int mBirth) {
 		this.mBirth = mBirth;
 	}
 
@@ -114,10 +114,9 @@ public class MemberDTO {
 
 	@Override
 	public String toString() {
-		return "memberDTO [mId=" + mId + ", mPass=" + mPass + ", mNick=" + mNick + ", mTel=" + mTel + ", mEmail="
+		return "MemberDTO [mId=" + mId + ", mPass=" + mPass + ", mNick=" + mNick + ", mTel=" + mTel + ", mEmail="
 				+ mEmail + ", mBirth=" + mBirth + ", mGender=" + mGender + ", mName=" + mName + "]";
 	}
-	
-	
+
 	
 }
