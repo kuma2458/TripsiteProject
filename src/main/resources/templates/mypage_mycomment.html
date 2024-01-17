@@ -187,30 +187,28 @@
     </nav>
     <section>
         <article>
-        <h2>리뷰 페이지</h2>
+        <h2>내가 작성한 댓글</h2>
     </article>
         <article>
         <table>
                 <thead>
                     <tr>
-                        <td>글번호</td>
-                        <td>제목</td>
+                        <td>댓글번호</td>
+                        <td>게시글번호</td>
+                        <td>댓글내용</td>
                         <td>작성일</td>
-                        <td>조회수</td>
-                        <td>작성자</td>
-                        <td>좋아요</td>
-                        <td>싫어요</td>
+                        <td>수정</td>
+                        <td>삭제</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="r:${reviewlist}">
-                        <td>[[${r.rno}]]</td>
-                        <td><a>[[${r.rTitle}]]</a></td>
-                        <td>[[${r.rTime}]]</td>
-                        <td>[[${r.rCount}]]</td>
-                        <td>[[${r.rNick}]]</td>
-                        <td>[[${r.rLike}]]</td>
-                        <td>[[${r.rHate}]]</td>
+                    <tr th:each="c:${commentlist}">
+                        <td>[[${c.cNo}]]</td>
+                        <td>[[${c.rNo}]]</td>
+                        <td><a>[[${c.cContent}]]</a></td>
+                        <td>[[${c.cTime}]]</td>
+                        <td><a>수정</a></td>
+                        <td> <a>삭제</a> </td>
                     </tr>
                 </tbody>
                     </table>
@@ -226,8 +224,8 @@
             <button class="left">◁</button>
             <th:block th:each="i : ${#numbers.sequence(pagging.startPageOfPageGroup, pagging.endPageOfPageGroup)}">
 				    <th:block th:switch="${i}">
-            	<button th:case="${pagging.currentPageNo}" class="number active"><a  th:href="@{/main/review(pageNo=${i})}">[[${i}]]</a></button>
-            	<button th:case="*" class="number"><a  th:href="@{/main/review(pageNo=${i})}" class="pageNo">[[${i}]]</a></button>
+            	<button th:case="${pagging.currentPageNo}" class="number active"><a  th:href="@{/mypage/mycomment(pageNo=${i})}">[[${i}]]</a></button>
+            	<button th:case="*" class="number"><a  th:href="@{/mypage/mycomment(pageNo=${i})}" class="pageNo">[[${i}]]</a></button>
 				    </th:block>
 				</th:block>
             <button class="right">▷</button>

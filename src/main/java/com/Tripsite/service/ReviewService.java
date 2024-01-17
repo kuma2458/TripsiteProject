@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import com.Tripsite.dto.CommentDTO;
 import com.Tripsite.dto.ReviewDTO;
 import com.Tripsite.mapper.ReviewMapper;
 
@@ -34,6 +36,8 @@ public class ReviewService {
 	public int countmyreview(String mId) {
 		return mapper.countmyreview(mId);
 	}
+
+
 	
 	
 }

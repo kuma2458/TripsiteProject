@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.Tripsite.dto.QnaDTO;
+import com.Tripsite.dto.CommentDTO;
 import com.Tripsite.dto.MemberDTO;
+import com.Tripsite.service.CommentService;
 import com.Tripsite.service.MemberService;
 
 
@@ -26,14 +28,15 @@ public class MainController {
 	private ReviewService reviewService;
 	private MemberService memberService;
 	private QnaService qnaService;
-	
+	private CommentService commentService;
 
-	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService) {
+	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService,
+			CommentService commentService) {
 		this.reviewService = reviewService;
 		this.memberService = memberService;
 		this.qnaService = qnaService;
+		this.commentService = commentService;
 	}
-
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
 		view.setViewName("main_page");
@@ -174,8 +177,23 @@ public class MainController {
 		PagginVO pagging = new PagginVO(count, pageNo, 10, 5);
 		view.addObject("pagging", pagging);
 		view.addObject("reviewlist", reviewlist);
-		view.setViewName("review");
+		view.setViewName("mypage_myreview");
 		return view;
 	}
-
+	
+	@RequestMapping("/mypage/mycomment")
+	public ModelAndView mycommentpage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo, HttpSession session) {
+		MemberDTO member=(MemberDTO)session.getAttribute("member");
+		String mId=member.getmId();
+		System.out.println(member.getmId());
+		List<CommentDTO> commentlist=commentService.selectmycomment(mId,pageNo);
+		System.out.println(commentlist.toString());
+		int count = commentService.countmycomment(mId);
+		PagginVO pagging = new PagginVO(count, pageNo, 10, 5);
+		view.addObject("pagging", pagging);
+		view.addObject("commentlist", commentlist);
+		view.setViewName("mypage_mycomment");
+		return view;
+	}
+	
 }
