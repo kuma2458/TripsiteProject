@@ -83,21 +83,7 @@
         font-size: 16px;
     }
     
-    .kakao_login{
-        width: 400px;
-        height: 48px;
-        border-radius: 10px;
-        background-color:yellow;
-        color: black;
-        margin-bottom: 20px;
-        font-weight: bold;
-        font-size: 16px;
-        background-image: url(/img/kakao.png);
-        background-size: 24px 24px;
-        background-repeat: no-repeat;
-        background-position: 10px center;
-        
-    }
+
     .google_login{
         width: 400px;
         height: 48px;
@@ -132,7 +118,11 @@
     a{
         color: blue;
     }
+    #kakao_login{
+        border: none;
+    }
 </style>
+<script></script>
 <body>
     <div class="container"></div>
     <header>
@@ -154,8 +144,9 @@
              <a href="">비밀번호찾기</a>
             </div>
             <button type="submit" class="google_login">구글로 시작하기</button>
-            <button type="submit" class="kakao_login">카카오로 시작하기</button>
-         </form>
+                <a href="https://kauth.kakao.com/oauth/authorize?client_id=f5f488e15e284aec381b8866bc1b2e1c&redirect_uri=http://localhost:9999/main/login&response_type=code&scope=profile_nickname,profile_image">
+                    <img alt="" src="../img/kakao_login_medium_wide.png"></a>
+	         </form>
         </div>
         
     </section>
