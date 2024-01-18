@@ -68,6 +68,30 @@ public class MainController {
 		return view;
 	}
 	
+	@RequestMapping("/main/findpass")
+	public ModelAndView findpage(ModelAndView view) {
+		view.setViewName("findpass");
+		return view;
+	}
+	@PostMapping("/main/findpass1")
+	 public String find(String mId, String mName, HttpSession session) {
+		
+	    MemberDTO Dto = service.find(mId, mName);
+	    if(Dto == null) {
+	    	return "redirect:/main/findpass";	    	
+	    }
+	    
+	    session.setAttribute("findMember", Dto);
+
+	    return "redirect:/main/findpass";
+	  }
+	@RequestMapping("/passout")
+	public ModelAndView passout(HttpSession session) {
+		session.invalidate();
+		ModelAndView mv = new ModelAndView("redirect:/main/login");
+		return mv;
+	}
+	
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpSession session) {
 		session.invalidate();

@@ -15,7 +15,9 @@
 		select * from member where member_id like #{mId} and member_passwd like #{mPass}
 	</select>
 
-	
+	<select id="find" resultMap="member" parameterType="hashmap">
+		select * from member where member_id like #{mId} and member_name like #{mName}
+	</select> 
 
 	
 </mapper>

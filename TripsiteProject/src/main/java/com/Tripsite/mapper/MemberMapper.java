@@ -11,4 +11,6 @@ public interface MemberMapper {
 
 	MemberDTO login(HashMap<String, Object> map);
 
+	MemberDTO find(HashMap<String, Object> map);
+
 }
