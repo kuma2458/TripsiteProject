@@ -1,21 +1,34 @@
 package com.Tripsite.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.Tripsite.dto.QnaDTO;
 import com.Tripsite.dto.CommentDTO;
+import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.MemberDTO;
 import com.Tripsite.service.CommentService;
 import com.Tripsite.service.MemberService;
 
-
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import com.Tripsite.dto.ReviewDTO;
 import com.Tripsite.service.QnaService;
@@ -78,7 +91,29 @@ public class MainController {
 
 	    return "redirect:/main";
 	  }
-	
+	@RequestMapping("/main/findpass")
+	public ModelAndView findpage(ModelAndView view) {
+		view.setViewName("findpass");
+		return view;
+	}
+	@PostMapping("/main/findpass1")
+	 public String find(String mId, String mName, HttpSession session) {
+		
+	    MemberDTO Dto = memberService.find(mId, mName);
+	    if(Dto == null) {
+	    	return "redirect:/main/findpass";	    	
+	    }
+	    
+	    session.setAttribute("findMember", Dto);
+
+	    return "redirect:/main/findpass";
+	  }
+	@RequestMapping("/passout")
+	public ModelAndView passout(HttpSession session) {
+		session.invalidate();
+		ModelAndView mv = new ModelAndView("redirect:/main/login");
+		return mv;
+	}
 	@RequestMapping("/main/logout")
 	public ModelAndView logoutpage(ModelAndView view, HttpSession session) {
 		session.removeAttribute("member");
@@ -117,6 +152,147 @@ public class MainController {
 		view.setViewName("cscenter_inquiry");
 		return view;
 	}
+		
+		@PostMapping("/cscenter/write")
+		public String csWrite(QnaDTO qna, HttpSession session, MultipartFile[] file) {
+
+			MemberDTO member = (MemberDTO) session.getAttribute("member");
+			qna.setqId(member.getmId());
+			
+			// 파일 업로드할 경로 설정
+			File root = new File("c:\\fileupload");
+			if (!root.exists())
+				root.mkdirs();
+			
+			try {
+				ArrayList<FileDTO> list = new ArrayList<FileDTO>();
+				for(int i=0;i<file.length;i++) {
+					if (file[i].getSize() == 0)
+						continue;
+					//실제 파일 저장하는 부분
+					File f = new File(root, file[i].getOriginalFilename());
+					file[i].transferTo(f); 
+					//list에 파일 정보 한건씩 추가
+					list.add(new FileDTO(0,i,f.getAbsolutePath()));
+				} 
+
+
+				int qno = qnaService.selectQnaNo();
+				qna.setqNo(qno);
+				//	2. QnaDTO에 게시글 번호 저장 후 DB에 저장
+				qnaService.insertQna(qna);
+				//파일 정보를 DB에 저장
+				list.forEach((e) -> e.setQno(qno));
+				qnaService.insertFile(list);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/mypage/inquiry";
+		}
+		//파일 다운로드 처리
+		@RequestMapping("/file/down")
+		public void fileDown(int qno, int fno, HttpServletResponse response) {
+			//파일 정보 읽어옴
+			FileDTO dto = qnaService.selectFile(qno, fno);
+			File file = new File(dto.getPath());
+			
+			//출력 스트림 연결 데이터를 전송
+			response.setHeader("Content-Disposition", "attachement;fileName=" + file.getName());
+			response.setHeader("Content-Transfer-Encoding", "binary");
+			response.setContentLength((int) file.length());
+			
+			 try (
+					    BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+					    FileInputStream fis = new FileInputStream(file);
+			    ){
+			    	byte[] buffer = new byte[1024*1024];
+			    	
+			    	while(true) {
+			    		int count = fis.read(buffer);
+			    		if(count == -1) break;
+			    		bos.write(buffer,0,count);
+			    		bos.flush();
+			    	
+			    }
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				    
+			
+		}
+		@RequestMapping("/editer/upload")
+		public ResponseEntity<String> editerFileUpload(MultipartFile upload){
+			// 파일 업로드할 경로 설정
+			File root = new File("c:\\resouce_upload");
+			if (!root.exists())
+				root.mkdirs();
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+				String date = sdf.format(Calendar.getInstance().getTime());
+				// 원본파일명
+				String originFileName = upload.getOriginalFilename();
+				// 저장할 파일명
+				String fileName = date + "_" + originFileName.substring(originFileName.lastIndexOf('.'));
+				
+				File f = new File(root, fileName);
+				upload.transferTo(f);
+				
+				int fno = qnaService.selectImageFileNo();
+				qnaService.insertImageFile(new FileDTO(0, fno, f.getAbsolutePath()));
+				
+				map.put("uploaded", true);
+				map.put("url", "/editer/filedown?fno="+fno);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+				map.put("uploaded", false);
+				map.put("mesaage", "파일 업로드 중 에러 발생");
+				return new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);
+			} 
+			
+			return new ResponseEntity(map,HttpStatus.OK);
+		}
+		@RequestMapping("/editer/filedown")
+		public void imageFileDownload(int fno, HttpServletResponse response) {
+			//파일 정보 읽어옴
+					FileDTO dto = qnaService.selectImageFile(fno);
+					File file = new File(dto.getPath());
+					
+					//출력 스트림 연결 데이터를 전송
+					response.setHeader("Content-Disposition", "attachement;fileName=" + file.getName());
+					response.setHeader("Content-Transfer-Encoding", "binary");
+					response.setContentLength((int) file.length());
+					
+					 try (
+							    BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+							    FileInputStream fis = new FileInputStream(file);
+					    ){
+					    	byte[] buffer = new byte[1024*1024];
+					    	
+					    	while(true) {
+					    		int count = fis.read(buffer);
+					    		if(count == -1) break;
+					    		bos.write(buffer,0,count);
+					    		bos.flush();
+					    	
+					    }
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						    
+			
+		}
+	
+	
+	
+	
+	
 	@RequestMapping("/mypage")
 	public ModelAndView mypage(ModelAndView view) {
 		view.setViewName("mypage");
@@ -132,6 +308,34 @@ public class MainController {
 		view.setViewName("review");
 		return view;
 	}
+	
+	@PostMapping("/review/comment")
+	public String boardComment(CommentDTO comment, HttpSession session) {
+		//댓글 db에 저장
+		System.out.println(comment);
+		MemberDTO member=(MemberDTO)session.getAttribute("member");
+		comment.setcId(member.getmId());
+		
+		//db에 저장
+		int result =commentService.registercomment(comment);
+		return "redirect:/review/"+comment.getrNo();
+	}
+	
+	@RequestMapping("/review/{rno}")
+	public ModelAndView selectreviewpage(ModelAndView view,@PathVariable(name="rno") int rno) {
+		reviewService.upcount(rno);
+		ReviewDTO dto=reviewService.selectreviewcontent(rno);
+		List<CommentDTO> commentlist=commentService.getcomment(rno);
+		List<FileDTO> filelist=reviewService.getfilelist(rno);
+		int commentcount=commentService.countcomment(rno);
+ 		view.addObject("filelist", filelist);
+		view.addObject("commentlist", commentlist);
+		view.addObject("review", dto);
+		view.addObject("commentcount", commentcount);
+		view.setViewName("review_click_result_page");
+		return view;
+	}
+	
 	@RequestMapping("/mypage/change")
 	public ModelAndView chagepage(ModelAndView view) {
 		view.setViewName("change");

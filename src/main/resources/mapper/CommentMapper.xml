@@ -28,8 +28,6 @@
 		select count(*) from REVIEW_COMMENT rc where rc.MEMBER_ID like #{mId}
 	</select>
 	
-<<<<<<< Updated upstream
-=======
 	<select id="countcomment" parameterType="int">
 		select count(*) from REVIEW_COMMENT rc where rc.review_no = #{rno}
 	</select>
@@ -48,7 +46,6 @@
 		values(REVIEW_comment_no.nextval,#{cId},#{cContent},#{rNo})
 	</insert>
 	
->>>>>>> Stashed changes
 </mapper>
 
 

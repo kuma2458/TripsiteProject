@@ -18,6 +18,9 @@
 		insert into member
 		values (#{mId},#{mPass},#{mNick},#{mTel},#{mEmail},#{mBirth},#{mGender},#{mName})
 	</insert>
+		<select id="find" resultMap="member" parameterType="hashmap">
+		select * from member where member_id like #{mId} and member_name like #{mName}
+	</select> 
 	
 
 	

@@ -13,6 +13,10 @@ public class ReviewDTO {
 	private String rCount;
 	private int rHate;
 	private int rLike;
+	
+	public ReviewDTO() {
+		
+	}
 	public ReviewDTO(int rno, String rTitle, String rContent, String rTime, String rId, String rNick, String rCount,
 			int rHate, int rLike) {
 		super();

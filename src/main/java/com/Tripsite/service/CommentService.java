@@ -27,9 +27,7 @@ public class CommentService {
 	public int countmycomment(String mId) {
 		return mapper.countmycomment(mId);
 	}
-<<<<<<< Updated upstream
-=======
-
+	
 	public List<CommentDTO> getcomment(int rno) {
 		return mapper.getcomment(rno);
 	}
@@ -41,7 +39,6 @@ public class CommentService {
 	public int registercomment(CommentDTO comment) {
 		return mapper.registercomment(comment);
 	}
->>>>>>> Stashed changes
-	
+
 	
 }

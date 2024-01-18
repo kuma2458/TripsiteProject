@@ -9,6 +9,10 @@ public class QnaDTO {
 	private String qContent;
 	private String qItem;
 	private String qId;
+	
+	public QnaDTO() {
+		
+	}
 	public QnaDTO(int qNo, String qTitle, String qContent, String qItem, String qId) {
 		super();
 		this.qNo = qNo;
