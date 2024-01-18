@@ -12,6 +12,12 @@ public class CommentDTO {
 	private String cNick;
 	private int cHate;
 	private int cLike;
+<<<<<<< Updated upstream
+=======
+	
+	public CommentDTO() {}
+	
+>>>>>>> Stashed changes
 	public CommentDTO(int cNo, String cId, String cTime, String cContent, int rNo, String cNick, int cHate, int cLike) {
 		super();
 		this.cNo = cNo;

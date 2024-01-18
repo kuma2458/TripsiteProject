@@ -27,6 +27,21 @@ public class CommentService {
 	public int countmycomment(String mId) {
 		return mapper.countmycomment(mId);
 	}
+<<<<<<< Updated upstream
+=======
+
+	public List<CommentDTO> getcomment(int rno) {
+		return mapper.getcomment(rno);
+	}
+
+	public int countcomment(int rno) {
+		return mapper.countcomment(rno);
+	}
+
+	public int registercomment(CommentDTO comment) {
+		return mapper.registercomment(comment);
+	}
+>>>>>>> Stashed changes
 	
 	
 }
