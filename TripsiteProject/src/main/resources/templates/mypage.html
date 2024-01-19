@@ -86,7 +86,7 @@
             font-size: 67px;
             font-weight: bold;
             text-align: center;
-            margin-top: 150px;
+            
         }
 
         .section_container{
@@ -126,6 +126,11 @@
 
 
     </style>
+     <script th:if="${session.member == null  }" >
+    alert('로그인하셔야 이용가능합니다.');
+    location.href='/main/login';
+
+  </script>
 </head>
 <body>
 	<th:block th:include="/fragments/header.html"></th:block>
