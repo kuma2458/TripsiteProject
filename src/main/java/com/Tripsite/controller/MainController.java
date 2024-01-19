@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,7 +68,7 @@ public class MainController {
 	
 	@GetMapping("/search/country")
 	public ModelAndView searchresult(ModelAndView view) {
-		view.setViewName("country_page");
+		view.setViewName("search_result_page");
 		return view;
 	}
 	
@@ -116,9 +115,10 @@ public class MainController {
 		return mv;
 	}
 	@RequestMapping("/main/logout")
-	public String logoutpage(HttpSession session) {
+	public ModelAndView logoutpage(ModelAndView view, HttpSession session) {
 		session.removeAttribute("member");
-		return "redirect:/main";
+		view.setViewName("main_page");
+		return view;
 	}
 
 	@RequestMapping("/main/register")
@@ -336,26 +336,10 @@ public class MainController {
 		return view;
 	}
 	
-	@RequestMapping("/member/delete")
-	public String deleteMember(String mId) {
-	memberService.deleteMember(mId);
-	return "redirect:/main";
-	}
-	
-	@GetMapping("/member/Update")
-	public ModelAndView updateMemberView(String mId, ModelAndView view) {
-		MemberDTO dto = memberService.selectMember(mId);
+	@RequestMapping("/mypage/change")
+	public ModelAndView chagepage(ModelAndView view) {
 		view.setViewName("change");
-		view.addObject("dto", dto);
 		return view;
-	}
-
-
-	@PostMapping("/member/Update")
-	public String updateMember(MemberDTO dto) {
-		System.out.println(dto.toString());
-		memberService.updateMember(dto);
-	return "redirect:/main";
 	}
 	@RequestMapping("/review/write")
 	public ModelAndView writepage(ModelAndView view) {
@@ -382,14 +366,6 @@ public class MainController {
 		return view;
 	}
 
-	@RequestMapping("/review{rno}/like/login")
-	public ModelAndView reviewlikelogin(ModelAndView view,  @PathVariable(name="rno") int rno) {
-		view.addObject("rno", rno);
-		view.setViewName("login");
-		return view;
-	}
-	
-	
 	@PostMapping("/member/insert")
 	public String insertMember(MemberDTO dto) {
 	        memberService.insertMember(dto);
@@ -409,8 +385,6 @@ public class MainController {
 		return view;
 	}
 	
-	
-	
 	@RequestMapping("/mypage/mycomment")
 	public ModelAndView mycommentpage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo, HttpSession session) {
 		MemberDTO member=(MemberDTO)session.getAttribute("member");
@@ -426,112 +400,15 @@ public class MainController {
 		return view;
 	}
 	  @RequestMapping("/mypage/myreview/delete/{rno}")
-	  public String deletereview(@PathVariable(name="rno") int rno, HttpSession session) {
+	  public String delete(@PathVariable(name="rno") int rno, HttpSession session) {
 		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
 		  String rId=dto.getmId();
 		  reviewService.deleteReview(rno,rId);
 		    return "redirect:/mypage/myreview";
 	  }
-	
-	  @RequestMapping("/mypage/myreview/update/{rno}")
-	  public String updatereview(@PathVariable(name="rno") int rno, HttpSession session) {
-		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
-		  String rId=dto.getmId();
-		    return "redirect:/mypage/myreview";
-	  }
-	  
-	  @RequestMapping("/mypage/mycomment/delete/{cNo}")
-	  public String deletecomment(@PathVariable(name="cNo") int cNo, HttpSession session) {
-		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
-		  String cId=dto.getmId();
-		  commentService.deleteComment(cNo,cId);
-		    return "redirect:/mypage/mycomment";
-	  }
-	
-	  @RequestMapping("/mypage/mycomment/update/{cNo}")
-	  public String updatecomment(@PathVariable(name="cNo") int cNo, HttpSession session) {
-		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
-		  String cId=dto.getmId();
-		    return "redirect:/mypage/mycomment";
-	  }
-	
-		@RequestMapping("/review/like")
-		public ResponseEntity<String> boardlike(int rno, HttpSession session) {
-			MemberDTO dto= (MemberDTO) session.getAttribute("member");
-			HashMap<String, Object> map= new HashMap<String,Object>();
-			try {
-				reviewService.reviewlikeup(dto.getmId(),rno);
-				map.put("msg","해당 게시글에 좋아요를 하셨습니다.");
-				
-			}catch(Exception e){
-				//이미 좋아요 처리가 된 경우이기 때문에 해당 데이터를 삭제해서 좋아요 처리를 해제
-				reviewService.reviewlikedown(dto.getmId(),rno);
-				map.put("msg","해당 게시글에 좋아요를 취소 하셨습니다.");
-			}
-			//해당 게시글 좋아요 개수 받아옴
-			int count=reviewService.reviewtotallike(rno);
-			map.put("count",count);
-			return new ResponseEntity(map,HttpStatusCode.valueOf(HttpStatus.OK.value()));
-			
-		}
-		@RequestMapping("/review/hate")
-		public ResponseEntity<String> boardhate(int rno, HttpSession session) {
-			MemberDTO dto= (MemberDTO) session.getAttribute("member");
-			HashMap<String, Object> map= new HashMap<String,Object>();
-			try {
-				reviewService.reviewhateup(dto.getmId(),rno);
-				map.put("msg","해당 게시글에 싫어요를 하셨습니다.");
-				
-			}catch(Exception e){
-				//이미 좋아요 처리가 된 경우이기 때문에 해당 데이터를 삭제해서 좋아요 처리를 해제
-				reviewService.reviewhatedown(dto.getmId(),rno);
-				map.put("msg","해당 게시글에 싫어요를 취소 하셨습니다.");
-			}
-			//해당 게시글 좋아요 개수 받아옴
-			int count=reviewService.reviewtotalhate(rno);
-			map.put("count",count);
-			return new ResponseEntity(map,HttpStatusCode.valueOf(HttpStatus.OK.value()));
-			
-		}
-		@RequestMapping("/review/comment/like")
-		public ResponseEntity<String> commentlike(int cNo, HttpSession session) {
-			MemberDTO dto= (MemberDTO) session.getAttribute("member");
-			HashMap<String, Object> map= new HashMap<String,Object>();
-			try {
-				commentService.commentlikeup(dto.getmId(),cNo);
-				map.put("msg","해당 댓글에 좋아요를 하셨습니다.");
-				
-			}catch(Exception e){
-				//이미 좋아요 처리가 된 경우이기 때문에 해당 데이터를 삭제해서 좋아요 처리를 해제
-				commentService.commentlikedown(dto.getmId(),cNo);
-				map.put("msg","해당 댓글에 좋아요를 취소 하셨습니다.");
-			}
-			//해당 게시글 좋아요 개수 받아옴
-			int count=commentService.commenttotallike(cNo);
-			map.put("count",count);
-			return new ResponseEntity(map,HttpStatusCode.valueOf(HttpStatus.OK.value()));
-			
-		}
-		@RequestMapping("/review/comment/hate")
-		public ResponseEntity<String> commenthate(int cNo, HttpSession session) {
-			MemberDTO dto= (MemberDTO) session.getAttribute("member");
-			HashMap<String, Object> map= new HashMap<String,Object>();
-			try {
-				commentService.commenthateup(dto.getmId(),cNo);
-				map.put("msg","해당 댓글에 싫어요를 하셨습니다.");
-				
-			}catch(Exception e){
-				//이미 좋아요 처리가 된 경우이기 때문에 해당 데이터를 삭제해서 좋아요 처리를 해제
-				commentService.commenthatedown(dto.getmId(),cNo);
-				map.put("msg","해당 댓글에 싫어요를 취소 하셨습니다.");
-			}
-			//해당 게시글 좋아요 개수 받아옴
-			int count=commentService.commenttotalhate(cNo);
-			map.put("count",count);
-			return new ResponseEntity(map,HttpStatusCode.valueOf(HttpStatus.OK.value()));
-			
-		}
-	  
-	  
-	  
+	@RequestMapping("/review/write/page")
+	public ModelAndView reviewWritePage(ModelAndView view) {
+		view.setViewName("review_write_page");
+		return view;
+	}
 }
