@@ -336,10 +336,26 @@ public class MainController {
 		return view;
 	}
 	
-	@RequestMapping("/mypage/change")
-	public ModelAndView chagepage(ModelAndView view) {
+	@RequestMapping("/member/delete")
+	public String deleteMember(String mId) {
+	memberService.deleteMember(mId);
+	return "redirect:/main";
+	}
+	
+	@GetMapping("/member/Update")
+	public ModelAndView updateMemberView(String mId, ModelAndView view) {
+		MemberDTO dto = memberService.selectMember(mId);
 		view.setViewName("change");
+		view.addObject("dto", dto);
 		return view;
+	}
+
+
+	@PostMapping("/member/Update")
+	public String updateMember(MemberDTO dto) {
+		System.out.println(dto.toString());
+		memberService.updateMember(dto);
+	return "redirect:/main";
 	}
 	@RequestMapping("/review/write")
 	public ModelAndView writepage(ModelAndView view) {

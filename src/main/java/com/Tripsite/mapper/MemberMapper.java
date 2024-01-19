@@ -11,6 +11,11 @@ public interface MemberMapper {
 
 	MemberDTO login(HashMap<String, Object> map);
 
+	int deleteMember(String mId);
+	MemberDTO selectMember(String mId);
+	int updateMember(MemberDTO dto);
+
+
 	int insertMember(MemberDTO dto);
 
 	MemberDTO find(HashMap<String, Object> map);

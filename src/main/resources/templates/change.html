@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>update</title>
 </head>
+
 <style>
     *{
         margin: 0px;
@@ -37,7 +38,7 @@
         width: 1200px;
         margin: 0 auto;
     }
-    .change_form{
+    .update_form{
         width: 600px;
         margin: 0 auto;
         display: flex;
@@ -66,7 +67,7 @@
         padding-bottom: 20px;
         color: aliceblue;
     }
-    .id, .passwd, .passwd_chk, .email, .birth, .tel, .nick{
+    .id, .passwd, .passwd_chk, .email, .birth, .tel, .nick, .name{
         width: 400px;
         height: 40px;
         border-radius: 10px;
@@ -75,16 +76,7 @@
         
         background-color: rgba(0, 0, 0, 0);
     }
-    .email2{
-        width: 150px;
-        height: 50px;
-        border-radius: 10px;
-        margin-bottom: 30px;
-        padding-left: 10px;
-        border: 1px solid rgb(95,95,95);
-        background-color: rgba(0, 0, 0, 0);
-        font-weight: bold;
-    }
+
     
     .radio{
         width: 30px;
@@ -108,39 +100,9 @@
         font-size: 16px;
     }
     
-    .kakao_login{
-        width: 400px;
-        height: 48px;
-        border-radius: 10px;
-        background-color:yellow;
-        color: black;
-        margin-bottom: 20px;
-        font-weight: bold;
-        font-size: 16px;
-        background-image: url(/img/kakao.png);
-        background-size: 24px 24px;
-        background-repeat: no-repeat;
-        background-position: 10px center;
-        
-    }
-    .google_login{
-        width: 400px;
-        height: 48px;
-        border-radius: 10px;
-        background-color: none;
-        color: black;
-        margin-bottom: 20px;
-        font-weight: bold;
-        font-size: 16px;
-        margin-bottom: 30px;
-        background-image: url(/img/google.png);
-        background-repeat: no-repeat;
-        background-size: 24px 24px;
-        background-position: 10px center;
-        box-sizing: border-box;
-    }
+
     p{
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     .already{
         text-decoration: underline;
@@ -151,6 +113,16 @@
         flex-flow: row nowrap;
         justify-content: center;
         
+    }
+    button{
+          list-style-type: none;
+        width: 200px;
+        height: 48px;
+        background-color: #A95D27;
+        border: 1px solid black;
+        border-radius: 10px;
+        color: white;
+                
     }
     a{
         text-decoration: none;
@@ -165,9 +137,7 @@
         border: 1px solid black;
         border-radius: 10px;
         color: white;
-        
-        
-        
+                
     }
     li{
         margin-top: 12px;
@@ -194,25 +164,9 @@
         }
     
 </style>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-    //아이디
-  function checkId(){
-	  var reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/;
-	console.log(reg.test($(".id").val()));
 
-		if(!reg.test($(".id").val())){
-   			 $('.id_result').html('아이디는 영어와 숫자로 작성하세요 8~12자이내');
-    		 $('.id_result').removeClass('true');
-   			 $('.id_result').addClass('false');
-  		  	 return false;
-		}
-		$('.id_result').html('사용이 가능한 아이디 입니다.');
-		$('.id_result').removeClass('false');
-		$('.id_result').addClass('true');
-		return true;
-	}
 	//비밀번호
 	function checkPassword(){
     var reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
@@ -268,19 +222,20 @@
     }
     //핸드폰번호
     function checkTel(){
-var reg = /^[0-9]{11}$/;
-if(!reg.test($(".tel").val())){
-$('.tel_result').html('휴대폰 번호 11자리를 입력하세요 ex)01088887777');
-$('.tel_result').removeClass('true');
-$('.tel_result').addClass('false');
-return false;
-}
-$('.tel_result').html('잘 적으셨습니다');
+	var reg = /^[0-9]{11}$/;
+	if(!reg.test($(".tel").val())){
+	$('.tel_result').html('휴대폰 번호 11자리를 입력하세요 ex)01088887777');
+	$('.tel_result').removeClass('true');
+	$('.tel_result').addClass('false');
+	return false;
+	}
+	$('.tel_result').html('잘 적으셨습니다.');
         $('.tel_result').removeClass('false');
         $('.tel_result').addClass('true');
 
         return true;
     }
+    //닉네임
      function checkNick(){
          let reg = /^[.\S]{1,20}$/
             if(!reg.test($(".nick").val())){
@@ -288,14 +243,15 @@ $('.tel_result').html('잘 적으셨습니다');
                 $('.nick').addClass('false');
                 return false;
             }
-            $('.nick').removeClass('false');
-            $('.nick').addClass('true');
+         
+      $('.nick_result').html('사용이 가능합니다.');
+      $('.nick_result').removeClass('false');
+      $('.nick_result').addClass('true');
             
             return true;
         }
 			$(() => {
             //아이디 입력시 checkId 함수 연결
-            $('.id').keyup(checkId);
             $('.passwd').keyup(checkPassword);
             $('.passwd_chk').keyup(checkPassword);
             $('.email').keyup(checkEmail);
@@ -304,8 +260,8 @@ $('.tel_result').html('잘 적으셨습니다');
             $('.nick').keyup(checkNick);
 
             //폼 연결
-            $('.change_form').submit((e) => {
-                if(!checkId() || !checkPassword() || !checkbirth()|| !checkEmail()|| !checkTel() || !checkNick()){
+            $('.update_form').submit((e) => {
+                if(!checkPassword() || !checkbirth()|| !checkEmail()|| !checkTel() || !checkNick()){
                     e.preventDefault();
                 }
             });
@@ -320,45 +276,39 @@ $('.tel_result').html('잘 적으셨습니다');
         <h3>개인 정보 수정</h3>
     </nav>
     <section>
-        <div class="change_form">
-         <form action="/update" method= "post">
-        <input type="text" name="id" class="id" placeholder="가입한 본인 아이디">
-        <p class="id_result"></p>
-             <input type="password" name="passwd" class="passwd" placeholder="비밀번호를 입력하세요">
-             <input type="password" name="passwd_chk" class="passwd_chk" placeholder="비밀번호를 한번더 입력하세요">
+        <div class="update_form">
+         <form action="/member/Update" method= "post">
+        <input type="text" name="mId" class="id" th:value="${dto.mId }" readonly>
+             <input type="password" name="mPass" class="passwd" placeholder="비밀번호를 입력하세요" th:value="${dto.mPass }">
+             <input type="password"  class="passwd_chk" placeholder="비밀번호를 한번더 입력하세요" >
              <p class="pass_result"></p>
-        <input type="text" name="tel" class="tel" placeholder="핸드폰 번호">
-        <p class="tel_result"></p>
-            <div class="gender">
-                <label for="radio1"><span class="radio"></span>남</label><input type="radio" name="items" id="radio1">
-                <label for="radio2"><span class="radio"></span>여</label><input type="radio" name="items" id="radio2"> 
-             </div> 
-        <input type="text" name="email" class="email" placeholder="이메일을 입력하세요 ex) korea@naver.com">
-        	<p class="email_result"></p>
-        <input type="text" name="birth" class="birth" placeholder="생년월일을 입력하세요">
+        <input type="text" name="mName" class="name" placeholder="이름을 입력하세요" th:value="${dto.mName }">
+        	<p class="name_result"></p>
+        <input type="text" name="mBirth" class="birth" placeholder="생년월일을 입력하세요" th:value="${dto.mBirth }">
         	<p class="birth_result"></p>
-        <input type="text" name="nick" class="nick" placeholder="닉네임">
- <!--       <select name="email" class="email2">
-            <option value="g">@google.com</option>
-            <option value="n">@naver.com</option>
-            <option value="d">@daum.net</option>
-        </select> --> 
-             
-             <div class="select">
-             <ul>
-                <li><a href="">수정하기</a></li>
-             </ul>
-             <ul>
-                <li><a href="javascript:history.back();">돌아가기</a></li>
-             </ul>
-            </div>
+        <input type="text" name="mNick" class="nick" placeholder="닉네임" th:value="${dto.mNick }">
+        	<p class="nick_result"></p>
+        <input type="text" name="mTel" class="tel" placeholder="핸드폰 번호" th:value="${dto.mTel }">
+        	<p class="tel_result"></p>
+        <input type="text" name="mEmail" class="email" placeholder="이메일을 입력하세요 ex) korea@naver.com" th:value="${dto.mEmail }">
+        	<p class="email_result"></p>
+            <div class="gender">
+                <label for="radio1"><span class="radio"></span>남</label><input type="radio" name="mGender" 
+                value="M" id="radio1" th:checked="${dto.mGender} == 'M'">
+                <label for="radio2"><span class="radio"></span>여</label><input type="radio" name="mGender" 
+                value="F" id="radio2" th:checked="${dto.mGender} == 'F'"> 
+            </div>    
+            <button>수정하기</button>
             <div class="exit">
             <ul>
-                <li><a href="">탈퇴하기</a></li>
+				<li><a href="javascript:history.back();">돌아가기</a></li>
+				</ul>
+            	<ul>
+                <li><a th:href="@{/member/delete(mId=${session.member.mId})}">탈퇴하기</a></li>  
              </ul>
             </div> 
+  
          </form>
-         
         </div>
         
     </section>

@@ -14,6 +14,27 @@
 	<select id="login" resultMap="member" parameterType="hashmap"> 
 		select * from member where member_id like #{mId} and member_passwd like #{mPass}
 	</select>
+	
+	<select id="selectMember" parameterType="string" resultMap="member">
+		select * from member where member_id like #{mId}
+	</select>
+
+	<update id="updateMember" parameterType="member">
+		update member set 
+		member_passwd = #{mPass},
+		member_nick = #{mNick},
+		member_tel = #{mTel}, 
+		member_email = #{mEmail},
+		member_birth = #{mBirth},
+		member_gender = #{mGender},
+		member_name = #{mName}
+		where member_id like #{mId}	 		
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+	DELETE FROM member WHERE member_id = #{mId}	
+	</delete>
+	
 	<insert id="insertMember" parameterType="member">
 		insert into member
 		values (#{mId},#{mPass},#{mNick},#{mTel},#{mEmail},#{mBirth},#{mGender},#{mName})

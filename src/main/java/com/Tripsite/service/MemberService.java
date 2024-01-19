@@ -24,6 +24,19 @@ public class MemberService {
 	    return mapper.login(map);
 	}
 
+	public int deleteMember(String mId) {
+		
+		return mapper.deleteMember(mId);
+	}
+
+	public MemberDTO selectMember(String mId) {
+		return mapper.selectMember(mId);
+	}
+
+	public int updateMember(MemberDTO dto) {
+		return mapper.updateMember(dto);
+	}
+	
 	public void insertMember(MemberDTO dto) {
 		mapper.insertMember(dto);
 	}

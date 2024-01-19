@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Tripsite.mapper.ReviewMapper">
+	<resultMap type="review" id="review">
+		<id column="REVIEW_NO" property="rno" />
+		<result column="REVIEW_TITLE" property="rTitle" />
+		<result column="REVIEW_CONTENT" property="rContent" />
+		<result column="REVIEW_COMMENT_TIME" property="rTime" />
+		<result column="MEMBER_ID" property="rId" />
+		<result column="REVIEW_COUNT" property="rCount" />
+		<result column="MEMBER_NICK" property="rNick" />
+		<result column="RHATE" property="rHate" />
+		<result column="RLIKE" property="rLike" />
+	</resultMap>
+
+
+	<select id="selectAllreview" resultMap="review" parameterType="int">
+		SELECT * from(
+		SELECT CEIL(rownum/10) AS pageno , d.* from(
+		SELECT r.REVIEW_TITLE ,r.REVIEW_CONTENT,TO_CHAR(r.review_comment_time,'YYYY-MM-DD') as REVIEW_COMMENT_TIME ,r.REVIEW_COUNT,r.MEMBER_ID  ,m.MEMBER_NICK,NVL(rhate,0) AS rhate ,NVL(rlike,0) AS rlike, r.REVIEW_NO  
+		FROM REVIEW r JOIN MEMBER m ON r.MEMBER_ID =m.MEMBER_ID
+		LEFT OUTER JOIN (SELECT rh.review_no AS rhno, count(*) AS rhate FROM REVIEW_HATE rh GROUP BY rh.REVIEW_NO) ON rhno=r.review_no
+		LEFT OUTER JOIN (SELECT rl.review_no AS rlno, count(*) AS rlike FROM REVIEW_LIKE rl GROUP BY rl.REVIEW_NO) ON rlno=r.review_no
+		ORDER BY REVIEW_NO DESC) d)
+		WHERE pageno=#{pageNo}
+	</select>
+	
+	<select id="countreview">
+		select count(*) from REVIEW
+	</select>
+	
+	<select id="selectmyreview" resultMap="review" parameterType="hashmap">
+		SELECT * from(
+		SELECT CEIL(rownum/10) AS pageno , d.* from(
+		SELECT r.REVIEW_TITLE ,r.REVIEW_CONTENT,TO_CHAR(r.review_comment_time,'YYYY-MM-DD') as REVIEW_COMMENT_TIME ,r.REVIEW_COUNT,r.MEMBER_ID  ,m.MEMBER_NICK,NVL(rhate,0) AS rhate ,NVL(rlike,0) AS rlike, r.REVIEW_NO  
+		FROM REVIEW r JOIN MEMBER m ON r.MEMBER_ID =m.MEMBER_ID
+		LEFT OUTER JOIN (SELECT rh.review_no AS rhno, count(*) AS rhate FROM REVIEW_HATE rh GROUP BY rh.REVIEW_NO) ON rhno=r.review_no
+		LEFT OUTER JOIN (SELECT rl.review_no AS rlno, count(*) AS rlike FROM REVIEW_LIKE rl GROUP BY rl.REVIEW_NO) ON rlno=r.review_no
+		where r.MEMBER_ID=#{mId}
+		ORDER BY REVIEW_NO DESC) d)
+		WHERE pageno=#{pageNo}
+	</select>
+	
+	<select id="selectreviewcontent" resultMap="review" parameterType="int">
+		SELECT r.REVIEW_TITLE ,r.REVIEW_CONTENT,TO_CHAR(r.review_comment_time,'YYYY-MM-DD HH:mm') as REVIEW_COMMENT_TIME ,r.REVIEW_COUNT,r.MEMBER_ID  ,m.MEMBER_NICK,NVL(rhate,0) AS rhate ,NVL(rlike,0) AS rlike, r.REVIEW_NO  
+		FROM REVIEW r JOIN MEMBER m ON r.MEMBER_ID =m.MEMBER_ID
+		LEFT OUTER JOIN (SELECT rh.review_no AS rhno, count(*) AS rhate FROM REVIEW_HATE rh GROUP BY rh.REVIEW_NO) ON rhno=r.review_no
+		LEFT OUTER JOIN (SELECT rl.review_no AS rlno, count(*) AS rlike FROM REVIEW_LIKE rl GROUP BY rl.REVIEW_NO) ON rlno=r.review_no
+		where r.REVIEW_NO=#{rno}
+	</select>
+	
+	<update id="upcount" parameterType="int">
+		UPDATE REVIEW SET REVIEW_COUNT = REVIEW_COUNT +1 WHERE REVIEW_NO =#{rno}
+	</update>
+	
+	<select id="countmyreview" parameterType="String">
+		select count(*) from REVIEW where MEMBER_ID=#{mId}
+	</select>
+	
+	<select id="selectReviewNo" resultType="int">
+		SELECT review_no.nextval FROM dual
+	</select>
+	
+	<insert id="insertReview" parameterType="qna">
+		insert into QNA (REVIEW_NO,REVIEW_CONTENT,MEMBER_ID,REVIEW_COUNT,REVIEW_title)
+		values(#{rno},#{rContent},#{rId},#{rCount},#{rTitle})
+	</insert>
+
+	<insert id="insertFile" parameterType="file">
+		insert into board_file(REVIEW_FILE_NO,FILE_URL,REVIEW_NO) values(#{fno},#{path},#{qno})
+	</insert>
+	
+	<select id="getfilelist" parameterType="int" resultType="file">
+		select * from board_file where REVIEW_NO = #{qno}
+	</select>
+	<delete id="deleteReview" parameterType="hashmap">
+		DELETE FROM REVIEW WHERE REVIEW_NO = #{rno} AND MEMBER_ID =#{rId} 
+	</delete>
+	
+	<select id="selectfile" parameterType="hashmap" resultType="file">
+		select *from board_file where REVIEW_NO=#{qno} and REVIEW_FILE_NO=#{fno}
+	</select>
+	
+	<select id="selectImageFile" parameterType="int" resultType="file">
+        select * from REVIEW_file_table where REVIEW_FILE_NO = #{fno}
+     </select>
+     <select id="selectImageFileNo" resultType="int">
+         select REVIEW_FILE_NO.nextval from dual
+     </select>
+     <insert id="insertImageFile" parameterType="file">
+        insert into REVIEW_file_table values(#{fno}, #{path})
+    </insert>
+	
+
+</mapper>
+
+
+
+
+
+
