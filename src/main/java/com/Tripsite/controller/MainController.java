@@ -68,7 +68,7 @@ public class MainController {
 	
 	@GetMapping("/search/country")
 	public ModelAndView searchresult(ModelAndView view) {
-		view.setViewName("search_result_page");
+		view.setViewName("country_page");
 		return view;
 	}
 	
@@ -385,6 +385,8 @@ public class MainController {
 		return view;
 	}
 	
+	
+	
 	@RequestMapping("/mypage/mycomment")
 	public ModelAndView mycommentpage(ModelAndView view,@RequestParam(name="pageNo",defaultValue = "1") int pageNo, HttpSession session) {
 		MemberDTO member=(MemberDTO)session.getAttribute("member");
@@ -400,12 +402,19 @@ public class MainController {
 		return view;
 	}
 	  @RequestMapping("/mypage/myreview/delete/{rno}")
-	  public String delete(@PathVariable(name="rno") int rno, HttpSession session) {
+	  public String deletereview(@PathVariable(name="rno") int rno, HttpSession session) {
 		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
 		  String rId=dto.getmId();
 		  reviewService.deleteReview(rno,rId);
 		    return "redirect:/mypage/myreview";
 	  }
 	
+	  @RequestMapping("/mypage/myreview/update/{rno}")
+	  public String updatereview(@PathVariable(name="rno") int rno, HttpSession session) {
+		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
+		  String rId=dto.getmId();
+		  reviewService.deleteReview(rno,rId);
+		    return "redirect:/mypage/myreview";
+	  }
 	
 }

@@ -176,6 +176,10 @@ p {
 	color: yellow;
 }
 </style>
+<script th:if="${session.member==null}">
+	alert('로그인 후 이용 가능합니다');
+	location.href="/main";
+</script>
 </head>
 <body>
 	<th:block th:insert="~{/fragments/header.html}"></th:block>
@@ -207,17 +211,13 @@ p {
 				<tbody>
 					<tr th:each="r:${reviewlist}">
 						<td>[[${r.rno}]]</td>
-						<!-- 제목누를시 리뷰작성했던곳 <td><a th:href="@{/review/view/{rno}(rno=${r.rno})}" th:text="${r.rTitle}"></a></td>
-                        -->
-						<td><a>[[${r.rTitle}]]</a></td>
+						<td><a th:href="@{/review/{rno}(rno=${r.rno})}">[[${r.rTitle}]]</a></td>
 						<td>[[${r.rTime}]]</td>
 						<td>[[${r.rCount}]]</td>
 						<td>[[${r.rNick}]]</td>
 						<td>
-
-								<a th:href="@{/mypage/myreview/delete/{rno}(rno=${r.rno})}">삭제</a>
-								<button type="button"
-									th:onclick="@{/mypage/myreview/update/{rno}(rno=${r.rno})}">수정</button>
+						<button th:onclick="|location.href='@{/mypage/myreview/update/{rno}(rno=${r.rno})}'|">수정</button>
+						<button th:onclick="|location.href='@{/mypage/myreview/delete/{rno}(rno=${r.rno})}'|">삭제</button>
 						</td>
 					</tr>
 				</tbody>

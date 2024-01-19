@@ -115,7 +115,6 @@
         }
 
         .writer_profile{
-            width: 200px;
             height: 30px;
             background-color: #DED9D9;
             text-align: center;
@@ -166,8 +165,6 @@
             margin-top: 40px;
             margin-right: 10px;
         }
-
-
 
         .article_container2{
             width: 672px;
@@ -238,10 +235,10 @@
 
         .container4_textarea{
             display: flex;
-            flex-flow: row nowrap ;
+            flex-flow: row nowrap;
             justify-content: end;
+			position: relative;
         }
-
         #comment_area{
             width: 499px;
             height: 77px;
@@ -253,11 +250,15 @@
 
         .comment_btn{
             width: 103px;
-            height: 32px;
+            height: 60px;
             background-color: #5357b6;
-            
-            border-radius: 8px;    
-            margin-top: 55px;
+            font-size:20px;
+            font-weight:bold;
+            color:white;
+            border-radius: 8px;
+            position: relative;
+            bottom: 43px;
+
         }
 
         .article_container5{
@@ -296,7 +297,8 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
+		
+		
         .comment_content > span > a:link, .comment_content > span > a:visited{
             text-decoration: none;
             color: rgb(14, 14, 143);
