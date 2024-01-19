@@ -27,6 +27,18 @@ public interface ReviewMapper {
 
 	int upcount(int rno);
 
+	int reviewlikeup(HashMap<String, Object> map);
+
+	int reviewlikedown(HashMap<String, Object> map);
+
+	int reviewtotallike(int rno);
+
+	int reviewhateup(HashMap<String, Object> map);
+
+	int reviewhatedown(HashMap<String, Object> map);
+
+	int reviewtotalhate(int rno);
+
 
 
 }

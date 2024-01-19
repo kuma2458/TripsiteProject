@@ -59,6 +59,42 @@ public class ReviewService {
 		return mapper.upcount(rno);
 	}
 
+	public int reviewlikeup(String getmId, int rno) {
+		HashMap<String, Object> map =new HashMap<String,Object>();
+		map.put("rId", getmId);
+		map.put("rno", rno);
+		return mapper.reviewlikeup(map);
+	}
+
+	public int reviewlikedown(String getmId, int rno) {
+		HashMap<String, Object> map =new HashMap<String,Object>();
+		map.put("rId", getmId);
+		map.put("rno", rno);
+		return mapper.reviewlikedown(map);
+	}
+
+	public int reviewtotallike(int rno) {
+		return mapper.reviewtotallike(rno);
+	}
+
+	public int reviewhateup(String getmId, int rno) {
+		HashMap<String, Object> map =new HashMap<String,Object>();
+		map.put("rId", getmId);
+		map.put("rno", rno);
+		return mapper.reviewhateup(map);
+	}
+
+	public int reviewhatedown(String getmId, int rno) {
+		HashMap<String, Object> map =new HashMap<String,Object>();
+		map.put("rId", getmId);
+		map.put("rno", rno);
+		return mapper.reviewhatedown(map);
+	}
+
+	public int reviewtotalhate(int rno) {
+		return mapper.reviewtotalhate(rno);
+	}
+
 
 	
 	

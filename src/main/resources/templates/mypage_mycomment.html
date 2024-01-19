@@ -197,8 +197,7 @@
                         <td>게시글번호</td>
                         <td>댓글내용</td>
                         <td>작성일</td>
-                        <td>수정</td>
-                        <td>삭제</td>
+                        <td>수정 / 삭제</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -207,8 +206,10 @@
                         <td>[[${c.rNo}]]</td>
                         <td><a>[[${c.cContent}]]</a></td>
                         <td>[[${c.cTime}]]</td>
-                        <td><a>수정</a></td>
-                        <td> <a>삭제</a> </td>
+						<td>
+						<button th:onclick="|location.href='@{/mypage/mycomment/update/{cNo}(cNo=${c.cNo})}'|">수정</button>
+						<button th:onclick="|location.href='@{/mypage/mycomment/delete/{cNo}(cNo=${c.cNo})}'|">삭제</button>
+						</td>
                     </tr>
                 </tbody>
                     </table>
@@ -218,7 +219,6 @@
 
     <footer>
         <div class="f1">
-         <button class="write1"><a href="" class="write">글쓰기</a></button>
         </div>
         <div class="f2">
             <button class="left">◁</button>

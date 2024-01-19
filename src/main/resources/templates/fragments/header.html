@@ -7,6 +7,9 @@
                 <li><a href="/review" title="리뷰 메뉴">리뷰</a></li>
                 <li><a href="/mypage" title="마이페이지 메뉴">마이페이지</a></li>
             </ul>
+         	<div class="memberinfo" th:if="${session.member}!=null">
+   	        	[[${session.member.mNick}]] 님 
+      	 	</div>		
             <div class="header_btn">
                 <button id="left_btn" th:if="${session.member}==null"><a href="/main/login">로그인</a></button>
                 <button id="right_btn" th:if="${session.member}==null"><a href="/main/register">회원가입</a></button>
@@ -71,6 +74,13 @@
             font-size: 20px;
         }
 
+		.memberinfo{
+			color: white;
+			font-size:24px;
+			padding:5px;
+			font-weight:bold;
+			border-radius: 5px;
+		}
         #left_btn, #right_btn, #out_btn{
             border-radius: 8px;
             height: 40px;

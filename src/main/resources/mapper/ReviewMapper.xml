@@ -93,6 +93,28 @@
         insert into REVIEW_file_table values(#{fno}, #{path})
     </insert>
 	
+	<insert id="reviewlikeup" parameterType="hashmap">
+		INSERT INTO REVIEW_LIKE(REVIEW_NO,MEMBER_ID) values(#{rno},#{rId})
+	</insert>
+	
+	<delete id="reviewlikedown" parameterType="hashmap">
+		delete from REVIEW_like where REVIEW_NO = #{rno} and id like #{rId}
+	</delete>
+	
+	<select id="reviewtotallike" parameterType="int">
+		select count(*) from REVIEW_like where REVIEW_NO = #{rno}
+	</select>
+	
+	<insert id="reviewhateup" parameterType="hashmap">
+		INSERT INTO REVIEW_hate(REVIEW_NO,MEMBER_ID) values(#{rno},#{rId})
+	</insert>
+	<delete id="reviewhatedown" parameterType="hashmap">
+		delete from REVIEW_hate where REVIEW_NO = #{rno} and id like #{rId}
+	</delete>
+	
+	<select id="reviewtotalhate" parameterType="int">
+		select count(*) from REVIEW_hate where REVIEW_NO = #{rno}
+	</select>
 
 </mapper>
 

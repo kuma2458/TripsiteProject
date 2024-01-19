@@ -19,4 +19,18 @@ public interface CommentMapper {
 
 	int registercomment(CommentDTO comment);
 
+	int deleteComment(HashMap<String, Object> map);
+
+	int commentlikeup(HashMap<String, Object> map);
+
+	int commentlikedown(HashMap<String, Object> map);
+
+	int commenttotallike(int cNo);
+
+	int commenthateup(HashMap<String, Object> map);
+
+	int commenthatedown(HashMap<String, Object> map);
+
+	int commenttotalhate(int cNo);
+
 }

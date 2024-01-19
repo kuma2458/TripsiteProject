@@ -332,7 +332,9 @@
         #footer_right{
             float: right;
         }
-
+		#btn_like ,#btn_hate{
+			border: none;
+		}
 
 
 </style>
@@ -340,7 +342,12 @@
 <script>
 $(function() {
 	let rno = [[${review.rno}]];
-	$("#btn_like").click(function() {	
+	let member='[[${session.member}]]';
+	$("#btn_like").click(function() {
+		if(member==''){
+			alert('로그인 후 좋아요가 가능합니다');
+			location.href="/review"+rno+"/like/login";
+		}
 		$.ajax({
 			url: "/review/like",
 			type:"post",
@@ -351,11 +358,15 @@ $(function() {
 			success : function(r){
 				console.log(r);
 				alert(r.msg);
-				$("#like_count").html(r.count);
+				$("#btn_like").html(r.count);
 			}
 		});
 	});
 	$("#btn_hate").click(function() {
+		if(member==''){
+			alert('로그인 후 좋아요가 가능합니다');
+			location.href="/main/login";
+		}
 		$.ajax({
 			url: "/review/hate",
 			type:"post",
@@ -372,7 +383,12 @@ $(function() {
 	});
 	$(".btn_comment_like").click(function(){
 		let cno=$(this).parents(".comment_profile").find('input').val();
+		if(member==''){
+			alert('로그인 후 좋아요가 가능합니다');
+			location.href="/main/login";
+		}
 		$.ajax({
+
 			url:'/review/comment/like',
 			data:{
 				cno : cno
@@ -390,7 +406,12 @@ $(function() {
 	});
 	$(".btn_comment_hate").click(function(){
 		let cno=$(this).parents(".comment").find('input').val();
+		if(member==''){
+			alert('로그인 후 좋아요가 가능합니다');
+			location.href="/main/login";
+		}
 		$.ajax({
+
 			url:'/board/comment/hate',
 			data:{
 				cno : cno
@@ -451,8 +472,9 @@ $(function() {
            
                 <span>댓글 [[${commentcount}]] ></span>
                 <div>
-                    <a href="#" id="btn_like"><img src="/img/like.png"></a>
-                    <a href="#" id="btn_hate"><img src="/img/hate.png"></a>
+                    <button id="btn_like"><img src="/img/like.png"></button>
+  
+                    <button id="btn_hate"><img src="/img/hate.png"></button>
                 </div>
             </article>
 
