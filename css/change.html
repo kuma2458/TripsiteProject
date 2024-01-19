@@ -1,232 +1,175 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>수정</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>update</title>
 </head>
+
 <style>
-* {
-	margin: 0px;
-	padding: 0px;
-}
-body {
-	padding-top: 50px;
-	padding-bottom: 50px;
-	height: 100vh;
-	width: 100vw;
-	background-image: url(img/로그인\,회원가입.jpg);
-	background-repeat: no-repeat;
-	background-size: cover;
-}
+    *{
+        margin: 0px;
+        padding: 0px;
+       
+    }
+    body{
+        padding-top: 50px;
+        padding-bottom: 50px;
+        height: 100vh;
+        width: 100vw;
+        background-image: url(/img/login.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    header{
+        width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 50px;
+        padding-top: 30px;
+    }
+    nav{
+        width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    section{
+        width: 1200px;
+        margin: 0 auto;
+    }
+    .update_form{
+        width: 600px;
+        margin: 0 auto;
+        display: flex;
+        flex-flow: column wrap;
+        text-align: center;
+    }
+    .radio{
+        width: 30px;
+        height: 16px;
+        display: inline-block;
+        background-clip: content-box;
+        padding: 1px;
+        border-radius: 8px;
+        box-sizing: border-box;
+        position: relative;
+        top: 2px;
+        left: 0px;
+    }    
+    input[type=radio]{
+        width: 30px;
+        height: 16px;
+    }
+    label{
+        display: inline-block;
+        width: 60px;
+        padding-bottom: 20px;
+        color: aliceblue;
+    }
+    .id, .passwd, .passwd_chk, .email, .birth, .tel, .nick, .name{
+        width: 400px;
+        height: 40px;
+        border-radius: 10px;
+        margin-bottom: 40px;
+        border: 1px solid rgb(95,95,95);
+        
+        background-color: rgba(0, 0, 0, 0);
+    }
 
-header {
-	width: 1200px;
-	margin: 0 auto;
-	text-align: center;
-	margin-bottom: 50px;
-	padding-top: 30px;
-}
-
-nav {
-	width: 1200px;
-	margin: 0 auto;
-	text-align: center;
-	margin-bottom: 50px;
-}
-
-section {
-	width: 1200px;
-	margin: 0 auto;
-}
-
-.login_form {
-	width: 600px;
-	margin: 0 auto;
-	display: flex;
-	flex-flow: column wrap;
-	text-align: center;
-}
-
-.radio {
-	width: 30px;
-	height: 16px;
-	display: inline-block;
-	background-clip: content-box;
-	padding: 1px;
-	border-radius: 8px;
-	box-sizing: border-box;
-	position: relative;
-	top: 2px;
-	left: 0px;
-}
-
-input[type=radio] {
-	width: 30px;
-	height: 16px;
-}
-
-label {
-	display: inline-block;
-	width: 60px;
-	padding-bottom: 20px;
-	color: aliceblue;
-}
-
-.id, .passwd, .email1, .birth {
-	width: 400px;
-	height: 48px;
-	border-radius: 10px;
-	margin-bottom: 40px;
-	border: 1px solid rgb(95, 95, 95);
-	background-color: rgba(0, 0, 0, 0);
-}
-
-.email1 {
-	width: 250px;
-	height: 50px;
-	border-radius: 10px;
-	margin-bottom: 30px;
-}
-
-.email2 {
-	width: 150px;
-	height: 50px;
-	border-radius: 10px;
-	margin-bottom: 30px;
-	padding-left: 10px;
-	border: 1px solid rgb(95, 95, 95);
-	background-color: rgba(0, 0, 0, 0);
-	font-weight: bold;
-}
-
-.radio {
-	width: 30px;
-	height: 16px;
-	display: inline-block;
-	background-clip: content-box;
-	padding: 1px;
-	border-radius: 8px;
-	box-sizing: border-box;
-	position: relative;
-	top: 2px;
-	left: 0px;
-}
-
-.btn_login {
-	width: 400px;
-	height: 48px;
-	border-radius: 10px;
-	background-color: #A95D27;
-	color: white;
-	margin-bottom: 30px;
-	font-size: 16px;
-}
-
-.kakao_login {
-	width: 400px;
-	height: 48px;
-	border-radius: 10px;
-	background-color: yellow;
-	color: black;
-	margin-bottom: 20px;
-	font-weight: bold;
-	font-size: 16px;
-	background-image: url(/Project/img/free-icon-kakao-talk-2111466.png);
-	background-size: 24px 24px;
-	background-repeat: no-repeat;
-	background-position: 10px center;
-}
-
-.google_login {
-	width: 400px;
-	height: 48px;
-	border-radius: 10px;
-	background-color: none;
-	color: black;
-	margin-bottom: 20px;
-	font-weight: bold;
-	font-size: 16px;
-	margin-bottom: 30px;
-	background-image: url(/Project/img/free-icon-google-300221.png);
-	background-repeat: no-repeat;
-	background-size: 24px 24px;
-	background-position: 10px center;
-	box-sizing: border-box;
-}
-
-p {
-	margin-bottom: 20px;
-}
-
-.already {
-	text-decoration: underline;
-	margin-right: 20px;
-}
-
-.check {
-	display: flex;
-	flex-flow: row nowrap;
-	justify-content: center;
-}
-
-a {
-	text-decoration: none;
-	color: white;
-	text-align: center;
-}
-
-ul {
-	list-style-type: none;
-	width: 200px;
-	height: 48px;
-	background-color: #A95D27;
-	border: 1px solid black;
-	border-radius: 10px;
-	color: white;
-}
-
-li {
-	margin-top: 12px;
-}
-
-.select {
-	display: flex;
-	flex-flow: row nowrap;
-	justify-content: center;
-	margin-bottom: 100px;
-}
-
-.exit {
-	display: flex;
-	flex-wrap: row;
-	justify-content: center;
-}
-</style>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-    //아이디
     
-  function checkId(){
-    let reg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	console.log(reg.test($(".id").val()));
+    .radio{
+        width: 30px;
+        height: 16px;
+        display: inline-block;
+        background-clip: content-box;
+        padding: 1px;
+        border-radius: 8px;
+        box-sizing: border-box;
+        position: relative;
+        top: 2px;
+        left: 0px;
+    }    
+    .btn_login{
+        width: 400px;
+        height: 48px;
+        border-radius: 10px;
+        background-color: #A95D27;
+        color: white;
+        margin-bottom: 30px;
+        font-size: 16px;
+    }
+    
 
-		if(!reg.test($(".id").val())){
-   			 $('.id_result').html('아이디는 이메일형식으로 작성하세요');
-    		 $('.id_result').removeClass('true');
-   			 $('.id_result').addClass('false');
-  		  	 return false;
-		}
-		$('.id_result').html('사용이 가능한 아이디 입니다.');
-		$('.id_result').removeClass('false');
-		$('.id_result').addClass('true');
-		return true;
-	}
+    p{
+        margin-bottom: 10px;
+    }
+    .already{
+        text-decoration: underline;
+        margin-right: 20px;
+    }
+    .check{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        
+    }
+    button{
+          list-style-type: none;
+        width: 200px;
+        height: 48px;
+        background-color: #A95D27;
+        border: 1px solid black;
+        border-radius: 10px;
+        color: white;
+                
+    }
+    a{
+        text-decoration: none;
+        color: white;
+        text-align: center;
+    }
+    ul{
+        list-style-type: none;
+        width: 200px;
+        height: 48px;
+        background-color: #A95D27;
+        border: 1px solid black;
+        border-radius: 10px;
+        color: white;
+                
+    }
+    li{
+        margin-top: 12px;
+    }
+    .select{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        margin-bottom: 100px;
+    }
+    .exit{
+        display: flex;
+        flex-wrap: row;
+        justify-content: center;
+    }
+
+    .true{
+            color:blue;
+            font-weight: bold;
+        }
+     .false{
+            color:red;
+            font-weight: bold;
+        }
+    
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+
 	//비밀번호
 	function checkPassword(){
     var reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
-
             if(!reg.test($('.passwd').val())){
                 $('.pass_result').html('암호는 영어랑 숫자 조합으로 8~15자리입력하세요');
                 $('.pass_result').addClass('false');
@@ -260,6 +203,39 @@ li {
             $('.birth_result').addClass('true');
             return true;
         }
+    //이메일확인
+    function checkEmail(){
+
+        let reg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    console.log(reg.test($(".email").val()));
+
+    if(!reg.test($(".email").val())){
+        $('.email_result').html('이메일형식으로 작성하세요 ex) korea@naver.com');
+        $('.email_result').removeClass('true');
+        $('.email_result').addClass('false');
+        return false;
+    }
+    $('.email_result').html('사용이 가능한 이메일 입니다.');
+    $('.email_result').removeClass('false');
+    $('.email_result').addClass('true');
+    return true;
+    }
+    //핸드폰번호
+    function checkTel(){
+	var reg = /^[0-9]{11}$/;
+	if(!reg.test($(".tel").val())){
+	$('.tel_result').html('휴대폰 번호 11자리를 입력하세요 ex)01088887777');
+	$('.tel_result').removeClass('true');
+	$('.tel_result').addClass('false');
+	return false;
+	}
+	$('.tel_result').html('잘 적으셨습니다.');
+        $('.tel_result').removeClass('false');
+        $('.tel_result').addClass('true');
+
+        return true;
+    }
+    //닉네임
      function checkNick(){
          let reg = /^[.\S]{1,20}$/
             if(!reg.test($(".nick").val())){
@@ -267,75 +243,75 @@ li {
                 $('.nick').addClass('false');
                 return false;
             }
-            $('.nick').removeClass('false');
-            $('.nick').addClass('true');
+         
+      $('.nick_result').html('사용이 가능합니다.');
+      $('.nick_result').removeClass('false');
+      $('.nick_result').addClass('true');
             
             return true;
         }
 			$(() => {
             //아이디 입력시 checkId 함수 연결
-            $('.id').keyup(checkId);
             $('.passwd').keyup(checkPassword);
             $('.passwd_chk').keyup(checkPassword);
+            $('.email').keyup(checkEmail);
+            $('.tel').keyup(checkTel);
             $('.birth').keyup(checkbirth);
             $('.nick').keyup(checkNick);
 
             //폼 연결
-            $('.login_form').submit((e) => {
-                if(!checkId() || !checkPassword() || !checkbirth() || !checkNick()){
+            $('.update_form').submit((e) => {
+                if(!checkPassword() || !checkbirth()|| !checkEmail()|| !checkTel() || !checkNick()){
                     e.preventDefault();
                 }
             });
         });
 </script>
 <body>
-	<div class="container"></div>
-	<header>
-		<h1>개인정보 수정 및 탈퇴</h1>
-	</header>
-	<nav>
-		<h3>개인 정보 수정</h3>
-	</nav>
-	<section>
-		<div class="change_form">
-			<form action="">
-				<input type="text" name="id" class="id" placeholder="본인 아이디">
-				<input type="password" name="passwd" class="passwd" placeholder="핸드폰 번호"> 
-				<input type="text" name="id" class="email1" placeholder="이메일을 입력하세요"> 
-				<select name="email" class="email2">
-					<option value="g">@google.com</option>
-					<option value="n">@naver.com</option>
-					<option value="d">@daum.net</option>
-					<option value="k">@koreait.com</option>
-				</select>
-				<div class="gender">
-					<label for="radio1"><span class="radio"></span>남</label>
-					<input type="radio" name="items" id="radio1"> <label for="radio2">
-					<span class="radio"></span>여</label><input type="radio" name="items" id="radio2">
-				</div>
-				<input type="text" name="name" class="id" placeholder="닉네임">
-				<input type="password" name="passwd" class="passwd"
-					placeholder="비밀번호를 입력하세요"> <input type="password"
-					name="passwd" class="passwd" placeholder="비밀번호를 한번더 입력하세요">
-
-				<div class="select">
-					<ul>
-						<li><a href="" type="submit">수정하기</a></li>
-					</ul>
-					<ul>
-						<li><a href="">돌아가기</a></li>
-					</ul>
-				</div>
-				<div class="exit">
-					<ul>
-						<li><a href="">탈퇴하기</a></li>
-					</ul>
-				</div>
-			</form>
-
-		</div>
-
-	</section>
+    <div class="container"></div>
+    <header>
+        <h1>개인정보 수정 및 탈퇴</h1>
+    </header>
+    <nav>
+        <h3>개인 정보 수정</h3>
+    </nav>
+    <section>
+        <div class="update_form">
+         <form action="/member/Update" method= "post">
+        <input type="text" name="mId" class="id" th:value="${dto.mId }" readonly>
+             <input type="password" name="mPass" class="passwd" placeholder="비밀번호를 입력하세요" th:value="${dto.mPass }">
+             <input type="password"  class="passwd_chk" placeholder="비밀번호를 한번더 입력하세요" >
+             <p class="pass_result"></p>
+        <input type="text" name="mName" class="name" placeholder="이름을 입력하세요" th:value="${dto.mName }">
+        	<p class="name_result"></p>
+        <input type="text" name="mBirth" class="birth" placeholder="생년월일을 입력하세요" th:value="${dto.mBirth }">
+        	<p class="birth_result"></p>
+        <input type="text" name="mNick" class="nick" placeholder="닉네임" th:value="${dto.mNick }">
+        	<p class="nick_result"></p>
+        <input type="text" name="mTel" class="tel" placeholder="핸드폰 번호" th:value="${dto.mTel }">
+        	<p class="tel_result"></p>
+        <input type="text" name="mEmail" class="email" placeholder="이메일을 입력하세요 ex) korea@naver.com" th:value="${dto.mEmail }">
+        	<p class="email_result"></p>
+            <div class="gender">
+                <label for="radio1"><span class="radio"></span>남</label><input type="radio" name="mGender" 
+                value="M" id="radio1" th:checked="${dto.mGender} == 'M'">
+                <label for="radio2"><span class="radio"></span>여</label><input type="radio" name="mGender" 
+                value="F" id="radio2" th:checked="${dto.mGender} == 'F'"> 
+            </div>    
+            <button>수정하기</button>
+            <div class="exit">
+            <ul>
+				<li><a href="javascript:history.back();">돌아가기</a></li>
+				</ul>
+            	<ul>
+                <li><a th:href="@{/member/delete(mId=${session.member.mId})}">탈퇴하기</a></li>  
+             </ul>
+            </div> 
+  
+         </form>
+        </div>
+        
+    </section>
 
 
 </body>
