@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -195,5 +196,13 @@ public class MainController {
 		view.setViewName("mypage_mycomment");
 		return view;
 	}
+	  @RequestMapping("/mypage/myreview/delete/{rno}")
+	  public String delete(@PathVariable(name="rno") int rno, HttpSession session) {
+		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
+		  String rId=dto.getmId();
+		  reviewService.deleteReview(rno,rId);
+		    return "redirect:/mypage/myreview";
+	  }
+	
 	
 }

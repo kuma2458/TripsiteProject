@@ -37,6 +37,15 @@ public class ReviewService {
 		return mapper.countmyreview(mId);
 	}
 
+	public int deleteReview(int rno, String rId) {
+		HashMap<String, Object> map =new HashMap<String,Object>();
+		map.put("rId", rId);
+		map.put("rno", rno);
+		
+		return mapper.deleteReview(map);
+	}
+
+
 
 	
 	

@@ -72,7 +72,9 @@
 	<select id="countmycomment" parameterType="String">
 		select count(*) from REVIEW_COMMENT where MEMBER_ID=#{mId}
 	</select>
-	
+	<delete id="deleteReview" parameterType="hashmap">
+		DELETE FROM REVIEW WHERE REVIEW_NO = #{rno} AND MEMBER_ID =#{rId} 
+	</delete>
 </mapper>
 
 

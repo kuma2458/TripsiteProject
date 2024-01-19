@@ -19,6 +19,8 @@ public interface ReviewMapper {
 
 	int countmyreview(String mId);
 
+	int deleteReview(HashMap<String, Object> map);
+
 
 
 }
