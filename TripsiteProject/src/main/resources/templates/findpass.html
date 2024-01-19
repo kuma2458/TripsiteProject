@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+</head>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+       
+    }
+    body{
+        padding-top: 50px;
+        padding-bottom: 50px;
+        height: 100vh;
+        width: 100vw;
+        background-image: url(/img/login.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    header{
+        width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 50px;
+        padding-top: 30px;
+    }
+    
+   
+    section{
+        width: 1200px;
+        margin: 0 auto;
+        
+    }
+    .login_form{
+        width: 600px;
+        margin: 0 auto;
+        display: flex;
+        flex-flow: column wrap;
+        align-items: center;
+        
+    }
+    
+    form{
+    	text-align: center;
+    }
+    
+    .mId, .mName{
+        width: 400px;
+        height: 48px;
+        border-radius: 10px;
+        margin-bottom: 40px;
+        border: 1px solid rgb(95,95,95);
+        
+        background-color: rgba(0, 0, 0, 0);
+    }
+    
+    
+   
+    .btn_search, a{
+        width: 400px;
+        height: 48px;
+        border-radius: 10px;
+        background-color: #A95D27;
+        color: white;
+        margin-bottom: 30px;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: none;
+    }
+    
+    
+    ul{
+    	width: 400px;
+        height: 48px;
+       
+        
+        list-style-type: none;
+        
+        text-align: center;
+    }
+   li{
+   		font-weight: bold;
+   }
+  
+</style>
+
+  
+  </head>
+<body>
+    <div class="container"></div>
+    <header>
+        <h1>비밀번호 찾기</h1>
+    </header>
+    
+    <section>
+        <div class="login_form">
+         <form action="/main/findpass1" method="post">
+       	 	 <input type="text" name="mId" class="mId" placeholder="아이디를 입력하세요">
+       		 <input type="text" name="mName" class="mName" placeholder="이름을 입력하세요">          
+             
+         <button type="submit" class="btn_search">검색 하기</button>        
+
+         
+         </form>
+         <button type="submit" class="btn_search"><a href="/passout">완료</a></button>        
+         
+	         <ul th:if="${session.findMember!=null}">
+	         	<li>[[${session.findMember.mPass}]]</li> 	
+	         </ul>
+         </div>
+        
+    </section>
+
+
+</body>
+</html>

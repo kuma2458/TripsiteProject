@@ -28,6 +28,24 @@
 		select count(*) from REVIEW_COMMENT rc where rc.MEMBER_ID like #{mId}
 	</select>
 	
+	<select id="countcomment" parameterType="int">
+		select count(*) from REVIEW_COMMENT rc where rc.review_no = #{rno}
+	</select>
+	
+	<select id="getcomment" parameterType="int" resultMap="comment">
+		SELECT TO_NUMBER(rc.REVIEW_COMMENT_NO) as REVIEW_COMMENT_NO ,rc.MEMBER_ID,TO_CHAR(rc.review_comment_time,'YYYY-MM-DD HH:mm') as REVIEW_COMMENT_TIME ,rc.REVIEW_COMMENT_CONTENT  ,rc.REVIEW_NO,m.MEMBER_NICK,NVL(chate,0) AS chate ,NVL(clike,0) AS clike 
+		from REVIEW_COMMENT rc 
+		join MEMBER m on rc.MEMBER_ID=m.MEMBER_ID
+		LEFT OUTER JOIN (SELECT rch.review_COMMENT_no AS rchno, count(*) AS chate FROM REVIEW_COMMENT_HATE rch GROUP BY rch.REVIEW_COMMENT_NO) ON rchno=rc.review_COMMENT_no
+		LEFT OUTER JOIN (SELECT rcl.review_COMMENT_no AS rclno, count(*) AS clike FROM REVIEW_COMMENT_LIKE rcl GROUP BY rcl.REVIEW_COMMENT_NO) ON rclno=rc.review_COMMENT_no
+		where rc.review_no=#{rno}
+	</select>
+	
+	<insert id="registercomment" parameterType="comment">
+		insert into review_comment(REVIEW_COMMENT_NO,MEMBER_ID,REVIEW_COMMENT_CONTENT,REVIEW_NO)
+		values(REVIEW_comment_no.nextval,#{cId},#{cContent},#{rNo})
+	</insert>
+	
 </mapper>
 
 

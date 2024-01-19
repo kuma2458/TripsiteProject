@@ -28,5 +28,17 @@ public class CommentService {
 		return mapper.countmycomment(mId);
 	}
 	
+	public List<CommentDTO> getcomment(int rno) {
+		return mapper.getcomment(rno);
+	}
+
+	public int countcomment(int rno) {
+		return mapper.countcomment(rno);
+	}
+
+	public int registercomment(CommentDTO comment) {
+		return mapper.registercomment(comment);
+	}
+
 	
 }

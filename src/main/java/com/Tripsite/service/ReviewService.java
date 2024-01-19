@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.Tripsite.dto.CommentDTO;
+import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.ReviewDTO;
 import com.Tripsite.mapper.ReviewMapper;
 
@@ -45,6 +46,18 @@ public class ReviewService {
 		return mapper.deleteReview(map);
 	}
 
+	public ReviewDTO selectreviewcontent(int rno) {
+		return mapper.selectreviewcontent(rno);
+	}
+
+	public List<FileDTO> getfilelist(int rno) {
+		// TODO Auto-generated method stub
+		return mapper.getfilelist(rno);
+	}
+
+	public int upcount(int rno) {
+		return mapper.upcount(rno);
+	}
 
 
 	

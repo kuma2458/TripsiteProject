@@ -12,4 +12,11 @@ public interface CommentMapper {
 	List<CommentDTO> selectmycomment(HashMap<String, Object> map);
 
 	int countmycomment(String mId);
+
+	List<CommentDTO> getcomment(int rno);
+
+	int countcomment(int rno);
+
+	int registercomment(CommentDTO comment);
+
 }

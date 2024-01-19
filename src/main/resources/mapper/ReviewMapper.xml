@@ -14,16 +14,7 @@
 		<result column="RHATE" property="rHate" />
 		<result column="RLIKE" property="rLike" />
 	</resultMap>
-	<resultMap type="comment" id="comment">
-		<id column="REVIEW_COMMENT_NO" property="cNo"/>
-		<result column="REVIEW_NO" property="rNo"/>
-		<result column="MEMBER_ID" property="cId"/>
-		<result column="MEMBER_NICK" property="cNick" />
-		<result column="REVIEW_COMMENT_TIME" property="cTime"/>
-		<result column="REVIEW_COMMENT_CONTENT" property="cContent"/>
-		<result column="CLIKE" property="cLike" />
-		<result column="CHATE" property="cHate" />
-	</resultMap>
+
 
 	<select id="selectAllreview" resultMap="review" parameterType="int">
 		SELECT * from(
@@ -52,29 +43,57 @@
 		WHERE pageno=#{pageNo}
 	</select>
 	
+	<select id="selectreviewcontent" resultMap="review" parameterType="int">
+		SELECT r.REVIEW_TITLE ,r.REVIEW_CONTENT,TO_CHAR(r.review_comment_time,'YYYY-MM-DD HH:mm') as REVIEW_COMMENT_TIME ,r.REVIEW_COUNT,r.MEMBER_ID  ,m.MEMBER_NICK,NVL(rhate,0) AS rhate ,NVL(rlike,0) AS rlike, r.REVIEW_NO  
+		FROM REVIEW r JOIN MEMBER m ON r.MEMBER_ID =m.MEMBER_ID
+		LEFT OUTER JOIN (SELECT rh.review_no AS rhno, count(*) AS rhate FROM REVIEW_HATE rh GROUP BY rh.REVIEW_NO) ON rhno=r.review_no
+		LEFT OUTER JOIN (SELECT rl.review_no AS rlno, count(*) AS rlike FROM REVIEW_LIKE rl GROUP BY rl.REVIEW_NO) ON rlno=r.review_no
+		where r.REVIEW_NO=#{rno}
+	</select>
+	
+	<update id="upcount" parameterType="int">
+		UPDATE REVIEW SET REVIEW_COUNT = REVIEW_COUNT +1 WHERE REVIEW_NO =#{rno}
+	</update>
+	
 	<select id="countmyreview" parameterType="String">
 		select count(*) from REVIEW where MEMBER_ID=#{mId}
 	</select>
 	
-	<select id="selectmycomment" resultMap="comment" parameterType="hashmap">
-		SELECT * from(
-		SELECT CEIL(rownum/10) AS pageno , d.* from(
-		SELECT rc.REVIEW_COMMENT_NO ,rc.REVIEW_NO,rc.MEMBER_ID ,m.MEMBER_NICK,TO_CHAR(rc.review_comment_time,'YYYY-MM-DD') as REVIEW_COMMENT_TIME, rc.REVIEW_COMMENT_CONTENT ,NVL(clike,0) AS clike ,NVL(chate,0) AS chate
-		FROM REVIEW_COMMENT rc  JOIN MEMBER m ON rc.MEMBER_ID =m.MEMBER_ID
-		LEFT OUTER JOIN (SELECT rch.review_COMMENT_no AS rchno, count(*) AS chate FROM REVIEW_COMMENT_HATE rch GROUP BY rch.REVIEW_COMMENT_NO) ON rchno=rc.review_COMMENT_no
-		LEFT OUTER JOIN (SELECT rcl.review_COMMENT_no AS rclno, count(*) AS clike FROM REVIEW_COMMENT_LIKE rcl GROUP BY rcl.REVIEW_COMMENT_NO) ON rclno=rc.review_COMMENT_no
-		where rc.MEMBER_ID=#{mId}
-		ORDER BY rc.REVIEW_COMMENT_NO DESC) d)
-		WHERE pageno=#{pageNo}
+	<select id="selectReviewNo" resultType="int">
+		SELECT review_no.nextval FROM dual
 	</select>
 	
+	<insert id="insertReview" parameterType="qna">
+		insert into QNA (REVIEW_NO,REVIEW_CONTENT,MEMBER_ID,REVIEW_COUNT,REVIEW_title)
+		values(#{rno},#{rContent},#{rId},#{rCount},#{rTitle})
+	</insert>
+
+	<insert id="insertFile" parameterType="file">
+		insert into board_file(REVIEW_FILE_NO,FILE_URL,REVIEW_NO) values(#{fno},#{path},#{qno})
+	</insert>
 	
-	<select id="countmycomment" parameterType="String">
-		select count(*) from REVIEW_COMMENT where MEMBER_ID=#{mId}
+	<select id="getfilelist" parameterType="int" resultType="file">
+		select * from board_file where REVIEW_NO = #{qno}
 	</select>
 	<delete id="deleteReview" parameterType="hashmap">
 		DELETE FROM REVIEW WHERE REVIEW_NO = #{rno} AND MEMBER_ID =#{rId} 
 	</delete>
+	
+	<select id="selectfile" parameterType="hashmap" resultType="file">
+		select *from board_file where REVIEW_NO=#{qno} and REVIEW_FILE_NO=#{fno}
+	</select>
+	
+	<select id="selectImageFile" parameterType="int" resultType="file">
+        select * from REVIEW_file_table where REVIEW_FILE_NO = #{fno}
+     </select>
+     <select id="selectImageFileNo" resultType="int">
+         select REVIEW_FILE_NO.nextval from dual
+     </select>
+     <insert id="insertImageFile" parameterType="file">
+        insert into REVIEW_file_table values(#{fno}, #{path})
+    </insert>
+	
+	
 </mapper>
 
 

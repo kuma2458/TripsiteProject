@@ -28,7 +28,12 @@ public class MemberService {
 		mapper.insertMember(dto);
 	}
 
-
+	public MemberDTO find(String mId, String mName) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+	    map.put("mId", mId);
+	    map.put("mName", mName);
+	    return mapper.find(map);
+	}
 	
 	
 }

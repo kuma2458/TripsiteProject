@@ -205,7 +205,7 @@
                 <tbody>
                     <tr th:each="r:${reviewlist}">
                         <td>[[${r.rno}]]</td>
-                        <td><a>[[${r.rTitle}]]</a></td>
+                        <td><a th:href="@{/review/{rno}(rno=${r.rno})}">[[${r.rTitle}]]</a></td>
                         <td>[[${r.rTime}]]</td>
                         <td>[[${r.rCount}]]</td>
                         <td>[[${r.rNick}]]</td>

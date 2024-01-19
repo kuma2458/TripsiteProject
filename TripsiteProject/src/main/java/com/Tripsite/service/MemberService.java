@@ -22,6 +22,13 @@ public class MemberService {
 	    map.put("mPass", mPass);
 	    return mapper.login(map);
 	}
+
+	public MemberDTO find(String mId, String mName) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+	    map.put("mId", mId);
+	    map.put("mName", mName);
+	    return mapper.find(map);
+	}
 	
 	
 }

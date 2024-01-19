@@ -12,6 +12,10 @@ public class CommentDTO {
 	private String cNick;
 	private int cHate;
 	private int cLike;
+	
+	public CommentDTO() {}
+	
+
 	public CommentDTO(int cNo, String cId, String cTime, String cContent, int rNo, String cNick, int cHate, int cLike) {
 		super();
 		this.cNo = cNo;

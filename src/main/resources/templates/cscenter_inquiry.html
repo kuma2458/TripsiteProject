@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>고객센터문의</title>
-    <style>
+    <style type="text/css">
         *{
             margin: 0px;
             padding: 0px;
@@ -80,57 +80,133 @@
             color: white;
         }
 
-
-        section h1 {
-            color: white;
-            font-size: 67px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 150px;
-        }
-
-        .section_container{
-            margin-top: 70px;
-        }
-
-        #first_box{
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-        }
+    		
+		
         
-        #last_box{
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
+        	#container {
+			
+			width: 1200px;
+			margin: 0 auto;
+		}
 
-        .mypage{
-            width: 800px;
-            height: 70px;
-            margin: 0 auto;
-            border: 1px solid #d2e2f1;
-            border-bottom: 1px solid black;
-            background-color: #d2e2f1;
-        }
-        
-        .mypage a:link, .mypage a:visited {
-            text-decoration: none;
-            padding-left: 20px;
-            padding-top: 25px;
-            color: black;
-            font-size: 18px;
-            
-            display: inline-block;
-            vertical-align: center;
-        }
+		#container table {
+			width: 600px;
+			border-collapse: collapse;
+			margin: 0 auto;
+		}
+	
+
+		#container th {
+			width: 150px !important;
+			text-align: center;
+			padding: 5px;
+		}
+
+		#container td {
+			width: 500px;
+			padding: 5px;
+			height: 40px;
+		}
+
+		#container input {
+			width: 100%;
+			height: 40px;
+			box-sizing: border-box;
+			border-width: 1px;
+			border-radius: 5px;
+		}
+
+		h2 {
+			text-align: center;
+		}
+
+		.btn {
+			text-decoration: none;
+			background-color: #e8e8e8;
+			width: 80px;
+			display: inline-block;
+			padding: 5px 0px;
+			font-weight: normal;
+			border: 1px solid #585858;
+			text-align: center;
+			color: black;
+			font-size: 14px;
+			box-sizing: border-box;
+		}
+
+		.btn:hover {
+			background-color: #282828;
+			color: #FFFFFF
+		}
+
+		textarea {
+			width: 500px;
+			height: 300px;
+			resize: none;
+			box-sizing: border-box;
+		}
+
+		p input {
+			width: 80% !important;
+		}
+
+	.ck-editor__editable_inline {
+			min-height: 500px;
+		}
+	#plus, #minus{
+			width: 40px;
+		}
+		      	
+	.write{
+		margin: 0 auto;
+		width: 660px;
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: end;
+		
+	}
+	
+
+ </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/js/ckeditor.js"></script>
+<script src="/js/UploadAdapter.js"></script>
+<script >
+$(function(){
+	ClassicEditor
+	.create( document.querySelector( '#content' ),{
+		extraPlugins:[uploadAdapterPlugin]
+		
+	})
+	.catch( error => {
+	    console.error( error );
+	});
+
+	function uploadAdapterPlugin(editor){
+		editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+			return new UploadAdapter(loader);
+			
+		}
+	}
+
+})
 
 
+</script>
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script th:if="${session.member == null  }" >
+    alert('로그인하셔야 이용가능합니다.');
+    location.href='/main/login';
 
-    </style>
+  </script>
+	<script>
+	</script>
 </head>
 <body>
 	<th:block th:include="/fragments/header.html"></th:block>
     <nav>
-        <form action="/search/country" method="get" class="frm_search">
+        <form class="frm_search">
             <div class="search_container">
                 <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
                 <button type="submit" class="ct_search">검색</button>
@@ -138,9 +214,41 @@
         </form>
     </nav>
     <section>
-        <h1>문의 하기</h1>
-        <article class="section_container">
-            
+       <article>
+       <div id="container">
+		<h2>문의 하기</h2>
+		<form action="/cscenter/write" enctype="multipart/form-data" method="post">
+			<table>
+				<tr>
+					<th>제목</th>
+					<td><input type="text" name="qTitle" class="title"></td>
+				</tr>
+				
+				<tr>
+					<th style="vertical-align: top;">내용</th>
+					<td><textarea name="qContent" id="content"></textarea></td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" id="file_form">
+						<p><input type="file" name="file">
+						<p><input type="file" name="file"></p>
+						<p><input type="file" name="file"></p>
+					</td>
+				</tr>
+			</table>
+				<div class="write">
+					<td >
+						<a href="javascript:history.back();" class="btn">뒤로가기</a>
+						<button class="btn">글쓰기</button>
+					</td>
+				</div>
+		</form>
+	</div>
+       
+       
+       
+       
         </article>
     </section>
 

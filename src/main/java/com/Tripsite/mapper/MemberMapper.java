@@ -13,4 +13,6 @@ public interface MemberMapper {
 
 	int insertMember(MemberDTO dto);
 
+	MemberDTO find(HashMap<String, Object> map);
+	
 }
