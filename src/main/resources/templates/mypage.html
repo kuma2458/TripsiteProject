@@ -128,7 +128,7 @@
     </style>
     <script th:if="${session.member==null}">
 	alert('로그인 후 이용 가능합니다');
-	location.href="/main";
+	location.href="/needlogin";
 </script>
 </head>
 <body>
@@ -144,7 +144,7 @@
     <section>
         <h1>마이 페이지</h1>
         <article class="section_container">
-            <div class="mypage" id="first_box"><a th:href="@{/member/Update(mId=${session.member.mId})}" title="개인정보 수정">개인정보 수정</a></div>
+            <div class="mypage" id="first_box"><a th:if="${session.member!=null}" th:href="@{/member/Update(mId=${session.member.mId})}" title="개인정보 수정">개인정보 수정</a></div>
             <div class="mypage"><a href="/mypage/myreview" title="작성 글 관리">내가 작성한 글 관리</a></div>
             <div class="mypage"><a href="/mypage/mycomment" title="작성 댓글 관리">내가 작성한 댓글 관리</a></div>
             <div class="mypage" id="last_box"><a href="/mypage/inquiry" title="고객센터 문의 내역">고객센터 문의 내역</a></div>

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ import com.Tripsite.dto.MemberDTO;
 import com.Tripsite.service.CommentService;
 import com.Tripsite.service.MemberService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import com.Tripsite.dto.ReviewDTO;
@@ -82,12 +84,13 @@ public class MainController {
 		
 	    MemberDTO dto = memberService.login(mId, mPass);
 	    if(dto == null) 
-//	    	session.setAttribute("msg", "아이디와 비밀번호 다시 확인해주세요");
-//	    	session.setAttribute("url", "/main/login");
-//	    	return "alert";
-	    
 	    	return "redirect:/main/login";
 	    session.setAttribute("member", dto);
+	    if(session.getAttribute("reurl")!=null) {
+	    	String reurl=(String)session.getAttribute("reurl");
+	    	session.removeAttribute("reurl");
+	    	return "redirect:"+reurl;
+	    }
 
 	    return "redirect:/main";
 	  }
@@ -335,6 +338,92 @@ public class MainController {
 		view.setViewName("review_click_result_page");
 		return view;
 	}
+	
+	@RequestMapping("/review/like")
+	public ResponseEntity<String> reviewlike(int rno, HttpSession session) {
+		MemberDTO dto= (MemberDTO) session.getAttribute("member");
+		HashMap<String, Object> map= new HashMap<String,Object>();
+		try {
+			reviewService.reviewlikeup(dto.getmId(),rno);
+			map.put("msg","해당 게시글에 좋아요를 하셨습니다.");
+			
+		}catch(Exception e){
+			//이미 좋아요 처리가 된 경우이기 때문에 해당 데이터를 삭제해서 좋아요 처리를 해제
+			reviewService.reviewlikedown(dto.getmId(),rno);
+			map.put("msg","해당 게시글에 좋아요를 취소 하셨습니다.");
+		}
+		//해당 게시글 좋아요 개수 받아옴
+		int count=reviewService.reviewtotallike(rno);
+		map.put("count",count);
+		return new ResponseEntity(map,HttpStatusCode.valueOf(HttpStatus.OK.value()));
+		
+	}
+	@RequestMapping("/board/hate")
+	public ResponseEntity<String> reviewhate(int rno, HttpSession session) {
+		MemberDTO dto= (MemberDTO) session.getAttribute("member");
+		HashMap<String, Object> map= new HashMap<String,Object>();
+		try {
+			reviewService.reviewhateup(dto.getmId(),rno);
+			map.put("msg","해당 게시글에 싫어요를 하셨습니다.");
+			
+		}catch(Exception e){
+			//이미 좋아요 처리가 된 경우이기 때문에 해당 데이터를 삭제해서 좋아요 처리를 해제
+			reviewService.reviewhatedown(dto.getmId(),rno);
+			map.put("msg","해당 게시글에 싫어요를 취소 하셨습니다.");
+		}
+		//해당 게시글 좋아요 개수 받아옴
+		int count=reviewService.reviewtotalhate(rno);
+		map.put("count",count);
+		return new ResponseEntity(map,HttpStatusCode.valueOf(HttpStatus.OK.value()));
+		
+	}
+	@RequestMapping("/review/comment/like")
+	public ResponseEntity<String> reviewcommentlike(int cNo, HttpSession session) {
+		MemberDTO dto= (MemberDTO) session.getAttribute("member");
+		HashMap<String, Object> map= new HashMap<String,Object>();
+		try {
+			commentService.commentlikeup(dto.getmId(),cNo);
+			map.put("msg","해당 댓글에 좋아요를 하셨습니다.");
+			
+		}catch(Exception e){
+			//이미 좋아요 처리가 된 경우이기 때문에 해당 데이터를 삭제해서 좋아요 처리를 해제
+			commentService.commentlikedown(dto.getmId(),cNo);
+			map.put("msg","해당 댓글에 좋아요를 취소 하셨습니다.");
+		}
+		//해당 게시글 좋아요 개수 받아옴
+		int count=commentService.commenttotallike(cNo);
+		map.put("count",count);
+		return new ResponseEntity(map,HttpStatusCode.valueOf(HttpStatus.OK.value()));
+		
+	}
+	@RequestMapping("/review/comment/hate")
+	public ResponseEntity<String> reviewcommenthate(int cNo, HttpSession session) {
+		MemberDTO dto= (MemberDTO) session.getAttribute("member");
+		HashMap<String, Object> map= new HashMap<String,Object>();
+		try {
+			commentService.commenthateup(dto.getmId(),cNo);
+			map.put("msg","해당 댓글에 싫어요를 하셨습니다.");
+			
+		}catch(Exception e){
+			//이미 좋아요 처리가 된 경우이기 때문에 해당 데이터를 삭제해서 좋아요 처리를 해제
+			commentService.commenthatedown(dto.getmId(),cNo);
+			map.put("msg","해당 댓글에 싫어요를 취소 하셨습니다.");
+		}
+		//해당 게시글 좋아요 개수 받아옴
+		int count=commentService.commenttotalhate(cNo);
+		map.put("count",count);
+		return new ResponseEntity(map,HttpStatusCode.valueOf(HttpStatus.OK.value()));
+		
+	}
+	
+	@RequestMapping("/needlogin")
+	public String needlogin(HttpSession session,HttpServletRequest request) {
+		String reurl=request.getHeader("Referer");
+		session.setAttribute("reurl", reurl);
+		return "redirect:/main/login";
+	}
+	
+	
 	
 	@RequestMapping("/mypage/change")
 	public ModelAndView chagepage(ModelAndView view) {

@@ -29,17 +29,27 @@
 
         }
 
+        nav{
+            width: 1500px;
+            height: 100px;
+            margin: 0 auto;
+
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: end;    
+        }
+
         .search_container{
-            width: 100% ;
+            width: 310px;
             height: 36px;
             margin-top: 22px;
             margin-bottom: 76px;
+            margin-right:30px;
 
             display: flex;
-            flex-flow: row nowrap;     
-            justify-content: flex-end;      
+            flex-flow: row nowrap;
+            
         }
-
         .ct{
             width: 220.95px;
             height: 35.03px;
@@ -211,6 +221,10 @@
             margin-top: 7px;
             float: left;
         }
+        .article_container3>div>span{
+      		margin:0;
+        	float:none;
+        }
 
         .article_container4{
             width: 672px;
@@ -346,7 +360,7 @@ $(function() {
 	$("#btn_like").click(function() {
 		if(member==''){
 			alert('로그인 후 좋아요가 가능합니다');
-			location.href="/review"+rno+"/like/login";
+			location.href="/needlogin";
 		}
 		$.ajax({
 			url: "/review/like",
@@ -357,15 +371,15 @@ $(function() {
 			dataType: "json",
 			success : function(r){
 				console.log(r);
-				alert(r.msg);
-				$("#btn_like").html(r.count);
+				let tag=`좋아요 : ${r.count}`
+				$("#btn_like").next().html(tag);
 			}
 		});
 	});
 	$("#btn_hate").click(function() {
 		if(member==''){
-			alert('로그인 후 좋아요가 가능합니다');
-			location.href="/main/login";
+			alert('로그인 후 싫어요가 가능합니다');
+			location.href="/needlogin";
 		}
 		$.ajax({
 			url: "/review/hate",
@@ -376,8 +390,8 @@ $(function() {
 			dataType: "json",
 			success : function(r){
 				console.log(r);
-				alert(r.msg);
-				$("#hate_count").html(r.count);
+				let tag=`좋아요 : ${r.count}`
+				$("#btn_hate").next().html(tag);
 			}
 		});
 	});
@@ -385,7 +399,7 @@ $(function() {
 		let cno=$(this).parents(".comment_profile").find('input').val();
 		if(member==''){
 			alert('로그인 후 좋아요가 가능합니다');
-			location.href="/main/login";
+			location.href="/needlogin";
 		}
 		$.ajax({
 
@@ -408,7 +422,7 @@ $(function() {
 		let cno=$(this).parents(".comment").find('input').val();
 		if(member==''){
 			alert('로그인 후 좋아요가 가능합니다');
-			location.href="/main/login";
+			location.href="/needlogin";
 		}
 		$.ajax({
 
@@ -473,8 +487,9 @@ $(function() {
                 <span>댓글 [[${commentcount}]] ></span>
                 <div>
                     <button id="btn_like"><img src="/img/like.png"></button>
-  
+  					<span>좋아요 : [[${review.rLike}]]</span>
                     <button id="btn_hate"><img src="/img/hate.png"></button>
+                    <span>좋아요 : [[${review.rHate}]]</span>
                 </div>
             </article>
 
@@ -491,11 +506,11 @@ $(function() {
             <article class="article_container5">
                     <div class="comment_container" th:each="c:${commentlist}">
                         <div class="comment_profile">
-                         <input type="hidden" name="cno" th:value="${c.cNo}">
+                         <input type="hidden" name="cNo" th:value="${c.cNo}">
                             <img src="/img/profile2.png" alt=""><span>&nbsp;&nbsp;[[${c.cNick}]]</span>
                             <span>
-                                <a href="#" id="icon_like"><img src="/img/like.png"></a>
-                                <a href="#" id="icon_hate"><img src="/img/hate.png"></a>
+                                <button id="icon_like"><img src="/img/like.png"></button>
+                                <button id="icon_hate"><img src="/img/hate.png"></button>
                             </span>
                         </div>
                         <p class="comment_content">[[${c.cContent}]]
