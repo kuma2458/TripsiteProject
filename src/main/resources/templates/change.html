@@ -115,15 +115,15 @@
         
     }
     button{
-          list-style-type: none;
-        width: 200px;
+        width: 400px;
         height: 48px;
-        background-color: #A95D27;
-        border: 1px solid black;
         border-radius: 10px;
+        background-color: #A95D27;
         color: white;
-                
+        margin-bottom: 30px;
+        font-size: 16px;
     }
+
     a{
         text-decoration: none;
         color: white;
@@ -266,6 +266,8 @@
                 }
             });
         });
+			
+
 </script>
 <body>
     <div class="container"></div>
@@ -301,16 +303,14 @@
             <button>수정하기</button>
             <div class="exit">
             <ul>
-				<li><a href="javascript:history.back();">돌아가기</a></li>
+				<li><a href="javascript:history.back();" class="back">돌아가기</a></li>
 				</ul>
             	<ul>
-                <li><a th:href="@{/member/delete(mId=${session.member.mId})}">탈퇴하기</a></li>  
+                <li><a th:href="@{/member/delete(mId=${session.member.mId})}" class="delete">탈퇴하기</a></li>  
              </ul>
             </div> 
-  
          </form>
         </div>
-        
     </section>
 
 

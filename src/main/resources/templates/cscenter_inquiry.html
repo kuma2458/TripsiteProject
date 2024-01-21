@@ -20,73 +20,18 @@
             background-size: cover;
         } 
 
-        nav{
-            width: 1500px;
-            height: 100px;
-            margin: 0 auto;
-
-            display: flex;
-            flex-flow: row nowrap;
-            justify-content: end;    
-        }
-
-        .search_container{
-            width: 310px;
-            height: 36px;
-            margin-top: 22px;
-            margin-bottom: 76px;
-            margin-right:30px;
-
-            display: flex;
-            flex-flow: row nowrap;
-            
-        }
-
-        .ct{
-            width: 220.95px;
-            height: 35.03px;
-
-            border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.4);
-            background: rgba(255, 255, 255, 0.51);
-            
-            text-align: center;
-            color: rgba(0, 0, 0, 0.70);
-            font-size: 9px;
-            line-height: 9px;
-            font-weight: 400;
-
-            padding-left: 20px;
-            background-image: url("img/search.png");
-            background-repeat: no-repeat;
-            background-position: 10px center;
-
-            
-        }
-
-        .ct_search{
-            width: 53.48px;
-            height: 35.03px;
-            padding: 9px, 11.48px, 7.03px 12px;
-            align-items: center;
-            margin-left: 22.42px;
-
-            border-radius: 10px;
-            border: 1px solid #000;
-            background: #000;
-            font-size: 16px;
-            font-weight: 700;
-            line-height: 16px;
-            color: white;
-        }
-
+      
+        
+        
     		
 		
         
         	#container {
-			
-			width: 1200px;
+			border: 1px solid black;
+			border-radius: 10px;
+			width: 700px;
 			margin: 0 auto;
+			background-color: white;
 		}
 
 		#container table {
@@ -116,20 +61,25 @@
 			border-radius: 5px;
 		}
 
-		h2 {
+		h1 {
 			text-align: center;
+			font-size: 36px;
+			color: white;
+			margin-bottom: 20px;
 		}
 
 		.btn {
 			text-decoration: none;
-			background-color: #e8e8e8;
-			width: 80px;
+			background-color: black;
+			width: 100px;
 			display: inline-block;
 			padding: 5px 0px;
-			font-weight: normal;
+			font-weight: bold;
 			border: 1px solid #585858;
+			border-radius: 10px;
 			text-align: center;
-			color: black;
+			color: white;
+			
 			font-size: 14px;
 			box-sizing: border-box;
 		}
@@ -145,25 +95,28 @@
 			resize: none;
 			box-sizing: border-box;
 		}
-
-		p input {
-			width: 80% !important;
+		
+		#kind{
+			width: 660px;
+			height: 30px;
+			background-color: #D9D9D9;
+			border-radius: 10px;
 		}
+
 
 	.ck-editor__editable_inline {
 			min-height: 500px;
 		}
-	#plus, #minus{
-			width: 40px;
-		}
+	
 		      	
-	.write{
+	
+	.btn_form{
 		margin: 0 auto;
-		width: 660px;
 		display: flex;
 		flex-flow: row nowrap;
-		justify-content: end;
-		
+		justify-content: space-evenly;
+		width: 660px;
+		margin-top: 20px;
 	}
 	
 
@@ -176,6 +129,7 @@ $(function(){
 	ClassicEditor
 	.create( document.querySelector( '#content' ),{
 		extraPlugins:[uploadAdapterPlugin]
+		
 		
 	})
 	.catch( error => {
@@ -194,62 +148,65 @@ $(function(){
 
 </script>
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <!-- <script th:if="${session.member == null  }" >
+  <script th:if="${session.member == null  }" >
     alert('로그인하셔야 이용가능합니다.');
-    location.href='/main/login';
+    location.href='/needlogin';
 
-  </script> -->
-	<script>
-	</script>
+  </script>
+
 </head>
 <body>
 	<th:block th:include="/fragments/header.html"></th:block>
-    <nav>
-        <form class="frm_search">
-            <div class="search_container">
-                <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
-                <button type="submit" class="ct_search">검색</button>
-            </div>
-        </form>
-    </nav>
+   
     <section>
        <article>
+		<h1>고객센터 문의</h1>
        <div id="container">
-		<h2>문의 하기</h2>
 		<form action="/cscenter/write" enctype="multipart/form-data" method="post">
 			<table>
 				<tr>
-					<th>제목</th>
-					<td><input type="text" name="qTitle" class="title"></td>
+					<td>
+					<select name="kind" id="kind" required>
+						<option value="" disabled selected>문의 유형을 선택해주세요</option>
+						<option value="가입/인증">가입/인증</option>
+						<option value="로그인/정보">로그인/정보</option>
+						<option value="탈퇴/기타">탈퇴/기타</option>
+						<option value="신고">신고</option>
+						<option value="이용문의">이용문의</option>	
+					</select>
+					</td>
+				</tr>			
+				<tr>
+					<td><textarea name="content" id="content" placeholder="접수된 문의를 순차적으로 답
+					변을 드리고 있습니다.  
+					문의내용을 상세히 기재해 주셔야 정확한 답변이 가능합니다. 
+					문의하신 내용의 답변을 위해 전화로 연락드릴 수 있습니다.
+					 ●운영시간: 오전9시~오후6시9(평일)"></textarea></td>
+					
 				</tr>
 				
-				<tr>
-					<th style="vertical-align: top;">내용</th>
-					<td><textarea name="qContent" id="content"></textarea></td>
-				</tr>
-				
-				<tr>
+			<!-- 	<tr>
 					<td colspan="2" id="file_form">
 						<p><input type="file" name="file">
 						<p><input type="file" name="file"></p>
 						<p><input type="file" name="file"></p>
 					</td>
-				</tr>
+				</tr>  -->
 			</table>
-				<div class="write">
-					<td >
-						<a href="javascript:history.back();" class="btn">뒤로가기</a>
-						<button class="btn">글쓰기</button>
-					</td>
-				</div>
 		</form>
 	</div>
-       
-       
-       
-       
-        </article>
+				<div class="btn_form">
+				
+				<div class="write">
+					<td >
+						<a href="javascript:history.back();" class="btn">취소하기</a>
+					</td>
+				 </div>
+				<div class="write">
+				<td><button class="btn">등록하기</button></td>
+				</div>
+				</div>
+       </article>
     </section>
 
     

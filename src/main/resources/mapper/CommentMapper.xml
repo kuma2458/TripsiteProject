@@ -51,6 +51,30 @@
 		DELETE FROM REVIEW_COMMENT WHERE REVIEW_COMMENT_NO = #{cNo} AND MEMBER_ID =#{cId} 
 	</delete>
 	
+	<insert id="commentlikeup" parameterType="hashmap">
+		INSERT INTO REVIEW_COMMENT_LIKE(REVIEW_COMMENT_NO,MEMBER_ID) values(#{cNo},#{cId})
+	</insert>
+	<delete id="commentlikedown" parameterType="hashmap">
+		delete from REVIEW_comment_like where REVIEW_COMMENT_NO = #{cNo} and MEMBER_ID like #{cId}
+	</delete>
+	
+	<select id="commenttotallike" parameterType="int">
+		select count(*) from REVIEW_comment_like where REVIEW_COMMENT_NO = #{cNo}
+	</select>
+	
+	<insert id="commenthateup" parameterType="hashmap">
+		INSERT INTO REVIEW_COMMENT_hate(REVIEW_COMMENT_NO,MEMBER_ID) values(#{cNo},#{cId})
+	</insert>
+		<delete id="commenthatedown" parameterType="hashmap">
+		delete from REVIEW_comment_hate where REVIEW_COMMENT_NO = #{cNo} and MEMBER_ID like #{cId}
+	</delete>
+	
+	<select id="commenttotalhate" parameterType="int">
+		select count(*) from REVIEW_comment_hate where REVIEW_COMMENT_NO = #{cNo}
+	</select>
+	
+	
+	
 </mapper>
 
 
