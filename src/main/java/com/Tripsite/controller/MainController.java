@@ -70,7 +70,7 @@ public class MainController {
 	
 	@GetMapping("/search/country")
 	public ModelAndView searchresult(ModelAndView view) {
-		view.setViewName("search_result_page");
+		view.setViewName("country_page");
 		return view;
 	}
 	
