@@ -358,7 +358,7 @@ public class MainController {
 		return new ResponseEntity(map,HttpStatusCode.valueOf(HttpStatus.OK.value()));
 		
 	}
-	@RequestMapping("/board/hate")
+	@RequestMapping("/review/hate")
 	public ResponseEntity<String> reviewhate(int rno, HttpSession session) {
 		MemberDTO dto= (MemberDTO) session.getAttribute("member");
 		HashMap<String, Object> map= new HashMap<String,Object>();
