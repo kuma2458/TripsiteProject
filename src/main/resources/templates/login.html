@@ -122,7 +122,13 @@
         border: none;
     }
 </style>
-<script></script>
+<script>
+window.onload=()=>{
+
+    var kakaoApiKey = /*[[${kakaoApiKey}]]*/ '';
+    console.log(kakaoApiKey);
+}
+</script>
 <body>
     <div class="container"></div>
     <header>
@@ -143,9 +149,8 @@
              <a href="register" class="already">회원가입을 하시겠습니까?</a>  
              <a href="">비밀번호찾기</a>
             </div>
-            <button type="submit" class="google_login">구글로 시작하기</button>
-                <a href="https://kauth.kakao.com/oauth/authorize?client_id=f5f488e15e284aec381b8866bc1b2e1c&redirect_uri=http://localhost:9999/main/login&response_type=code&scope=profile_nickname,profile_image">
-                    <img alt="" src="/img/kakao_login_medium_wide.png"></a>
+            <button type="submit" class="google_login"><img src="" alt=""></button>
+<a th:href="${apiURL}"><img alt="" src="/img/kakao_login_medium_wide.png"></a>
 	         </form>
         </div>
         

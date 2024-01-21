@@ -9,11 +9,14 @@
             </ul>
          	<div class="memberinfo" th:if="${session.member}!=null">
    	        	[[${session.member.mNick}]] 님 
-      	 	</div>		
+      	 	</div>	
+      	 	<div id="kakao" class="memberinfo" th:if="${session.accessToken}!=null">
+      	 		[[${session.nick}]]
+      	 	</div>	
             <div class="header_btn">
-                <button id="left_btn" th:if="${session.member}==null"><a href="/main/login">로그인</a></button>
-                <button id="right_btn" th:if="${session.member}==null"><a href="/main/register">회원가입</a></button>
-           		<button id="out_btn" th:if="${session.member}!=null"><a href="/main/logout">로그아웃</a></button>
+                <button id="left_btn" th:if="${session.member}==null and ${session.accessToken}==null"><a href="/main/login">로그인</a></button>
+				<button id="right_btn" th:if="${session.member == null and session.accessToken == null}"><a href="/main/register">회원가입</a></button>
+           		<button id="out_btn" th:if="${session.member}!=null or ${session.accessToken}!=null"><a href="/main/logout">로그아웃</a></button>
             </div>
        </div>  
     </header>
