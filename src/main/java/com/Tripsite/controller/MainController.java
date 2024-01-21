@@ -27,6 +27,7 @@ import com.Tripsite.dto.CommentDTO;
 import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.MemberDTO;
 import com.Tripsite.service.CommentService;
+import com.Tripsite.service.CountryService;
 import com.Tripsite.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,13 +45,15 @@ public class MainController {
 	private MemberService memberService;
 	private QnaService qnaService;
 	private CommentService commentService;
+	private CountryService countryService;
 
 	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService,
-			CommentService commentService) {
+			CommentService commentService, CountryService countryService) {
 		this.reviewService = reviewService;
 		this.memberService = memberService;
 		this.qnaService = qnaService;
 		this.commentService = commentService;
+		this.countryService = countryService;
 	}
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
@@ -70,7 +73,7 @@ public class MainController {
 	
 	@GetMapping("/search/country")
 	public ModelAndView searchresult(ModelAndView view) {
-		view.setViewName("search_result_page");
+		view.setViewName("country_page");
 		return view;
 	}
 	
