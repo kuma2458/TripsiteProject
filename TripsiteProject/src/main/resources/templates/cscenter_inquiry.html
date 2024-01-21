@@ -117,8 +117,27 @@
 		justify-content: space-evenly;
 		width: 660px;
 		margin-top: 20px;
+		
 	}
-	
+	  .regist > button {
+            width: 220px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background-color: black;
+            margin-bottom: 20px;
+            margin-right: 20px;
+       
+        }
+         .regist > button a {
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+        }
+		.regist{
+		 text-align: center;
+		 margin-top:30px;
+		}
 
  </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -193,21 +212,15 @@ $(function(){
 					</td>
 				</tr>  -->
 			</table>
+            <div class="regist">
+            <button><a href="">취소하기</a></button>
+            <button><a href="">등록하기</a></button>
+            </div>
 		</form>
-	</div>
-				<div class="btn_form">
-				
-				<div class="write">
-					<td >
-						<a href="javascript:history.back();" class="btn">취소하기</a>
-					</td>
-				 </div>
-				<div class="write">
-				<td><button class="btn">등록하기</button></td>
-				</div>
-				</div>
+	
        </article>
-    </section>
+    
+    
 
     
 </body>

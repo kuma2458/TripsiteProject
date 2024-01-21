@@ -137,35 +137,46 @@
     .f1,.f2,.f3{
         width: 400px;
     }
-    .f2{
+     .f2{
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
-        margin: 0 auto;
-        box-sizing: border-box;
+        
+        
         
     }
     .number{
             width: 30px;
             height: 30px;
-            
-            margin-right: 10px;
+            justify-content:center;
+            margin: 0 10px;
             border-radius: 10px;
+            
     }
-    .left, .right{
-        width: 20px;
-            height: 20px;
-            margin-right: 10px;
+    .left{
+            width: 25px;
+            height: 25px;
             background-color: black;
             color: white;
             border-radius: 5px;
+            margin-top: 2px;
+            
+            padding-bottom: 5px;
+    }
+    .right{
+     width: 25px;
+            height: 25px;
+            background-color: black;
+            color: white;
+            border-radius: 5px;
+            margin-top: 2px;
+            padding-left: 5px;
+            padding-bottom: 5px;
     }
     .pageNo{
         color: black;
     }
-    p{
-        color: yellow;
-    }
+   
     </style>
     
 </head>
@@ -296,7 +307,7 @@
             <button class="number"><a href="" class="pageNo">4</a></button>
             <button class="number"><a href="" class="pageNo">5</a></button>
             <button class="right">▷</button>
-            <p>of 17pages</p>
+            
         </div>
         <div class="f3"></div>
 

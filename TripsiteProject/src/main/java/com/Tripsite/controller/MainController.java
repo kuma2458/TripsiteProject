@@ -120,11 +120,8 @@ public class MainController {
 		return view;
 	}
 	
-	@RequestMapping("/main/notice")
-	public ModelAndView noticerpage(ModelAndView view) {
-		view.setViewName("notice");
-		return view;
-	}
+	
+
 	@RequestMapping("/main/cscenter")
 	public ModelAndView cscenterpage(ModelAndView view) {
 		view.setViewName("cscenter");
@@ -310,6 +307,11 @@ public class MainController {
 	@RequestMapping("/main/review")
 	public ModelAndView reviewpage(ModelAndView view) {
 		view.setViewName("review");
+		return view;
+	}
+	@RequestMapping("/main/reviewwrite")
+	public ModelAndView reviewwritepage(ModelAndView view) {
+		view.setViewName("review_write_page");
 		return view;
 	}
 	@RequestMapping("/main/change")
