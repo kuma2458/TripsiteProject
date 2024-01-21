@@ -56,7 +56,7 @@ public class MainController {
 	private CommentService commentService;
 	
 	
-	private final String REST_API_KEY = "a1278d0bc20e7a09c712e850dcb69c01";
+	private final String REST_API_KEY = "application.properties에서 찾아서 적으세여";
 	private final String REDIRECT_URI = "http://localhost:9999/main/callback";
 	private final String Scope = "profile_nickname,profile_image";
 	
