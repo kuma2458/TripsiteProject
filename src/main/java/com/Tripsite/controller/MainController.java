@@ -488,12 +488,22 @@ public class MainController {
 		view.setViewName("mypage_mycomment");
 		return view;
 	}
-	  @RequestMapping("/mypage/myreview/delete/{rno}")
-	  public String delete(@PathVariable(name="rno") int rno, HttpSession session) {
+	  @RequestMapping("/review/delete/{rno}")
+	  public String deletereview(@PathVariable(name="rno") int rno, HttpSession session,HttpServletRequest request) {
 		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
 		  String rId=dto.getmId();
 		  reviewService.deleteReview(rno,rId);
-		    return "redirect:/mypage/myreview";
+		  String reurl=request.getHeader("Referer");
+		  return "redirect:"+reurl;
+	  }
+	  
+	  @RequestMapping("/comment/delete/{cNo}")
+	  public String deletecomment(@PathVariable(name="cNo") int cNo, HttpSession session,HttpServletRequest request) {
+		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
+		  String rId=dto.getmId();
+		  commentService.deleteComment(cNo,rId);
+		  String reurl=request.getHeader("Referer");
+		  return "redirect:"+reurl;
 	  }
 	@RequestMapping("/review/write/page")
 	public ModelAndView reviewWritePage(ModelAndView view) {

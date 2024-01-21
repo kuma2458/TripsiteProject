@@ -30,8 +30,8 @@
 	</select>
 	
 	<insert id="insertQna" parameterType="qna">
-		insert into QNA (QNA_NO,QNA_title,QNA_CONTENT,MEMBER_ID)
-		values(#{qNo},#{qTitle},#{qContent},#{qId})
+		insert into QNA (QNA_NO,QNA_title,QNA_CONTENT,MEMBER_ID,QNA_ITEM)
+		values(#{qNo},#{qTitle},#{qContent},#{qId},#{qItem})
 	</insert>
 
 	<insert id="insertFile" parameterType="file">
