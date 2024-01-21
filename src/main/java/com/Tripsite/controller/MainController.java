@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +34,7 @@ import com.Tripsite.dto.QnaDTO;
 import com.Tripsite.dto.CommentDTO;
 import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.MemberDTO;
+
 import com.Tripsite.service.CommentService;
 import com.Tripsite.service.CountryService;
 import com.Tripsite.service.MemberService;
@@ -54,25 +54,18 @@ public class MainController {
 	private MemberService memberService;
 	private QnaService qnaService;
 	private CommentService commentService;
-<<<<<<< HEAD
-	private CountryService countryService;
-
-=======
 	
 	
-	
-	private final String REST_API_KEY = "application.properties에서 찾아서 적으세여";
+	private final String REST_API_KEY = "a1278d0bc20e7a09c712e850dcb69c01";
 	private final String REDIRECT_URI = "http://localhost:9999/main/callback";
 	private final String Scope = "profile_nickname,profile_image";
 	
->>>>>>> ba648b4353012c56464ded60a4b80d50c0edb881
 	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService,
 			CommentService commentService, CountryService countryService) {
 		this.reviewService = reviewService;
 		this.memberService = memberService;
 		this.qnaService = qnaService;
 		this.commentService = commentService;
-		this.countryService = countryService;
 	}
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
@@ -540,12 +533,28 @@ public class MainController {
 	}
 	
 	
+	@RequestMapping("/member/delete")
+	public String deleteMember(String mId) {
+	memberService.deleteMember(mId);
+	return "redirect:/main";
+	}
 	
-	@RequestMapping("/mypage/change")
-	public ModelAndView chagepage(ModelAndView view) {
+	@GetMapping("/member/Update")
+	public ModelAndView updateMemberView(String mId, ModelAndView view) {
+		MemberDTO dto = memberService.selectMember(mId);
 		view.setViewName("change");
+		view.addObject("dto", dto);
 		return view;
 	}
+
+
+	@PostMapping("/member/Update")
+	public String updateMember(MemberDTO dto) {
+		System.out.println(dto.toString());
+		memberService.updateMember(dto);
+	return "redirect:/main";
+	}
+	
 	@RequestMapping("/review/write")
 	public ModelAndView writepage(ModelAndView view) {
 		view.setViewName("write");
@@ -616,4 +625,5 @@ public class MainController {
 		view.setViewName("review_write_page");
 		return view;
 	}
+
 }
