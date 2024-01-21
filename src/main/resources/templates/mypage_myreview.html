@@ -216,8 +216,8 @@ p {
 						<td>[[${r.rCount}]]</td>
 						<td>[[${r.rNick}]]</td>
 						<td>
-						<button th:onclick="|location.href='@{/mypage/myreview/update/{rno}(rno=${r.rno})}'|">수정</button>
-						<button th:onclick="|location.href='@{/mypage/myreview/delete/{rno}(rno=${r.rno})}'|">삭제</button>
+						<button th:onclick="|location.href='@{/review/update/{rno}(rno=${r.rno})}'|">수정</button>
+						<button th:onclick="|location.href='@{/review/delete/{rno}(rno=${r.rno})}'|">삭제</button>
 						</td>
 					</tr>
 				</tbody>
