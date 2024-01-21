@@ -199,31 +199,43 @@
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
-        margin: 0 auto;
-        box-sizing: border-box;
+        
+        
         
     }
     .number{
             width: 30px;
             height: 30px;
-            
-            margin-right: 10px;
+            justify-content:center;
+            margin: 0 10px;
             border-radius: 10px;
+            
     }
-    .left, .right{
-        width: 20px;
-            height: 20px;
-            margin-right: 10px;
+    .left{
+            width: 25px;
+            height: 25px;
             background-color: black;
             color: white;
             border-radius: 5px;
+            margin-top: 3px;
+            
+            padding-bottom: 5px;
     }
+    .right{
+     width: 25px;
+            height: 25px;
+            background-color: black;
+            color: white;
+            border-radius: 5px;
+            margin-top: 3px;
+            padding-left: 5px;
+            padding-bottom: 5px;
+    }
+    
     .pageNo{
         color: black;
     }
-    p{
-        color: yellow;
-    }
+   
     </style>
 </head>
 <body>
@@ -343,7 +355,7 @@
 
     <footer>
         <div class="f1">
-         <button class="write1"><a href="" class="write">글쓰기</a></button>
+         <button class="write1"><a href="/main/reviewwrite" class="write">글쓰기</a></button>
         </div>
         <div class="f2">
             <button class="left">◁</button>
@@ -353,8 +365,7 @@
             <button class="number"><a href="" class="pageNo">4</a></button>
             <button class="number"><a href="" class="pageNo">5</a></button>
             <button class="right">▷</button>
-            <p>of 17pages</p>
-        </div>
+         </div>
         <div class="f3"></div>
 
     </footer>
