@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리뷰 글 작성</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            text-decoration: none;
+        }
+        
+        body{
+            padding-top: 50px;
+            padding-bottom: 50px;
+            height: 100vh;
+            width: 100vw;
+            background-image: url(/img/membercenter.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        } 
+
+        header{
+            width: 1400px;
+            margin: 0 auto;
+            font-size: 0;
+            padding-top: 5px;
+
+      }
+
+        .header_container{
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+
+            width: 100%;
+            height: 60px;
+            margin-bottom: 15px;
+            border-bottom: 3px solid white;
+        }
+
+        .header_menu{
+            list-style-type: none;
+            
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+        }
+
+        .header_menu li{
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            margin-left: 50px;
+            padding-top: 10px;
+        }
+
+        .header_menu a:link, .header_menu a:visited{
+            text-decoration: none;
+            color: white;
+
+            width: 130px;
+            font-size: 20px;
+            line-height: 20px;
+            font-weight: bold;
+            text-align: center;
+            
+        }
+        .header_btn a:link, .header_btn a:visited{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        #left_btn, #right_btn{
+            border-radius: 8px;
+            height: 40px;
+            width: 130px;
+            margin-left: 30px;
+        }
+        
+        nav > h2 {            
+            font-size: 2.5em;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        section {
+            display: flex;
+            justify-content: center;            
+        }
+
+        .review_container {
+            width: 700px;   
+            padding: 20px;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+        .continent_btn_container {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+        }
+        .continent_btn {   
+            
+            width: 80px;
+            height: 40px;
+            border: none;
+            background-color: #D9D9D9;
+            font-weight: bold;
+            font-size: 10px;
+            
+        }
+        
+        .review_category {
+            width: 700px;
+            height: 40px;
+            margin-top: 40px;
+            background-color: #D9D9D9;
+            border: none;
+        }
+
+        .ckeditor {
+            margin-top: 20px;
+            width: 100%;
+            height: 40px;
+            border: 1px solid black;            
+        }
+
+        .context_title {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #context_area {
+            background-color: #D9D9D9;
+            color: #978C8C;
+            margin-top: 20px;
+            width: 680px;
+            padding: 10px;
+            border: none;
+            
+        }
+        .image_title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .image_box {
+            display: flex;
+            flex-flow: row nowrap;
+            margin-top: 20px;
+            width: 80px;
+            height: 80px;
+            background-color: #D9D9D9;
+            margin-right: 10px;
+            
+        }
+        .image_box > p {
+            display: flex;
+            align-items: center;
+            padding-left: 34px;
+            
+        }
+
+        .image_box_container {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: left;
+            
+        }
+
+
+
+
+        .last_info {
+            margin-top: 10px;
+            color: #978C8C;
+            font-size: 15px;
+            padding-left: 40px;
+        }
+
+        footer {
+            display: flex;
+            flex-flow: row nowrap;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+        footer button {
+            width: 220px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background-color: black;
+            margin: 0 20px;
+       
+        }
+        footer button a {
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+        }
+
+        
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script >
+
+        window.onload=()=>{
+            let test= document.querySelector('.review_category');
+            $('#eu').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            $('#asia').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            $('#africa').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            $('#oceania').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            $('#northAmerica').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            $('#southAmerica').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            
+        }
+    </script>
+</head>
+<body>
+	<th:block th:include="/fragments/header.html"></th:block>
+
+    <nav>
+        <h2>리뷰 글 작성</h2>
+    </nav>
+    <section>
+        <div class="review_container">
+            <form action="">
+                <table>
+                    <tr class="continent_btn_container">
+                        <td><button type="button" class="continent_btn" id ="eu" value="review_category_europe">유럽</button></td>
+                        <td><button type="button" class="continent_btn" id ="asia" value="review_category_asia">아시아</button></td>
+                        <td><button type="button" class="continent_btn" id ="africa" value="review_category_africa">아프리카</button></td>
+                        <td><button type="button" class="continent_btn" id ="oceania" value="review_category_oceania">오세아니아</button></td>
+                        <td><button type="button" class="continent_btn" id ="northAmerica" value="review_category_northAmerica">북아메리카</button></td>
+                        <td><button type="button" class="continent_btn" id ="southAmerica" value="review_category_southAmerica">남아메리카</button></td>
+                    </tr>
+                    <tr>
+                        <td>
+                    <input type="text" list="review_category" name="review_category" class="review_category" id="test" autocomplete="off">
+                    <datalist id="review_category_europe">
+                        <option value="유럽1"></option>
+                        <option value="유럽2"></option>
+                        <option value="유럽3"></option>
+                        <option value="유럽4"></option>
+                    </datalist>
+                    <datalist id="review_category_asia">
+                        <option value="아시아1"></option>
+                        <option value="아시아2"></option>
+                        <option value="아시아3"></option>
+                        <option value="아시아4"></option>
+                    </datalist>
+                    <datalist id="review_category_africa">
+                        <option value="아프리카1"></option>
+                        <option value="아프리카2"></option>
+                        <option value="아프리카3"></option>
+                        <option value="아프리카4"></option>
+                    </datalist>
+                    <datalist id="review_category_oceania">
+                        <option value="오세아니아1"></option>
+                        <option value="오세아니아2"></option>
+                        <option value="오세아니아3"></option>
+                        <option value="오세아니아4"></option>
+                    </datalist>
+                    <datalist id="review_category_northAmerica">
+                        <option value="북아메리카1"></option>
+                        <option value="북아메리카2"></option>
+                        <option value="북아메리카3"></option>
+                        <option value="북아메리카4"></option>
+                    </datalist>
+                    <datalist id="review_category_southAmerica">
+                        <option value="남아메리카1"></option>
+                        <option value="남아메리카2"></option>
+                        <option value="남아메리카3"></option>
+                        <option value="남아메리카4"></option>
+                    </datalist>
+                        </td>
+                    </tr>
+                    <tr class="ckeditor_container">
+                        <td>
+                            <div class="ckeditor">ckeditor 자리</div>
+                        </td>
+                    </tr>
+                    <tr class="context_title_container">
+                        <td>
+                            <p class="context_title">내용</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="" id="context_area" cols="30" rows="10" 
+                            placeholder="40자 이상 작성해주세요"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p class="image_title">사진</p></td>
+                    </tr>
+                    <tr class="image_box_container">
+                        <td><a href=""><div class="image_box"><p>+</p></div></a></td>
+                        <td><a href=""><div class="image_box"><p>+</p></div></a></td>
+                        <td><a href=""><div class="image_box"><p>+</p></div></a></td>
+                  
+
+                    </tr>
+                    <tr>
+                        <td><ul class="last_info">
+                            <li>작성하신 후기는 이용자에게 공개됩니다.</li>
+                            <li>관련 없는 사진, 타인의 사진을 도용한 경우 비노출 처리 됩니다.                                
+                            </li>
+                        </ul></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </section>
+    <footer>
+        <form action="">
+            <button><a href="">등록하기</a></button>
+            <button><a href="">취소하기</a></button>
+        </form>
+    </footer>
+</body>
+</html>

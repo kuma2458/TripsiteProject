@@ -222,9 +222,9 @@
     }
     //핸드폰번호
     function checkTel(){
-	var reg = /^[0-9]{11}$/;
+	var reg = /^[0-9]{8}$/;
 	if(!reg.test($(".tel").val())){
-	$('.tel_result').html('휴대폰 번호 11자리를 입력하세요 ex)01088887777');
+	$('.tel_result').html('휴대폰 번호 8자리를 입력하세요 ex)88887777');
 	$('.tel_result').removeClass('true');
 	$('.tel_result').addClass('false');
 	return false;
