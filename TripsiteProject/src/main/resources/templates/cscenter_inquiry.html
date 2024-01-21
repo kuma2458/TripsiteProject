@@ -119,28 +119,25 @@
 		margin-top: 20px;
 		
 	}
-	 footer {
-            display: flex;
-            flex-flow: row nowrap;
-            padding: 20px;
-            align-items: center;
-            justify-content: center;
-        }
-        footer button {
+	  .regist > button {
             width: 220px;
             height: 40px;
             border-radius: 10px;
             border: none;
             background-color: black;
-            margin: 0 20px;
+            margin-bottom: 20px;
+            margin-right: 20px;
        
         }
-        footer button a {
+         .regist > button a {
             font-size: 16px;
             color: white;
             text-decoration: none;
         }
-	
+		.regist{
+		 text-align: center;
+		 margin-top:30px;
+		}
 
  </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -215,16 +212,15 @@ $(function(){
 					</td>
 				</tr>  -->
 			</table>
+            <div class="regist">
+            <button><a href="">취소하기</a></button>
+            <button><a href="">등록하기</a></button>
+            </div>
 		</form>
 	
        </article>
-    </section>
-    <footer>
-        <form action="">
-            <button><a href="">취소하기</a></button>
-            <button><a href="">등록하기</a></button>
-        </form>
-    </footer>
+    
+    
 
     
 </body>
