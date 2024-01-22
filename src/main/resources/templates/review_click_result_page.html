@@ -14,11 +14,14 @@
         body{
             padding-top: 50px;
             padding-bottom: 50px;
-            height: 2000px;
+            height: 100vh;
             width: 100vw;
             background-image: url("/img/login.jpg");
             background-repeat: no-repeat;
             background-size: cover;
+            background-position: center;
+            background-attchment: fixed;
+            min-height: 100vh;
         } 
 
         header{
@@ -151,6 +154,38 @@
             margin-top: 5px;
             margin-left: 5px;
         }
+        
+        .write_button{
+            height: 30px;
+            text-align: center;
+            padding: 7.5px;
+            margin-top: 17.5px;
+            font-size:16px;
+            font-weight: 500 ;
+            float: left;
+
+            display: flex;
+            flex-flow: row nowrap;
+            }
+        
+        .write_button > button {
+        	border:none;
+        	background-color:#DED9D9;
+        	border-radius:5px;
+        	text-align:center;
+        	padding:15px;
+            font-size: 16px;
+            line-height:16px;
+            margin-left: 5px;
+            float:left;
+            display: flex;
+			align-items:center;
+        }
+        
+         .write_button > button:hover {
+        	background-color: silver;
+        }
+        
 
         .writer_profile_icon{
             display: inline-block;
@@ -178,7 +213,6 @@
 
         .article_container2{
             width: 672px;
-            height: 410px;
             border: 1px solid black;
             margin: 0 auto;
         }
@@ -194,6 +228,14 @@
         .article_content{
             height: 340px;
             padding: 20px 10px;
+        }
+        .image{
+        	width: 100%;
+        }
+        .image img{
+       		width: 100%;
+       		height:300px;
+			object-fit:cover;
         }
 
         .article_img{
@@ -260,6 +302,7 @@
             margin: 0 auto;
             margin-top: 21px;
             margin-left: 20px;
+            resize: none;
         }
 
         .comment_btn{
@@ -279,11 +322,24 @@
             width: 672px;
             margin: 0 auto;
         }
+        .article_container0{
+            width: 672px;
+            height:30px;
+            margin: 0 auto;
+        }
+        
+        #last_comment{
+            border:none;
+       		padding-bottom:10px;
+            color: black;
+            float:right;
+        }
 
         .article_container5 span img{
             width: 20px;
             height: 20px;
         }
+        
 
         .comment_container{
             width: 672px;
@@ -344,9 +400,9 @@
             margin: 0 auto;
         }
 
-        .footer_container > a:link, .footer_container > a:visited{
-            text-decoration: none;
-            padding-top: 20px;
+        .footer_container >button{
+       		border:none;
+       		padding-top:10px;
             color: black;
         }
 
@@ -354,11 +410,23 @@
             float: left;
         }
 
-        #footer_right{
+        #last_comment{
+            float: right;
+        }
+        #first_comment{
             float: right;
         }
 		#btn_like ,#btn_hate{
 			border: none;
+		}
+		#deletecomment_btn{
+		border:1px solid black;
+			border-radius:5px;
+			padding: 3px;
+			background-color: white;	
+		}
+		#deletecomment_btn:hover{
+			background-color: silver;	
 		}
 
 
@@ -456,6 +524,25 @@ $(function() {
 		
 	});
 });
+
+
+function movefirstcomment(){
+    let firstcomment= document.querySelector('.article_container5').firstElementChild;
+	let location=firstcomment.offsetTop;
+	window.scrollTo({ top: location-450, behavior: "auto" });
+	
+}
+function movelastcomment(){
+    let lastcomment= document.querySelector('.article_container5').lastElementChild;
+	let location=lastcomment.offsetTop;
+	window.scrollTo({ top: location, behavior: "auto" });
+	
+}
+window.onload=()=>{
+    $('#last_comment').click(movelastcomment);
+    $('#first_comment').click(movefirstcomment);
+
+}
 </script>
 	<th:block th:insert="~{/fragments/header.html}"></th:block>
     <nav>
@@ -469,7 +556,7 @@ $(function() {
     <section>
             <article class="article_container1">
                 <div class="article_category">
-                    <p>카테고리</p>
+                    <p>[[${review.rItem}]]</p>
                 </div>
             </article>
             <article class="article_container1_bottom">
@@ -479,20 +566,21 @@ $(function() {
                     <span class="writer_profile_icon"><a href="#" id="writer_chat"><img src="/img/chat.png" alt="채팅아이콘"></a></span>
                     <span class="writer_profile_text"><a href="#">채팅</a></span>
                 </div>
+                <th:block th:if="${session.member!=null}">
+                <div th:if="${review.rId==session.member.mId}"  class="write_button">
+              		<button th:onclick="|location.href='@{/review/update/{rno}(rno=${review.rno})}'|">수정</button>
+					<button th:onclick="|location.href='@{/review/delete/{rno}(rno=${review.rno})}'|">삭제</button>
+                
+                </div>
+                </th:block>
                 <p id="info_last">[[${review.rTime}]] 조회수: [[${review.rCount}]] </p>
+        
             </article>
             
             <article class="article_container2">
                 <h2>[[${review.rTitle}]]</h2>
                 <div class="article_content">
-                    <p>
-                    [[${review.rContent}]]
-                    </p>
-                    <div class="article_img">
-                        <img src="/img/image1.png" alt="1번 이미지">
-                        <img src="/img/image2.png" alt="2번 이미지">
-                        <img src="/img/image3.png" alt="3번 이미지">
-                    </div>
+                    [(${review.rContent})]
                 </div>
             </article>    
             
@@ -511,17 +599,25 @@ $(function() {
                 <div class="container4_textarea">
                 	<form action="/review/comment" method="post">
 					<input type="hidden" name="rNo" th:value="${review.rno}">
-                   		 <textarea name="cContent" id="comment_area" cols="30" rows="10" placeholder="댓글을 작성하세요."></textarea>
+                   		 <textarea name="cContent" id="comment_area" cols="30" rows="10" placeholder="댓글을 작성하세요." ></textarea>
                    		 <button class="comment_btn">작성</button>
 					</form>
                 </div>
             </article>
             
+            <article class="article_container0">
+            <button id="last_comment">마지막 댓글로</button>
+            </article>
             <article class="article_container5">
+            
                     <div class="comment_container" th:each="c:${commentlist}">
                         <div class="comment_profile">
                          <input type="hidden" name="cNo" th:value="${c.cNo}">
                             <img src="/img/profile2.png" alt=""><span>&nbsp;&nbsp;[[${c.cNick}]]</span>
+				               <th:block th:if="${session.member!=null}">
+									<button id="deletecomment_btn" th:if="${c.cId==session.member.mId}" th:onclick="|location.href='@{/comment/delete/{cNo}(cNo=${c.cNo})}'|">삭제</button>				               
+				               </th:block>
+                           
                             <span>
                                 <button class="btn_comment_hate"><img src="/img/hate.png"></button>
                                 <span>싫어요 : [[${c.cHate}]]</span>
@@ -535,8 +631,8 @@ $(function() {
                 </article>
                 <footer>
                     <div class="footer_container">
-                        <a href="#" id="footer_left">다음 댓글 더보기</a>
-                        <a href="#" id="footer_right">마지막 댓글로</a>
+                        <button id="footer_left">다음 댓글 더보기</button>
+                        <button id="first_comment">첫 댓글로</button>
                     </div>
                 </footer>
     </section>

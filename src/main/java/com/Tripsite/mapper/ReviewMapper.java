@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.Tripsite.dto.CommentDTO;
 import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.ReviewDTO;
 
@@ -38,6 +37,10 @@ public interface ReviewMapper {
 	int reviewhatedown(HashMap<String, Object> map);
 
 	int reviewtotalhate(int rno);
+
+	int selectReviewNo();
+
+	int insertReview(ReviewDTO review);
 
 
 

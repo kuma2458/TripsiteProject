@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.Tripsite.dto.CommentDTO;
 import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.ReviewDTO;
 import com.Tripsite.mapper.ReviewMapper;
@@ -93,6 +92,14 @@ public class ReviewService {
 
 	public int reviewtotalhate(int rno) {
 		return mapper.reviewtotalhate(rno);
+	}
+
+	public int selectReviewNo() {
+		return mapper.selectReviewNo();
+	}
+
+	public int insertReview(ReviewDTO review) {
+		return mapper.insertReview(review);
 	}
 
 

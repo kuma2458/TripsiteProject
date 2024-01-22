@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
@@ -20,7 +21,6 @@ import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +38,7 @@ import com.Tripsite.dto.QnaDTO;
 import com.Tripsite.dto.CommentDTO;
 import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.MemberDTO;
+
 import com.Tripsite.service.CommentService;
 import com.Tripsite.service.MemberService;
 
@@ -101,6 +102,7 @@ public class MainController {
 		//카카오톡 로그인
 		String apiURL = "https://kauth.kakao.com/oauth/authorize?response_type=code&" + "client_id=" + REST_API_KEY
 				+ "&redirect_uri=" + REDIRECT_URI + "&scope = " + Scope;
+
 		view.addObject("apiURL", apiURL);
 		//네이버 로그인
 		String clientId = CLIENT_ID;
@@ -122,17 +124,9 @@ public class MainController {
 	 public String login(String mId, String mPass, HttpSession session) {
 		
 	    MemberDTO dto = memberService.login(mId, mPass);
-	    if(dto == null) {
-//	    	session.setAttribute("msg", "아이디와 비밀번호 다시 확인해주세요");
-//	    	session.setAttribute("url", "/main/login");
-//	    	return "alert";
 	    if(dto == null) 
 	    	return "redirect:/main/login";
-	    }
-	    //로그인 성공 시 처리
 	    session.setAttribute("member", dto);
-	    
-		
 	    if(session.getAttribute("reurl")!=null) {
 	    	String reurl=(String)session.getAttribute("reurl");
 	    	session.removeAttribute("reurl");
@@ -141,6 +135,7 @@ public class MainController {
 
 	    return "redirect:/main";
 	  }
+	
 	private String requestKaKaoServer(String apiURL, String header) {
 		StringBuilder res = new StringBuilder();
 		try {
@@ -172,7 +167,44 @@ public class MainController {
 		}
 		return res.toString();
 	}
+	
+	@RequestMapping("/main/callback")
+	public String kakaoCallBack(HttpSession session, String code)
+			throws UnsupportedEncodingException, JSONException {
 
+		String apiURL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code" 
+				+ "&client_id=" + REST_API_KEY
+				+ "&redirect_uri=" + REDIRECT_URI
+				+ "&scope=" + Scope
+				+ "&code=" + code;
+
+		String res = requestKaKaoServer(apiURL, null);
+		System.out.println(res);
+		if (res != null && !res.equals("")) {
+			JSONObject json = new JSONObject(res);
+			session.setAttribute("user", res);
+			session.setAttribute("accessToken", json.getString("access_token"));
+			session.setAttribute("refreshToken", json.getString("refresh_token"));
+
+
+
+	        String profileURL = "https://kapi.kakao.com/v2/user/me";
+	        String userInfoResponse = requestKaKaoServer(profileURL, "Bearer " + json.getString("access_token"));
+
+	        if (userInfoResponse != null && !userInfoResponse.equals("")) {
+	            JSONObject userInfoJson = new JSONObject(userInfoResponse);
+
+	            // 사용자 정보 응답에서 사용자의 닉네임 가져오기
+	            if (userInfoJson.has("properties") && userInfoJson.getJSONObject("properties").has("nickname")) {
+	                String nickname = userInfoJson.getJSONObject("properties").getString("nickname");
+	                // 세션에 사용자의 닉네임 설정
+	                session.setAttribute("nick", nickname);
+	            }
+	        }
+		} 
+
+		return "redirect:/main";
+	}
 	@RequestMapping("/main/findpass")
 	public ModelAndView findpage(ModelAndView view) {
 		view.setViewName("findpass");
@@ -195,57 +227,6 @@ public class MainController {
 		session.invalidate();
 		ModelAndView mv = new ModelAndView("redirect:/main/login");
 		return mv;
-	}
-	@RequestMapping("/main/callback")
-	public String kakaoCallBack(HttpSession session, String code)
-			throws UnsupportedEncodingException, JSONException {
-		
-		//카카오톡 콜백
-		String apiURL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code" 
-				+ "&client_id=" + REST_API_KEY
-				+ "&redirect_uri=" + REDIRECT_URI
-				+ "&scope=" + Scope
-				+ "&code=" + code;
-		String res = requestKaKaoServer(apiURL, null);
-		
-		
-		//카카오톡
-		if (res != null && !res.equals("")) {
-			JSONObject json = new JSONObject(res);
-			session.setAttribute("user", res);
-			session.setAttribute("accessToken", json.getString("access_token"));
-			session.setAttribute("refreshToken", json.getString("refresh_token"));
-			
-			
-			
-	        String profileURL = "https://kapi.kakao.com/v2/user/me";
-	        String userInfoResponse = requestKaKaoServer(profileURL, "Bearer " + json.getString("access_token"));
-
-	        if (userInfoResponse != null && !userInfoResponse.equals("")) {
-	            JSONObject userInfoJson = new JSONObject(userInfoResponse);
-
-	            // 사용자 정보 응답에서 사용자의 닉네임 가져오기
-	            if (userInfoJson.has("properties") && userInfoJson.getJSONObject("properties").has("nickname")) {
-	                String nickname = userInfoJson.getJSONObject("properties").getString("nickname");
-	                // 세션에 사용자의 닉네임 설정
-	                session.setAttribute("nick", nickname);
-	            }
-	            
-	        }
-		} 
-		//네이버 콜백
-		String redirectURI =("http://localhost:9999/main/callback");
-		String napiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code" + "&client_id=" + CLIENT_ID
-				+ "&client_secret=" + CLIENT_SECRET_ID + "&redirect_uri=" + redirectURI + "&code=" + code;
-		//나중에 추가넣으면 하기 + "&state="+ state;
-		String nres = requestNaverServer(napiURL, null);
-		if (res != null && !res.equals("")) {
-			JSONObject json = new JSONObject(res);
-			session.setAttribute("user", res);
-			session.setAttribute("accessTokken", json.getString("access_token"));
-			session.setAttribute("refreshTokken", json.getString("refresh_token"));
-		} 
-		return "redirect:/main";	
 	}
 	public String requestNaverServer(String napiURL, String header) {
 		StringBuilder res = new StringBuilder();
@@ -293,7 +274,7 @@ public class MainController {
 
 	    // 로그아웃 후 메인 페이지로 리다이렉트
 	    view.setViewName("main_page");
-	    return view;
+		return view;
 	}
 
 	@RequestMapping("/main/register")
@@ -478,17 +459,27 @@ public class MainController {
 		List<ReviewDTO> reviewlist=reviewService.selectAllreview(pageNo);
 		int count = reviewService.countreview();
 		PagginVO pagging = new PagginVO(count, pageNo, 10, 5);
+		
 		view.addObject("pagging", pagging);
 		view.addObject("reviewlist", reviewlist);
+		
 		view.setViewName("review");
 		return view;
 	}
 	
 	@PostMapping("/review/comment")
-	public String boardComment(CommentDTO comment, HttpSession session) {
+	public String boardComment(CommentDTO comment, HttpSession session,HttpServletRequest request , HttpServletResponse response) throws IOException {
 		//댓글 db에 저장
-		System.out.println(comment);
 		MemberDTO member=(MemberDTO)session.getAttribute("member");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter pw=response.getWriter();
+		if(member==null) {
+			String backurl=request.getHeader("Referer");
+			session.setAttribute("backurl", backurl);
+			pw.write("<script>alert('로그인 후 댓글 작성이 가능합니다'); location.href='/needlogin';</script>");
+			return null;
+		}
+
 		comment.setcId(member.getmId());
 		
 		//db에 저장
@@ -591,21 +582,74 @@ public class MainController {
 	@RequestMapping("/needlogin")
 	public String needlogin(HttpSession session,HttpServletRequest request) {
 		String reurl=request.getHeader("Referer");
+		if(reurl.equals("http://localhost:9999/review/comment")) {
+			reurl=(String)session.getAttribute("backurl");
+			session.removeAttribute("backurl");
+		}
 		session.setAttribute("reurl", reurl);
 		return "redirect:/main/login";
 	}
 	
 	
+	@RequestMapping("/member/delete")
+	public String deleteMember(String mId) {
+	memberService.deleteMember(mId);
+	return "redirect:/main";
+	}
 	
-	@RequestMapping("/mypage/change")
-	public ModelAndView chagepage(ModelAndView view) {
+	@GetMapping("/member/Update")
+	public ModelAndView updateMemberView(String mId, ModelAndView view) {
+		MemberDTO dto = memberService.selectMember(mId);
 		view.setViewName("change");
+		view.addObject("dto", dto);
 		return view;
 	}
+
+
+	@PostMapping("/member/Update")
+	public String updateMember(MemberDTO dto) {
+		System.out.println(dto.toString());
+		memberService.updateMember(dto);
+	return "redirect:/main";
+	}
+	
 	@RequestMapping("/review/write")
-	public ModelAndView writepage(ModelAndView view) {
-		view.setViewName("write");
-		return view;
+	public String reviewwritepage(ReviewDTO review, HttpSession session, MultipartFile[] file) {
+
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		review.setrId(member.getmId());
+		
+		// 파일 업로드할 경로 설정
+		File root = new File("c:\\fileupload");
+		if (!root.exists())
+			root.mkdirs();
+		
+		try {
+			ArrayList<FileDTO> list = new ArrayList<FileDTO>();
+			for(int i=0;i<file.length;i++) {
+				if (file[i].getSize() == 0)
+					continue;
+				//실제 파일 저장하는 부분
+				File f = new File(root, file[i].getOriginalFilename());
+				file[i].transferTo(f); 
+				//list에 파일 정보 한건씩 추가
+				list.add(new FileDTO(0,i,f.getAbsolutePath()));
+			} 
+
+
+			int qno = reviewService.selectReviewNo();
+			System.out.println(review.toString());
+			//	2. QnaDTO에 게시글 번호 저장 후 DB에 저장
+			reviewService.insertReview(review);
+			//파일 정보를 DB에 저장
+			list.forEach((e) -> e.setQno(qno));
+			qnaService.insertFile(list);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/mypage/myreview";
 	}
 
 	@RequestMapping("/main/comment")
@@ -660,16 +704,27 @@ public class MainController {
 		view.setViewName("mypage_mycomment");
 		return view;
 	}
-	  @RequestMapping("/mypage/myreview/delete/{rno}")
-	  public String delete(@PathVariable(name="rno") int rno, HttpSession session) {
+	  @RequestMapping("/review/delete/{rno}")
+	  public String deletereview(@PathVariable(name="rno") int rno, HttpSession session,HttpServletRequest request) {
 		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
 		  String rId=dto.getmId();
 		  reviewService.deleteReview(rno,rId);
-		    return "redirect:/mypage/myreview";
+		  String reurl=request.getHeader("Referer");
+		  return "redirect:"+reurl;
+	  }
+	  
+	  @RequestMapping("/comment/delete/{cNo}")
+	  public String deletecomment(@PathVariable(name="cNo") int cNo, HttpSession session,HttpServletRequest request) {
+		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
+		  String rId=dto.getmId();
+		  commentService.deleteComment(cNo,rId);
+		  String reurl=request.getHeader("Referer");
+		  return "redirect:"+reurl;
 	  }
 	@RequestMapping("/review/write/page")
 	public ModelAndView reviewWritePage(ModelAndView view) {
 		view.setViewName("review_write_page");
 		return view;
 	}
+
 }

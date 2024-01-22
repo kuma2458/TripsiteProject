@@ -13,13 +13,14 @@
 		<result column="MEMBER_NICK" property="rNick" />
 		<result column="RHATE" property="rHate" />
 		<result column="RLIKE" property="rLike" />
+		<result column="REVIEW_ITEM" property="rItem" />
 	</resultMap>
 
 
 	<select id="selectAllreview" resultMap="review" parameterType="int">
 		SELECT * from(
 		SELECT CEIL(rownum/10) AS pageno , d.* from(
-		SELECT r.REVIEW_TITLE ,r.REVIEW_CONTENT,TO_CHAR(r.review_comment_time,'YYYY-MM-DD') as REVIEW_COMMENT_TIME ,r.REVIEW_COUNT,r.MEMBER_ID  ,m.MEMBER_NICK,NVL(rhate,0) AS rhate ,NVL(rlike,0) AS rlike, r.REVIEW_NO  
+		SELECT r.REVIEW_TITLE,r.REVIEW_ITEM ,r.REVIEW_CONTENT,TO_CHAR(r.review_comment_time,'YYYY-MM-DD') as REVIEW_COMMENT_TIME ,r.REVIEW_COUNT,r.MEMBER_ID  ,m.MEMBER_NICK,NVL(rhate,0) AS rhate ,NVL(rlike,0) AS rlike, r.REVIEW_NO  
 		FROM REVIEW r JOIN MEMBER m ON r.MEMBER_ID =m.MEMBER_ID
 		LEFT OUTER JOIN (SELECT rh.review_no AS rhno, count(*) AS rhate FROM REVIEW_HATE rh GROUP BY rh.REVIEW_NO) ON rhno=r.review_no
 		LEFT OUTER JOIN (SELECT rl.review_no AS rlno, count(*) AS rlike FROM REVIEW_LIKE rl GROUP BY rl.REVIEW_NO) ON rlno=r.review_no
@@ -34,7 +35,7 @@
 	<select id="selectmyreview" resultMap="review" parameterType="hashmap">
 		SELECT * from(
 		SELECT CEIL(rownum/10) AS pageno , d.* from(
-		SELECT r.REVIEW_TITLE ,r.REVIEW_CONTENT,TO_CHAR(r.review_comment_time,'YYYY-MM-DD') as REVIEW_COMMENT_TIME ,r.REVIEW_COUNT,r.MEMBER_ID  ,m.MEMBER_NICK,NVL(rhate,0) AS rhate ,NVL(rlike,0) AS rlike, r.REVIEW_NO  
+		SELECT r.REVIEW_TITLE, r.REVIEW_ITEM ,r.REVIEW_CONTENT,TO_CHAR(r.review_comment_time,'YYYY-MM-DD') as REVIEW_COMMENT_TIME ,r.REVIEW_COUNT,r.MEMBER_ID  ,m.MEMBER_NICK,NVL(rhate,0) AS rhate ,NVL(rlike,0) AS rlike, r.REVIEW_NO  
 		FROM REVIEW r JOIN MEMBER m ON r.MEMBER_ID =m.MEMBER_ID
 		LEFT OUTER JOIN (SELECT rh.review_no AS rhno, count(*) AS rhate FROM REVIEW_HATE rh GROUP BY rh.REVIEW_NO) ON rhno=r.review_no
 		LEFT OUTER JOIN (SELECT rl.review_no AS rlno, count(*) AS rlike FROM REVIEW_LIKE rl GROUP BY rl.REVIEW_NO) ON rlno=r.review_no
@@ -44,7 +45,7 @@
 	</select>
 	
 	<select id="selectreviewcontent" resultMap="review" parameterType="int">
-		SELECT r.REVIEW_TITLE ,r.REVIEW_CONTENT,TO_CHAR(r.review_comment_time,'YYYY-MM-DD HH:mm') as REVIEW_COMMENT_TIME ,r.REVIEW_COUNT,r.MEMBER_ID  ,m.MEMBER_NICK,NVL(rhate,0) AS rhate ,NVL(rlike,0) AS rlike, r.REVIEW_NO  
+		SELECT r.REVIEW_TITLE ,r.REVIEW_ITEM,r.REVIEW_CONTENT,TO_CHAR(r.review_comment_time,'YYYY-MM-DD HH:mm') as REVIEW_COMMENT_TIME ,r.REVIEW_COUNT,r.MEMBER_ID  ,m.MEMBER_NICK,NVL(rhate,0) AS rhate ,NVL(rlike,0) AS rlike, r.REVIEW_NO  
 		FROM REVIEW r JOIN MEMBER m ON r.MEMBER_ID =m.MEMBER_ID
 		LEFT OUTER JOIN (SELECT rh.review_no AS rhno, count(*) AS rhate FROM REVIEW_HATE rh GROUP BY rh.REVIEW_NO) ON rhno=r.review_no
 		LEFT OUTER JOIN (SELECT rl.review_no AS rlno, count(*) AS rlike FROM REVIEW_LIKE rl GROUP BY rl.REVIEW_NO) ON rlno=r.review_no
@@ -63,9 +64,9 @@
 		SELECT review_no.nextval FROM dual
 	</select>
 	
-	<insert id="insertReview" parameterType="qna">
-		insert into QNA (REVIEW_NO,REVIEW_CONTENT,MEMBER_ID,REVIEW_COUNT,REVIEW_title)
-		values(#{rno},#{rContent},#{rId},#{rCount},#{rTitle})
+	<insert id="insertReview" parameterType="review">
+		insert into REVIEW(REVIEW_NO,REVIEW_CONTENT,MEMBER_ID,REVIEW_title,REVIEW_ITEM)
+		values(#{rno},#{rContent},#{rId},#{rTitle},#{rItem})
 	</insert>
 
 	<insert id="insertFile" parameterType="file">
