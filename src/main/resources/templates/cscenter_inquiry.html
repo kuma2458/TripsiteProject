@@ -148,7 +148,7 @@ $(function(){
 
 </script>
 </style>
-  <script th:if="${session.member == null  }" >
+  <script th:if="${session.member == null and session.accessToken == null}" >
     alert('로그인하셔야 이용가능합니다.');
     location.href='/needlogin';
 

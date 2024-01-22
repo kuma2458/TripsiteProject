@@ -7,8 +7,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,10 +58,14 @@ public class MainController {
 	private CommentService commentService;
 	
 	
-	
-	private final String REST_API_KEY = "application.properties에서 찾아서 적으세여";
+	//카카오톡 로그인
+	private final String REST_API_KEY = "a1278d0bc20e7a09c712e850dcb69c01";
 	private final String REDIRECT_URI = "http://localhost:9999/main/callback";
 	private final String Scope = "profile_nickname,profile_image";
+	
+	//네이버 로그인
+	private final String CLIENT_ID = "Uq3_fgk_EM41S7Z9o49L";
+	private final String CLIENT_SECRET_ID = "zYbrueytwq";
 	
 	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService,
 			CommentService commentService) {
@@ -90,12 +97,24 @@ public class MainController {
 	}
 	
 	@RequestMapping("/main/login")
-	public ModelAndView loginpage(ModelAndView view) {
-		
+	public ModelAndView loginpage(ModelAndView view,HttpSession session) {
+		//카카오톡 로그인
 		String apiURL = "https://kauth.kakao.com/oauth/authorize?response_type=code&" + "client_id=" + REST_API_KEY
 				+ "&redirect_uri=" + REDIRECT_URI + "&scope = " + Scope;
-		
 		view.addObject("apiURL", apiURL);
+		//네이버 로그인
+		String clientId = CLIENT_ID;
+		String redirectURI = ("http://localhost:9999/main/login");
+		SecureRandom random = new SecureRandom();
+		//보안을위해사용
+		String state = new BigInteger(130, random).toString();
+		String napiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+		napiURL += "&client_id=" + clientId;
+		napiURL += "&redirect_uri=" + redirectURI;
+		napiURL += "&state=" + state;
+		view.addObject("napiURL", napiURL);
+		session.setAttribute("state", state);
+		
 		view.setViewName("login");
 		return view;
 	}
@@ -180,15 +199,17 @@ public class MainController {
 	@RequestMapping("/main/callback")
 	public String kakaoCallBack(HttpSession session, String code)
 			throws UnsupportedEncodingException, JSONException {
-
+		
+		//카카오톡 콜백
 		String apiURL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code" 
 				+ "&client_id=" + REST_API_KEY
 				+ "&redirect_uri=" + REDIRECT_URI
 				+ "&scope=" + Scope
 				+ "&code=" + code;
-
 		String res = requestKaKaoServer(apiURL, null);
-		System.out.println(res);
+		
+		
+		//카카오톡
 		if (res != null && !res.equals("")) {
 			JSONObject json = new JSONObject(res);
 			session.setAttribute("user", res);
@@ -209,10 +230,52 @@ public class MainController {
 	                // 세션에 사용자의 닉네임 설정
 	                session.setAttribute("nick", nickname);
 	            }
+	            
 	        }
 		} 
+		//네이버 콜백
+		String redirectURI =("http://localhost:9999/main/callback");
+		String napiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code" + "&client_id=" + CLIENT_ID
+				+ "&client_secret=" + CLIENT_SECRET_ID + "&redirect_uri=" + redirectURI + "&code=" + code;
+		//나중에 추가넣으면 하기 + "&state="+ state;
+		String nres = requestNaverServer(napiURL, null);
+		if (res != null && !res.equals("")) {
+			JSONObject json = new JSONObject(res);
+			session.setAttribute("user", res);
+			session.setAttribute("accessTokken", json.getString("access_token"));
+			session.setAttribute("refreshTokken", json.getString("refresh_token"));
+		} 
+		return "redirect:/main";	
+	}
+	public String requestNaverServer(String napiURL, String header) {
+		StringBuilder res = new StringBuilder();
+		try {
+			URL url = new URL(napiURL);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+			if (header != null && !header.equals("")) {
+				con.setRequestProperty("Authorization", header);
+			}
 
-		return "redirect:/main";
+			int responseCode = con.getResponseCode();
+			BufferedReader br;
+			if (responseCode == 200) { // 정상 호출
+				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			} else { // 에러 발생
+				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			}
+			String inputLine;
+			while ((inputLine = br.readLine()) != null) {
+				res.append(inputLine);
+			}
+			br.close();
+			if (responseCode == 200) {
+				System.out.println(res.toString());
+			}
+		} catch (Exception e) {
+			// Exception 로깅
+		}
+		return res.toString();
 	}
 	@RequestMapping("/main/logout")
 	public ModelAndView logoutpage(ModelAndView view, HttpSession session) {
@@ -223,7 +286,7 @@ public class MainController {
 	        String header = "Bearer " + token;
 	        String result = requestKaKaoServer(apiURL, header);
 	    }
-
+	    
 	    // 세션 초기화
 	    session.removeAttribute("member");
 	    session.invalidate();
