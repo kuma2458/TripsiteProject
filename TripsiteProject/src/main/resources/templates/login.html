@@ -133,7 +133,24 @@
         color: blue;
     }
 </style>
-  
+<!--   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+ <script>
+ 	$(document).ready(function() {
+ 		let message = "[[${msg}]]";
+ 		if (message != "") {
+ 			alert(message);
+ 		}else {
+ 			
+ 		}
+ 	})
+ 	</script>
+  -->
+  <script th:if="${msg != null  }" >
+  	let msg="[[${msg}]]";
+    alert(msg);
+    location.href='/main/login';
+
+  </script>
   </head>
 <body>
     <div class="container"></div>

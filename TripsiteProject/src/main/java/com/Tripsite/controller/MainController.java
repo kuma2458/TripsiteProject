@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,7 +64,10 @@ public class MainController {
 	}
 	
 	@RequestMapping("/main/login")
-	public ModelAndView loginpage(ModelAndView view) {
+	public ModelAndView loginpage(ModelAndView view,HttpSession session) {
+		String msg=(String)session.getAttribute("msg");
+		view.addObject("msg", msg);
+		session.removeAttribute("msg");
 		view.setViewName("login");
 		return view;
 	}
@@ -99,16 +103,20 @@ public class MainController {
 		return mv;
 	}
 	
+	
+	
+	
 	@PostMapping("/main/login")
 	 public String login(String mId, String mPass, HttpSession session) {
 		
 	    MemberDTO dto = service.login(mId, mPass);
-	    if(dto == null) 
+	    if(dto == null)  {
 //	    	session.setAttribute("msg", "아이디와 비밀번호 다시 확인해주세요");
-//	    	session.setAttribute("url", "/main/login");
+//	    	session.setAttribute("url", "/main/login");	
 //	    	return "alert";
-	    
+       	session.setAttribute("msg", "정보가 틀립니다. 아이디나 비밀번호 확인 해주세요");
 	    	return "redirect:/main/login";
+	    }
 	    session.setAttribute("member", dto);
 
 	    return "redirect:/main";
@@ -270,11 +278,11 @@ public class MainController {
 		}
 		@RequestMapping("/editer/filedown")
 		public void imageFileDownload(int fno, HttpServletResponse response) {
-			//파일 정보 읽어옴
+			
 					FileDTO dto = QnaService.selectImageFile(fno);
 					File file = new File(dto.getPath());
 					
-					//출력 스트림 연결 데이터를 전송
+					
 					response.setHeader("Content-Disposition", "attachement;fileName=" + file.getName());
 					response.setHeader("Content-Transfer-Encoding", "binary");
 					response.setContentLength((int) file.length());

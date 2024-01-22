@@ -183,6 +183,10 @@
             color:red;
             font-weight: bold;
         }
+     img{
+     	width: 350px;
+     	height: 45px;
+     }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
@@ -304,10 +308,13 @@ $(() => {
         <input type="password" name="mPass" class="passwd" placeholder="비밀번호를 입력하세요">
         <input type="password" name="passwd" class="passwd_chk" placeholder="비밀번호를 한번더 입력하세요">
         <p class="pass_result"></p>
-            <div class="gender">
-                <label for="radio1"><span class="radio"></span>남</label><input type="radio" name="mGender" id="radio1">
-                <label for="radio2"><span class="radio"></span>여</label><input type="radio" name="mGender" id="radio2"> 
-             </div> 
+<div class="gender">
+    <input type="radio" name="mGender" id="radio1" value="male">
+    <label for="radio1"><span class="radio"></span>남</label>
+
+    <input type="radio" name="mGender" id="radio2" value="female">
+    <label for="radio2"><span class="radio"></span>여</label>
+</div>
              <input type="email" name="mEmail" class="email" placeholder="이메일을 입력하세요">
              <input type="text" name="mBirth" class="birth" placeholder="생년월일을 입력하세요">
              <p class="birth_result"></p>
@@ -326,8 +333,8 @@ $(() => {
             </div>
              <button type="submit" class="btn_login">회원가입 하기</button>
              <p>Or With</p>
-             <button type="submit" class="google_login">구글로 로그인</button>
-             <button type="submit" class="kakao_login">카카오톡으로 로그인</button>
+			<a th:href="${apiURL}"><img alt="" src="/img/kakao_login_medium_wide.png"></a>
+			<a th:href="${napiURL}"><img alt="" src="/img/naver_btnG.png"></a>
          </form>
          <div class="check">
          <p class="already">이미 회원가입을 하셨습니까?</p>  
