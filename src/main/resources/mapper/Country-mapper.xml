@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Tripsite.mapper.CountryMapper">
+	<resultMap id="country" type="country">
+		<id column="ncode" property="nCode" />
+		<result column="nname" property="nName" />
+		<result column="ncur" property="nCur" />
+		<result column="air" property="air" />
+		<result column="ncity1" property="nCity1" />
+		<result column="ncity2" property="nCity2" />
+		<result column="ncity3" property="nCity3" />
+	</resultMap>
+	
+	
+		<select id="selectCountry" parameterType="string" resultMap="country">
+		select * from country where nName like #{nName}
+		</select>
+	
+</mapper>

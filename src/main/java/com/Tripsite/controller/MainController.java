@@ -36,10 +36,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.Tripsite.dto.QnaDTO;
 import com.Tripsite.dto.CommentDTO;
+import com.Tripsite.dto.CountryDTO;
 import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.MemberDTO;
 
 import com.Tripsite.service.CommentService;
+import com.Tripsite.service.CountryService;
 import com.Tripsite.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,7 +59,7 @@ public class MainController {
 	private MemberService memberService;
 	private QnaService qnaService;
 	private CommentService commentService;
-	
+	private CountryService countryService;
 	
 	//카카오톡 로그인
 	private final String REST_API_KEY = "a1278d0bc20e7a09c712e850dcb69c01";
@@ -69,11 +71,12 @@ public class MainController {
 	private final String CLIENT_SECRET_ID = "zYbrueytwq";
 	
 	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService,
-			CommentService commentService) {
+			CommentService commentService, CountryService countryService) {
 		this.reviewService = reviewService;
 		this.memberService = memberService;
 		this.qnaService = qnaService;
 		this.commentService = commentService;
+		this.countryService = countryService;
 	}
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
@@ -752,4 +755,13 @@ public class MainController {
 		return view;
 	}
 
+	
+	@GetMapping("/country/search")
+	public ModelAndView searchCountryView(String nName, ModelAndView view) {
+		CountryDTO dto = countryService.selectCountry(nName);
+		view.addObject("dto", dto);
+		view.setViewName("country_page");
+		return view;
+	}
+	
 }

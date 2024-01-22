@@ -158,9 +158,14 @@
             display: flex;
             margin-top: 25px;
             margin-bottom: 25px;
+            text-align: center;
         }
-        .container2 img,p{
+        .cimg{
+        	width: 400px;
             margin-left: 35px;
+        }
+        .cimg p{
+        margin-left: 35px;
         }
         #a{
             font-size: 25px;
@@ -229,12 +234,11 @@
        margin-left: 140px;
     }
     .con4{
-        
         text-align: center;
        
     }
     .con4 button{
-         width: 500px;
+        width: 500px;
         height: 100px;
         margin-left: 40px;
         margin-bottom: 20px;
@@ -245,19 +249,23 @@
         border-radius: 10px;
     }
     </style>
+ <script th:if="${session.member==null}">
+	alert('로그인 후 이용 가능합니다');
+	location.href="/needlogin";
+</script>
+
 </head>
 <body>
 <th:block th:include="/fragments/header.html"></th:block>
     <nav>
-        <form action="/search/country" method="get" class="frm_search">
+        <form action="/country/search" method="get" class="frm_search">
             <div class="search_container">
-                <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
-                <button type="submit" class="ct_search">검색</button>
+                <input type="text" name="nName" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
+                <button type="submit" class="ct_search" th:if="${session.member!=null}">검색</button>
             </div>
         </form>
     </nav>
-    <section class="main_container">
-        
+   <section class="main_container">
         <article class="container1">
             <h1>대한민국</h1>
             <h3 class="subname">Republic of Korea</h3>
@@ -277,28 +285,27 @@
             <img src="/img/PAGE0.png" id="infoimg">
         </div>
         </article>
-   
         <article class="container2">
             <p class="subname">▶[검색 나라 이름] 핫플레이스 </p>
             
             <div class="con2">
             <div>
                 <div>
-                    <img src="/img/PAGE1.png" alt="">
+                    <img th:src="@{'/cimg/'+${dto.nCity1}+'.png'}" alt="nCity1" class="cimg">
                 </div>
-                    <p>관광지1</p>
+                    <p>[[${dto.nCity1}]]</p>
             </div>
             <div>
                 <div>
-                    <img src="/img/PAGE2.png" alt="">
+                    <img th:src="@{'/cimg/'+${dto.nCity2 }+'.png'}" alt="nCity2" class="cimg">
                 </div>
-                    <p>관광지2</p>
+                    <p>[[${dto.nCity2}]]</p>
             </div>
             <div>
                 <div>
-                    <img src="/img/PAGE3.png" alt="">
+                     <img th:src="@{'/cimg/'+${dto.nCity3 }+'.png'}" alt="nCity3" class="cimg">
                 </div>
-                    <p>관광지3</p>
+                 <p>[[${dto.nCity3}]]</p>
             </div>
         </div>
         </article>
@@ -313,21 +320,13 @@
             </ul>
         </div>
         </article>
-        <form action="/country/airUpdate" method= "post">
         <article class="container3_2">
         <p class="subname">▶여행할 국가 항공편</p>
         <div class="con3_2">
             <div class="a">
             <p>항공편 직항 여부</p>
-                <img src="/img/oo.png" alt="">
-            </div>
-         </form>
-<!--          
-            <div class="b">
-			<p>경유</p>
-                <img src="/img/xx.png" alt="">
-            </div>  
--->           
+                <img th:src="@{'/cimg/'+${dto.air }+'.png'}" alt="">
+            </div>        
         </div> 
         </article>
         <br>
@@ -335,10 +334,10 @@
     <footer class="container4">
     <p class="subname">▶여행할 국가 관련 사이트</p>
     <div class="con4">
-        <button id="button" type="button" >대충 어디사이트 링크 or 배너</button>
-        <button id="button" type="button" >대충 어디사이트 링크 or 배너</button>
-        <button id="button" type="button" >대충 어디사이트 링크 or 배너</button>
-        <button id="button" type="button" >대충 어디사이트 링크 or 배너</button>
+        <button id="button" type="button" href="https://www.0404.go.kr/dev/main.mofa">외교부 해외 안전여행</button>
+        <button id="button" type="button" href="http://www.tourinfo.or.kr/v2/info/linksite.asp">여행 정보 센터</button>
+        <button id="button" type="button" href="https://gtn.co.kr/">세계 여행 신문</button> 
+        <button id="button" type="button" ></button>
     </div>
     </footer>
     
