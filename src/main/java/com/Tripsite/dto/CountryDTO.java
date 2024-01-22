@@ -1,5 +1,8 @@
 package com.Tripsite.dto;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("country")
 public class CountryDTO {
 
 	private int nCode;

@@ -1,9 +1,14 @@
 package com.Tripsite.controller;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +20,7 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +46,7 @@ import com.Tripsite.service.QnaService;
 import com.Tripsite.service.ReviewService;
 import com.Tripsite.vo.PagginVO;
 
-
+@Component
 @Controller
 public class MainController {
 	private ReviewService reviewService;
@@ -101,6 +107,38 @@ public class MainController {
 
 	    return "redirect:/main";
 	  }
+	
+	private String requestKaKaoServer(String apiURL, String header) {
+		StringBuilder res = new StringBuilder();
+		try {
+			URL url = new URL(apiURL);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("POST");
+			con.setDoOutput(true);
+			if (header != null && !header.equals("")) {
+				con.setRequestProperty("Authorization", header);
+			}
+
+			int responseCode = con.getResponseCode();
+			BufferedReader br;
+			if (responseCode == 200) { // 정상 호출
+				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			} else { // 에러 발생
+				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			}
+			String inputLine;
+			while ((inputLine = br.readLine()) != null) {
+				res.append(inputLine);
+			}
+			br.close();
+			if (responseCode == 200) {
+				System.out.println(res.toString());
+			}
+		} catch (Exception e) {
+			// Exception 로깅
+		}
+		return res.toString();
+	}
 	@RequestMapping("/main/findpass")
 	public ModelAndView findpage(ModelAndView view) {
 		view.setViewName("findpass");
@@ -313,17 +351,27 @@ public class MainController {
 		List<ReviewDTO> reviewlist=reviewService.selectAllreview(pageNo);
 		int count = reviewService.countreview();
 		PagginVO pagging = new PagginVO(count, pageNo, 10, 5);
+		
 		view.addObject("pagging", pagging);
 		view.addObject("reviewlist", reviewlist);
+		
 		view.setViewName("review");
 		return view;
 	}
 	
 	@PostMapping("/review/comment")
-	public String boardComment(CommentDTO comment, HttpSession session) {
+	public String boardComment(CommentDTO comment, HttpSession session,HttpServletRequest request , HttpServletResponse response) throws IOException {
 		//댓글 db에 저장
-		System.out.println(comment);
 		MemberDTO member=(MemberDTO)session.getAttribute("member");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter pw=response.getWriter();
+		if(member==null) {
+			String backurl=request.getHeader("Referer");
+			session.setAttribute("backurl", backurl);
+			pw.write("<script>alert('로그인 후 댓글 작성이 가능합니다'); location.href='/needlogin';</script>");
+			return null;
+		}
+
 		comment.setcId(member.getmId());
 		
 		//db에 저장
@@ -426,6 +474,10 @@ public class MainController {
 	@RequestMapping("/needlogin")
 	public String needlogin(HttpSession session,HttpServletRequest request) {
 		String reurl=request.getHeader("Referer");
+		if(reurl.equals("http://localhost:9999/review/comment")) {
+			reurl=(String)session.getAttribute("backurl");
+			session.removeAttribute("backurl");
+		}
 		session.setAttribute("reurl", reurl);
 		return "redirect:/main/login";
 	}
@@ -454,9 +506,42 @@ public class MainController {
 	}
 	
 	@RequestMapping("/review/write")
-	public ModelAndView writepage(ModelAndView view) {
-		view.setViewName("write");
-		return view;
+	public String reviewwritepage(ReviewDTO review, HttpSession session, MultipartFile[] file) {
+
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		review.setrId(member.getmId());
+		
+		// 파일 업로드할 경로 설정
+		File root = new File("c:\\fileupload");
+		if (!root.exists())
+			root.mkdirs();
+		
+		try {
+			ArrayList<FileDTO> list = new ArrayList<FileDTO>();
+			for(int i=0;i<file.length;i++) {
+				if (file[i].getSize() == 0)
+					continue;
+				//실제 파일 저장하는 부분
+				File f = new File(root, file[i].getOriginalFilename());
+				file[i].transferTo(f); 
+				//list에 파일 정보 한건씩 추가
+				list.add(new FileDTO(0,i,f.getAbsolutePath()));
+			} 
+
+
+			int qno = reviewService.selectReviewNo();
+			System.out.println(review.toString());
+			//	2. QnaDTO에 게시글 번호 저장 후 DB에 저장
+			reviewService.insertReview(review);
+			//파일 정보를 DB에 저장
+			list.forEach((e) -> e.setQno(qno));
+			qnaService.insertFile(list);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/mypage/myreview";
 	}
 
 	@RequestMapping("/main/comment")

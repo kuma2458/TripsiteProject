@@ -38,6 +38,10 @@ public interface ReviewMapper {
 
 	int reviewtotalhate(int rno);
 
+	int selectReviewNo();
+
+	int insertReview(ReviewDTO review);
+
 
 
 }

@@ -160,11 +160,24 @@
 			border-radius: 10px;
 			margin-bottom: 20px;
 		}
-		
+		      .title_container {
+        margin: 0 auto;      
+      }
+      .title_container > h2 {
+        color: white;
+        font-size: 3.5em;
+      }
 		.regist{
 		 text-align: center;
 		 margin-top:30px;
 		}
+		      .context_container > div:first-child {
+        border-radius: 10px 10px 0 0;
+      }
+      .context_container > div:last-child {
+        border-radius: 0 0 10px 10px;
+        border: none;
+      }
     </style>
     <script th:if="${session.member == null  }" >
     alert('로그인하셔야 이용가능합니다.');

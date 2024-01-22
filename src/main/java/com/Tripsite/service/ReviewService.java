@@ -94,6 +94,14 @@ public class ReviewService {
 		return mapper.reviewtotalhate(rno);
 	}
 
+	public int selectReviewNo() {
+		return mapper.selectReviewNo();
+	}
+
+	public int insertReview(ReviewDTO review) {
+		return mapper.insertReview(review);
+	}
+
 
 	
 	
