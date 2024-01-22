@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>메인페이지</title>
+=======
+    <title>검색결과</title>
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
     <style>
         *{
             margin: 0px;
@@ -15,10 +19,16 @@
             padding-bottom: 50px;
             height: 100vh;
             width: 100vw;
+<<<<<<< HEAD
             background-image: url(/img/conutry_page.jpg);
             background-repeat: no-repeat;
             background-size: cover;
           
+=======
+            background-image: url("/img/black.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
         } 
 
         .search_container{
@@ -129,6 +139,10 @@
             padding-left: 15px;
             padding-top: 15px;
             
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
         }
         .conutryinfo li{
             opacity: 1;
@@ -136,7 +150,11 @@
         }
         #infoimg{
             width: 600px;
+<<<<<<< HEAD
             height: 400px;
+=======
+            height: 300px;
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
             margin-left: 20px;
             box-sizing: border-box;
 
@@ -145,6 +163,10 @@
             font-size: 40px;
             font-weight: bold;
             color: white;
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
         }
 
 /* <---------------------------container 2--------------------------------------------------> */
@@ -244,7 +266,115 @@
         background-color: darkgray;
         border-radius: 10px;
     }
+<<<<<<< HEAD
     </style>
+=======
+    ul, li{
+    	list-style-type: none;
+    }
+    .result{
+    	 margin-left: 10px;
+    }
+    </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        function xmlToJson(xml) {
+        // Create the return object
+        var obj = {};
+
+        if (xml.nodeType == 1) {
+            // element
+            // do attributes
+            if (xml.attributes.length > 0) {
+            obj["@attributes"] = {};
+            for (var j = 0; j < xml.attributes.length; j++) {
+                var attribute = xml.attributes.item(j);
+                obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+            }
+            }
+        } else if (xml.nodeType == 3) {
+            // text
+            obj = xml.nodeValue;
+        }
+
+        // do children
+        // If all text nodes inside, get concatenated text from them.
+        var textNodes = [].slice.call(xml.childNodes).filter(function(node) {
+            return node.nodeType === 3;
+        });
+        if (xml.hasChildNodes() && xml.childNodes.length === textNodes.length) {
+            obj = [].slice.call(xml.childNodes).reduce(function(text, node) {
+            return text + node.nodeValue;
+            }, "");
+        } else if (xml.hasChildNodes()) {
+            for (var i = 0; i < xml.childNodes.length; i++) {
+            var item = xml.childNodes.item(i);
+            var nodeName = item.nodeName;
+            if (typeof obj[nodeName] == "undefined") {
+                obj[nodeName] = xmlToJson(item);
+            } else {
+                if (typeof obj[nodeName].push == "undefined") {
+                var old = obj[nodeName];
+                obj[nodeName] = [];
+                obj[nodeName].push(old);
+                }
+                obj[nodeName].push(xmlToJson(item));
+            }
+            }
+        }
+        return obj;
+        }
+        $(function(){
+            var xhr = new XMLHttpRequest();
+            var url = 'http://apis.data.go.kr/1262000/CountryBasicService/getCountryBasicList'; /*URL*/
+            var queryParams = '?' + encodeURIComponent('serviceKey') + '='+'WCGahA3n121G98lM5u0UhG3vg9D%2B7PP3IicjNlRXzvbzZm7ZpTGAdm%2FNgDks%2B0tHyibeZhJ3n64LbcUN%2B6lfsw%3D%3D'; /*Service Key*/
+            queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
+            queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+            queryParams += '&' + encodeURIComponent('countryName') + '=' + encodeURIComponent('독일'); /**/
+            xhr.open('GET', url + queryParams);
+            xhr.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                let XmlNode = new DOMParser().parseFromString(this.responseText, "text/xml");
+                console.log(xmlToJson(XmlNode).response.body.items);
+
+                let test=xmlToJson(XmlNode).response.body.items.item.basic;
+                let tag='';
+
+                tag+=`${test}`;
+                $('p').html(tag);
+            }
+            
+            
+            };
+
+        xhr.send('');
+
+
+        var xhr1 = new XMLHttpRequest();
+        var url = 'http://apis.data.go.kr/1262000/CountryFlagService2/getCountryFlagList2'; /*URL*/
+        var queryParams1 = '?' + encodeURIComponent('serviceKey') + '='+'gIRuJ6SH90S7hO6ge7hXAuHS%2B4vIFD7xlcE0wYySD1oJjLDjM%2Fk9jPakuzBfc%2FGKN5ru6syjhABujJX4yWUC3Q%3D%3D'; /*Service Key*/
+        queryParams1 += '&' + encodeURIComponent('returnType') + '=' + encodeURIComponent('JSON'); /**/
+        queryParams1 += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
+        queryParams1 += '&' + encodeURIComponent('cond[country_nm::EQ]') + '=' + encodeURIComponent('독일'); /**/
+        xhr1.open('GET', url + queryParams1);
+        xhr1.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                console.log(this);
+                var obj = JSON.parse(this.responseText);
+                console.log(obj.data[0].download_url);
+                let flag=obj.data[0].download_url;
+                $('#infoimg').attr('src',flag);
+            }
+        };
+
+        xhr1.send('');
+        
+        
+        
+        })
+
+    </script>
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
 </head>
 <body>
 <th:block th:include="/fragments/header.html"></th:block>
@@ -263,6 +393,7 @@
             <h3 class="subname">Republic of Korea</h3>
             <div class="conutryinfo">
             <ul>
+<<<<<<< HEAD
                 <li>(예시임)</li>
                 <li>면 적 : 51.4만 k㎡(한반도의 2.3배)</li>
                 <li>인 구 : 약 6,407만명(2012년)</li>
@@ -275,15 +406,27 @@
         </div>
         <div>
             <img src="/img/PAGE0.png" id="infoimg">
+=======
+                <p class="result"></p>
+            </ul>
+        </div>
+        <div>
+            <img src="" id="infoimg">
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
         </div>
         </article>
    
         <article class="container2">
+<<<<<<< HEAD
             <p class="subname">▶[검색 나라 이름] 핫플레이스 </p>
+=======
+            <li class="subname">▶[검색 나라 이름] 핫플레이스 </li>
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
             
             <div class="con2">
             <div>
                 <div>
+<<<<<<< HEAD
                     <img src="/img/PAGE1.png" alt="">
                 </div>
                     <p>관광지1</p>
@@ -299,12 +442,33 @@
                     <img src="/img/PAGE3.png" alt="">
                 </div>
                     <p>관광지3</p>
+=======
+                    <img src="" alt="">
+                </div>
+                    <li>관광지1</li>
+            </div>
+            <div>
+                <div>
+                    <img src="" alt="">
+                </div>
+                    <li>관광지2</li>
+            </div>
+            <div>
+                <div>
+                    <img src="" alt="">
+                </div>
+                    <li>관광지3</li>
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
             </div>
         </div>
         </article>
 
         <article class="container3_1">
+<<<<<<< HEAD
         <p class="subname">▶여행할 국가 여행경보 및 환율</p>
+=======
+        <li class="subname">▶여행할 국가 여행경보 및 환율</li>
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
         <div class="con3_1">
             <ul>
                 <li>원화 <input type="text" placeholder="기본금액" readonly></li><br>
@@ -315,6 +479,7 @@
         </article>
         <form action="/country/airUpdate" method= "post">
         <article class="container3_2">
+<<<<<<< HEAD
         <p class="subname">▶여행할 국가 항공편</p>
         <div class="con3_2">
             <div class="a">
@@ -328,12 +493,26 @@
                 <img src="/img/xx.png" alt="">
             </div>  
 -->           
+=======
+        <li class="subname">▶여행할 국가 항공편</li>
+        <div class="con3_2">
+            <div class="a">
+            <li>항공편 직항 여부</li>
+                <img src="/img/oo.png" alt="">
+            </div>
+         </form>
+   
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
         </div> 
         </article>
         <br>
     </section>
     <footer class="container4">
+<<<<<<< HEAD
     <p class="subname">▶여행할 국가 관련 사이트</p>
+=======
+    <li class="subname">▶여행할 국가 관련 사이트</li>
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
     <div class="con4">
         <button id="button" type="button" >대충 어디사이트 링크 or 배너</button>
         <button id="button" type="button" >대충 어디사이트 링크 or 배너</button>

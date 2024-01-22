@@ -22,7 +22,7 @@
     }
     
     header{
-        width: 800px;
+        width: 1200px;
         margin: 0 auto;
         text-align: center;
         margin-bottom: 50px;
@@ -34,13 +34,14 @@
     }
     
     nav{
-        width: 800px;
+        width: 1200px;
         margin: 0 auto;
         text-align: center;
         margin-bottom: 50px;
     }
     section{
-        width: 800px;
+
+        width: 1200px;
         margin: 0 auto;
     }
     .login_form{
@@ -69,7 +70,9 @@
         border: 1px solid rgb(95,95,95);
         
         background-color: rgba(0, 0, 0, 0);
+
         padding-left: 10px;
+
     }
     
     
@@ -86,9 +89,12 @@
         background-color: #A95D27;
         color: white;
         margin-bottom: 30px;
-        font-size: 18px;
+
         font-weight: bold;
         margin-bottom: 40px;
+
+        font-size: 16px;
+
     }
     
 
@@ -133,6 +139,7 @@
         width: 350px;
         height: 45px;
     }
+
     
     #search_pw:link, #search_pw:visited {
     	text-decoration:none;
@@ -160,6 +167,7 @@
     	background-color: rgba(171, 212, 250, 0.3);
     }
     
+
 </style>
 <script>
 window.onload=()=>{
@@ -169,7 +177,11 @@ window.onload=()=>{
 }
 </script>
 <body>
+<<<<<<< HEAD
     <div class="container">
+=======
+    <div class="container"></div>
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
     <header>
         <h1>로그인</h1>
     </header>
@@ -185,16 +197,28 @@ window.onload=()=>{
              <button type="submit" class="btn_login">로그인 하기</button>
              <p>Or With</p>
              <div class="check">
+<<<<<<< HEAD
              <a href="register" class="already" id="join_site">회원가입을 하시겠습니까?</a>  
              <a href="" id = "search_pw">비밀번호찾기</a>
             </div>
 <a th:href="${apiURL}"><img alt="" src="/img/kakao_login_medium_wide.png" id="kakao_btn"></a>
 <a th:href="${napiURL}"><img alt="" src="/img/naver_btnG.png" id="naver_btn"></a>
+=======
+             <a href="register" class="already">회원가입을 하시겠습니까?</a>  
+             <a href="">비밀번호찾기</a>
+            </div>
+<a th:href="${apiURL}"><img alt="" src="/img/kakao_login_medium_wide.png"></a>
+<a th:href="${napiURL}"><img alt="" src="/img/naver_btnG.png"></a>
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
 	         </form>
         </div>
         
     </section>
+<<<<<<< HEAD
 	</div>
+=======
+
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
 
 
 </body>
