@@ -11,14 +11,10 @@ public class CountryDTO {
 	private String nCity3;
 	
 	
-	public CountryDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public CountryDTO() {	}
 
 
 	public CountryDTO(int nCode, String nName, String nCur, int air, String nCity1, String nCity2, String nCity3) {
-		super();
 		this.nCode = nCode;
 		this.nName = nName;
 		this.nCur = nCur;

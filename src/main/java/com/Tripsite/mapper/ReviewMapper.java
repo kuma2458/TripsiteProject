@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.Tripsite.dto.CommentDTO;
 import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.ReviewDTO;
 
