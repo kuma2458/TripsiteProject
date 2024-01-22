@@ -11,7 +11,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,18 +35,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.Tripsite.dto.QnaDTO;
 import com.Tripsite.dto.CommentDTO;
-<<<<<<< HEAD
-=======
 import com.Tripsite.dto.CountryDTO;
->>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
 import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.MemberDTO;
 
 import com.Tripsite.service.CommentService;
-<<<<<<< HEAD
-=======
+
 import com.Tripsite.service.CountryService;
->>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
+
 import com.Tripsite.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,11 +60,8 @@ public class MainController {
 	private MemberService memberService;
 	private QnaService qnaService;
 	private CommentService commentService;
-<<<<<<< HEAD
-	
-=======
 	private CountryService countryService;
->>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
+
 	
 	//카카오톡 로그인
 	private final String REST_API_KEY = "a1278d0bc20e7a09c712e850dcb69c01";
@@ -81,19 +73,13 @@ public class MainController {
 	private final String CLIENT_SECRET_ID = "zYbrueytwq";
 	
 	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService,
-<<<<<<< HEAD
-			CommentService commentService) {
-=======
 			CommentService commentService, CountryService countryService) {
->>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
+
 		this.reviewService = reviewService;
 		this.memberService = memberService;
 		this.qnaService = qnaService;
 		this.commentService = commentService;
-<<<<<<< HEAD
-=======
 		this.countryService = countryService;
->>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
 	}
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
@@ -226,16 +212,12 @@ public class MainController {
 		return "redirect:/main";
 	}
 	@RequestMapping("/main/findpass")
-<<<<<<< HEAD
-	public ModelAndView findpage(ModelAndView view) {
-		view.setViewName("findpass");
-=======
 	public ModelAndView findpage(ModelAndView view, HttpSession session) {
-String msg=(String)session.getAttribute("msg");
+		String msg=(String)session.getAttribute("msg");
 		view.addObject("msg", msg);
 		session.removeAttribute("msg");		
-view.setViewName("findpass");
->>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
+		view.setViewName("findpass");
+
 		return view;
 	}
 	@PostMapping("/main/findpass1")
@@ -243,12 +225,8 @@ view.setViewName("findpass");
 		
 	    MemberDTO Dto = memberService.find(mId, mName);
 	    if(Dto == null) {
-<<<<<<< HEAD
+	    	session.setAttribute("msg", "해당 아이디나, 이름이 없습니다. 다시 확인해주세요.");	    	
 	    	return "redirect:/main/findpass";	    	
-=======
-session.setAttribute("msg", "해당 아이디나, 이름이 없습니다. 다시 확인해주세요.");	    	
-return "redirect:/main/findpass";	    	
->>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
 	    }
 	    
 	    session.setAttribute("findMember", Dto);
@@ -784,9 +762,21 @@ return "redirect:/main/findpass";
 		view.setViewName("review_write_page");
 		return view;
 	}
+	
+	@GetMapping("/review/update/{rno}")
+	public ModelAndView reviewUpdateView(ModelAndView view, @PathVariable(name = "rno") int rno) {
+	    ReviewDTO review = reviewService.selectreviewcontent(rno);
+	    view.setViewName("review_update_view");
+	    view.addObject("review", review);  // 뷰로 전달할 데이터 추가
+	    return view;
+	}
 
-<<<<<<< HEAD
-=======
+	@PostMapping("/review/doUpdate")
+	public String reviewUpdate(ReviewDTO review, HttpSession session) {
+	    System.out.println(review);
+	    reviewService.updateReview(review);
+	    return "redirect:/review/" + review.getRno();
+	}
 	
 	@GetMapping("/country/search")
 	public ModelAndView searchCountryView(String nName, ModelAndView view) {
@@ -796,5 +786,4 @@ return "redirect:/main/findpass";
 		return view;
 	}
 	
->>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
 }

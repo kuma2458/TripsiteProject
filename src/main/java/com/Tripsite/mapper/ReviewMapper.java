@@ -42,6 +42,12 @@ public interface ReviewMapper {
 
 	int insertReview(ReviewDTO review);
 
+	int updatereview(ReviewDTO review);
+
+
+
+
+
 
 
 }
