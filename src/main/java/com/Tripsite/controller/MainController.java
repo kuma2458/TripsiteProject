@@ -208,8 +208,11 @@ public class MainController {
 		return "redirect:/main";
 	}
 	@RequestMapping("/main/findpass")
-	public ModelAndView findpage(ModelAndView view) {
-		view.setViewName("findpass");
+	public ModelAndView findpage(ModelAndView view, HttpSession session) {
+String msg=(String)session.getAttribute("msg");
+		view.addObject("msg", msg);
+		session.removeAttribute("msg");		
+view.setViewName("findpass");
 		return view;
 	}
 	@PostMapping("/main/findpass1")
@@ -217,7 +220,8 @@ public class MainController {
 		
 	    MemberDTO Dto = memberService.find(mId, mName);
 	    if(Dto == null) {
-	    	return "redirect:/main/findpass";	    	
+session.setAttribute("msg", "해당 아이디나, 이름이 없습니다. 다시 확인해주세요.");	    	
+return "redirect:/main/findpass";	    	
 	    }
 	    
 	    session.setAttribute("findMember", Dto);
