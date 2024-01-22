@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -54,7 +55,7 @@ public class MainController {
 	private QnaService qnaService;
 	private CommentService commentService;
 	
-	private final String REST_API_KEY = "application.properties에서 찾아서 적으세여";
+	private final String REST_API_KEY = "a1278d0bc20e7a09c712e850dcb69c01";
 	private final String REDIRECT_URI = "http://localhost:9999/main/callback";
 	private final String Scope = "profile_nickname,profile_image";
 	
@@ -89,6 +90,10 @@ public class MainController {
 	
 	@RequestMapping("/main/login")
 	public ModelAndView loginpage(ModelAndView view) {
+		String apiURL = "https://kauth.kakao.com/oauth/authorize?response_type=code&" + "client_id=" + REST_API_KEY
+				+ "&redirect_uri=" + REDIRECT_URI + "&scope = " + Scope;
+
+		view.addObject("apiURL", apiURL);
 		view.setViewName("login");
 		return view;
 	}
@@ -139,6 +144,44 @@ public class MainController {
 		}
 		return res.toString();
 	}
+	
+	@RequestMapping("/main/callback")
+	public String kakaoCallBack(HttpSession session, String code)
+			throws UnsupportedEncodingException, JSONException {
+
+		String apiURL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code" 
+				+ "&client_id=" + REST_API_KEY
+				+ "&redirect_uri=" + REDIRECT_URI
+				+ "&scope=" + Scope
+				+ "&code=" + code;
+
+		String res = requestKaKaoServer(apiURL, null);
+		System.out.println(res);
+		if (res != null && !res.equals("")) {
+			JSONObject json = new JSONObject(res);
+			session.setAttribute("user", res);
+			session.setAttribute("accessToken", json.getString("access_token"));
+			session.setAttribute("refreshToken", json.getString("refresh_token"));
+
+
+
+	        String profileURL = "https://kapi.kakao.com/v2/user/me";
+	        String userInfoResponse = requestKaKaoServer(profileURL, "Bearer " + json.getString("access_token"));
+
+	        if (userInfoResponse != null && !userInfoResponse.equals("")) {
+	            JSONObject userInfoJson = new JSONObject(userInfoResponse);
+
+	            // 사용자 정보 응답에서 사용자의 닉네임 가져오기
+	            if (userInfoJson.has("properties") && userInfoJson.getJSONObject("properties").has("nickname")) {
+	                String nickname = userInfoJson.getJSONObject("properties").getString("nickname");
+	                // 세션에 사용자의 닉네임 설정
+	                session.setAttribute("nick", nickname);
+	            }
+	        }
+		} 
+
+		return "redirect:/main";
+	}
 	@RequestMapping("/main/findpass")
 	public ModelAndView findpage(ModelAndView view) {
 		view.setViewName("findpass");
@@ -164,8 +207,20 @@ public class MainController {
 	}
 	@RequestMapping("/main/logout")
 	public ModelAndView logoutpage(ModelAndView view, HttpSession session) {
-		session.removeAttribute("member");
-		view.setViewName("main_page");
+	    // 카카오 로그아웃 처리
+	    String apiURL = "https://kapi.kakao.com/v1/user/logout";
+	    String token = (String) session.getAttribute("accessToken");
+	    if (token != null) {
+	        String header = "Bearer " + token;
+	        String result = requestKaKaoServer(apiURL, header);
+	    }
+
+	    // 세션 초기화
+	    session.removeAttribute("member");
+	    session.invalidate();
+
+	    // 로그아웃 후 메인 페이지로 리다이렉트
+	    view.setViewName("main_page");
 		return view;
 	}
 

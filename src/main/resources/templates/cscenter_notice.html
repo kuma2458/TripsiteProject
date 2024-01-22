@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>고객센터공지</title>
+        <style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
+</style>
     <style>
         *{
             margin: 0px;
@@ -20,109 +23,7 @@
             background-size: cover;
         } 
 
-        nav{
-            width: 1500px;
-            height: 100px;
-            margin: 0 auto;
-
-            display: flex;
-            flex-flow: row nowrap;
-            justify-content: end;    
-        }
-
-        .search_container{
-            width: 310px;
-            height: 36px;
-            margin-top: 22px;
-            margin-bottom: 76px;
-            margin-right:30px;
-
-            display: flex;
-            flex-flow: row nowrap;
-            
-        }
-
-        .ct{
-            width: 220.95px;
-            height: 35.03px;
-
-            border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.4);
-            background: rgba(255, 255, 255, 0.51);
-            
-            text-align: center;
-            color: rgba(0, 0, 0, 0.70);
-            font-size: 9px;
-            line-height: 9px;
-            font-weight: 400;
-
-            padding-left: 20px;
-            background-image: url("img/search.png");
-            background-repeat: no-repeat;
-            background-position: 10px center;
-
-            
-        }
-
-        .ct_search{
-            width: 53.48px;
-            height: 35.03px;
-            padding: 9px, 11.48px, 7.03px 12px;
-            align-items: center;
-            margin-left: 22.42px;
-
-            border-radius: 10px;
-            border: 1px solid #000;
-            background: #000;
-            font-size: 16px;
-            font-weight: 700;
-            line-height: 16px;
-            color: white;
-        }
-
-
-        section h1 {
-            color: white;
-            font-size: 67px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 150px;
-        }
-
-        .section_container{
-            margin-top: 70px;
-        }
-
-        #first_box{
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-        }
-        
-        #last_box{
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-
-        .mypage{
-            width: 800px;
-            height: 70px;
-            margin: 0 auto;
-            border: 1px solid #d2e2f1;
-            border-bottom: 1px solid black;
-            background-color: #d2e2f1;
-        }
-        
-        .mypage a:link, .mypage a:visited {
-            text-decoration: none;
-            padding-left: 20px;
-            padding-top: 25px;
-            color: black;
-            font-size: 18px;
-            
-            display: inline-block;
-            vertical-align: center;
-        }
-	section {
+        section {
         width: 1200px;        
         margin: 0 auto;
         align-content: center;        
@@ -143,54 +44,108 @@
         padding: 0 100px;
         justify-content: space-between;
       }
-       .context_container {
-        display: flex;
-        flex-flow: column nowrap;
-        width: 100%;
-        align-items: center;
-      } 
-      .context {
-          display: flex;
-          flex-flow: column nowrap;
-          padding: 20px;
-          width: 1000px;
-          height: 60px;
+      .search_container {
+          width: 300px;
+          height: 80px;
+          border-radius: 10px;
           background-color: rgb(210, 226, 241);
-          border-bottom: 1px solid black;
       }
-
-      .context > a , .context > p {
-        display: inline-block;
-        padding: 5px;
-      }
-      a {
-        text-decoration: none;
-        color: black;
-      }
-
-      .context_container > div:first-child {
-        border-radius: 10px 10px 0 0;
-      }
-      .context_container > div:last-child {
-        border-radius: 0 0 10px 10px;
-        border: none;
+      #search_bar {
+        width: 40px;
+        height: 10px;
       }
       
+       table{
+        margin: 0 auto;
+        width: 1200px;
+        border-collapse: collapse;
+       }
+       caption{
+            text-align: right;
+            margin-bottom: 20px;
+        }
+       #btn_close{
+        width: 100px;    
+        height: 30px;
+        background-color: rgba(0,0,0,0);
+        color: black;
+        font-weight: bold;
+        border: 1px solid #190438;
+        border-radius: 5px;
+        }
+        #btn_close:hover{
+            background-color: white;
+        }
+        #btn_close:active{
+            background-color: white;
+        }
+        td,th{
+            padding: 10px;
+        }
+        th{
+            background-color: #e9e9e9;
+        }
+        td:first-child{
+            width: 20%;
+            text-align: center;
+        }
+       
+   
+        tbody tr:nth-child(2n+1){
+           background-color: rgb(210, 226, 241);
+           color: black;
+        }
+        tbody tr:nth-child(2n){
+           background-color: rgb(210, 226, 241);
+           color:black;
+        }
+        div.content{
+           height: 0px;
+           overflow: hidden;
+           transition: 0.5s all;
+        }
+        	p{
+     	font-family: 'Nanum Gothic', sans-serif;
+     	
+     	}
+        
+     
 
 
-    </style>
-</head>
-<body>
+    </style> 
+    <script>
+        window.onload = () => {     
+            //let content = document.querySelectorAll('.content');
+            document.querySelectorAll('.title').forEach((obj, idx) => {
+                obj.onclick = () => {
+                    console.log(obj.nextElementSibling);//현재 태그의 다음 형제 요소
+                    console.log(obj.previousElementSibling);//현재 태그의 이전 형제 요소
+                    if(obj.nextElementSibling.clientHeight == 0){
+                        obj.nextElementSibling.style.height = obj.nextElementSibling.scrollHeight + "px";
+                        }else{
+                            obj.nextElementSibling.style.height = '0px';
+                        }
+                }
+                });
+                document.querySelector('#btn_close').onclick = () => {
+                  document.querySelectorAll('.content').forEach((item,idx) => {
+                      item.style.height =  '0px';
+                  });
+                }
+            }
+        
+    </script>
+      
+
+      
+
+     
+
+    
+  </head>
+  <body>
 	<th:block th:include="/fragments/header.html"></th:block>
-    <nav>
-        <form action="/search/country" method="get" class="frm_search">
-            <div class="search_container">
-                <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
-                <button type="submit" class="ct_search">검색</button>
-            </div>
-        </form>
-    </nav>
-     <section>
+    <section>
       <article class="article_1">
         <div class="title_container">
           <h2>공지 사항</h2>
@@ -199,35 +154,75 @@
       </article>
 
       <article class="article_2">
-        <div class="context_container">
-          <div class="context">
-            <a href=""><p>제목</p></a>
-            <a href=""><p>내용</p></a>          
-          </div>
-          <div class="context">
-            <a href=""><p>제목</p></a>
-            <a href=""><p>내용</p></a> 
-          </div>
-          <div class="context">
-            <a href=""><p>제목</p></a>
-            <a href=""><p>내용</p></a>
-          </div> 
-          <div class="context">
-            <a href=""><p>제목</p></a>
-            <a href=""><p>내용</p></a> 
-          </div>
-          <div class="context">
-            <a href=""><p>제목</p></a>
-            <a href=""><p>내용</p></a>
-          </div>
-          <div class="context">
-            <a href=""><p>제목</p></a>
-            <a href=""><p>내용</p></a> 
-          </div>
-        </div>
+         <table>
+        <caption><button id="btn_close">글 닫기</button></caption>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+
+
+            <tr >
+                <td>1</td>
+                <td>
+                    <h3 class="title"> 문의사항 작성시 유의사항</h3>
+                    <div class="content">
+                        <p> 문의사항을 작성 하실 때에는 로그인이 필수입니다. 로그인하시고 이용해주시기 바랍니다.
+                            항목별로 있으니 본인의 사정에 맞게 선택하시고 작성해주시면 됩니다. 답변은 평일에는 하루 주말에는 이틀정도 소요됩니다.
+                        </p>
+                    </div>
+                </td>
+                
+            </tr>
+
+            <tr >
+                <td>2</td>
+                <td>
+                    <h3 class="title">검색 시 유의사항</h3>
+                    <div class="content">
+                        <p> 국가 검색은 현재 항공사 기준으로 갈 수 있는 나라만 나옵니다. 그 외의 나라는 검색 할 수 없습니다.
+                        	검색 결과에 나오는 환율은 검색 날짜 기준입니다. 주요 관광지는 대표적인 것만 나오므로 더 알고싶으시면 하단의 배너를 참고하시면 됩니다.
+                        </p>
+                    </div>
+                </td>
+                
+            </tr>
+
+            <tr >
+                <td>3</td>
+                <td>
+                    <h3 class="title">게시판 이용사항</h3>
+                    <div class="content">
+                        <p>리뷰 게시판은 모두가 이용하는 곳입니다. 비속어 사용은 자제부탁드리며, 타인의 글에 대한 비방도 하시면 안됩니다.
+                           댓글도 바른용어 사용 부탁드립니다. 여러분들이 만들어가는 게시판인 만큼 협조 부탁드립니다.
+                        </p>
+                    </div>
+                </td>
+               
+            </tr>
+
+            <tr >
+                <td>4</td>
+                <td>
+                    <h3 class="title">업데이트 주기</h3>
+                    <div class="content">
+                        <p>나라 업데이트는 수시로 하고 있으며, 이미지나 상세정보는 한 달마다 이루어지고 있습니다.
+                        공지사항도 주기적으로 올라오니 확인해주세요. 이 밖에 원하시는 기능이 있으시면 문의사항 주시면 반영해보겠습니다.</p>
+                    </div>
+                </td>
+                
+            </tr>
+
+            
+
+        </tbody>
+    </table>
       </article>
     </section>
 
-    
-</body>
+  </body>
 </html>
