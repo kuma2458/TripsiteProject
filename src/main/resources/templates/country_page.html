@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인페이지</title>
+    <title>검색결과</title>
     <style>
         *{
             margin: 0px;
@@ -15,10 +15,9 @@
             padding-bottom: 50px;
             height: 100vh;
             width: 100vw;
-            background-image: url(/img/conutry_page.jpg);
+            background-image: url("/img/black.png");
             background-repeat: no-repeat;
             background-size: cover;
-          
         } 
 
         .search_container{
@@ -81,9 +80,9 @@
 /* <---------------------------작업 구간--------------------------------------------------> */
 
         section {
-            width: 1200px;
+            width: 1500px;
             height: 1600px;
-            background-color: transparent;
+            background-color: rgba(0, 0, 0, 0.500);
             margin: 0 auto;
             
         }
@@ -92,7 +91,9 @@
             font-size: 90px;
             font-weight: bold;
             left: 0px;
-         
+         	margin-left: 50px;
+         	margin-bottom: 25px;
+         	margin-top: 25px;
         }
         article{
             border-bottom: 3px solid white;
@@ -118,7 +119,7 @@
         }
         .conutryinfo{
             width: 500px;
-            height: 300px;
+            height: 400px;
             background-color: white;
             opacity: 0.6;
             border-radius: 10px;
@@ -126,27 +127,30 @@
             float: left;
             font-size: 1.2em;
             font-weight: bold;
+            margin-left: 200px;
             padding-left: 15px;
             padding-top: 15px;
+            
             
         }
         .conutryinfo li{
             opacity: 1;
             list-style-type: none;
+            
         }
         #infoimg{
             width: 600px;
-            height: 400px;
-            margin-left: 20px;
+          
+            margin-left: 40px;
             box-sizing: border-box;
-
+            margin-bottom: 100px;
         }
         .subname{
             font-size: 40px;
             font-weight: bold;
             color: white;
+            margin-left: 50px;
         }
-
 /* <---------------------------container 2--------------------------------------------------> */
         .container2{
             width: 100%;
@@ -158,15 +162,17 @@
             display: flex;
             margin-top: 25px;
             margin-bottom: 25px;
-            text-align: center;
+            
         }
-        .cimg{
-        	width: 400px;
-            margin-left: 35px;
-        }
-        .cimg p{
-        margin-left: 35px;
-        }
+		.cimg {
+			width: 400px;
+			margin-left:60px;
+		}
+
+		#nCity {
+			text-align: center;
+			margin-left:10px;
+		}
         #a{
             font-size: 25px;
             float: right;
@@ -234,11 +240,12 @@
        margin-left: 140px;
     }
     .con4{
+        
         text-align: center;
        
     }
     .con4 button{
-        width: 500px;
+         width: 500px;
         height: 100px;
         margin-left: 40px;
         margin-bottom: 20px;
@@ -248,98 +255,216 @@
         background-color: darkgray;
         border-radius: 10px;
     }
+    ul, li{
+    	list-style-type: none;
+    }
+    .result{
+    	 margin-left: 10px;
+    }
     </style>
- <script th:if="${session.member==null}">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	function xmlToJson(xml) {
+		// Create the return object
+		var obj = {};
+
+		if (xml.nodeType == 1) {
+			// element
+			// do attributes
+			if (xml.attributes.length > 0) {
+				obj["@attributes"] = {};
+				for (var j = 0; j < xml.attributes.length; j++) {
+					var attribute = xml.attributes.item(j);
+					obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+				}
+			}
+		} else if (xml.nodeType == 3) {
+			// text
+			obj = xml.nodeValue;
+		}
+
+		// do children
+		// If all text nodes inside, get concatenated text from them.
+		var textNodes = [].slice.call(xml.childNodes).filter(function(node) {
+			return node.nodeType === 3;
+		});
+		if (xml.hasChildNodes() && xml.childNodes.length === textNodes.length) {
+			obj = [].slice.call(xml.childNodes).reduce(function(text, node) {
+				return text + node.nodeValue;
+			}, "");
+		} else if (xml.hasChildNodes()) {
+			for (var i = 0; i < xml.childNodes.length; i++) {
+				var item = xml.childNodes.item(i);
+				var nodeName = item.nodeName;
+				if (typeof obj[nodeName] == "undefined") {
+					obj[nodeName] = xmlToJson(item);
+				} else {
+					if (typeof obj[nodeName].push == "undefined") {
+						var old = obj[nodeName];
+						obj[nodeName] = [];
+						obj[nodeName].push(old);
+					}
+					obj[nodeName].push(xmlToJson(item));
+				}
+			}
+		}
+		return obj;
+	}
+	$(function() {
+		var xhr = new XMLHttpRequest();
+		var url = 'http://apis.data.go.kr/1262000/CountryBasicService/getCountryBasicList'; /*URL*/
+		var queryParams = '?'
+				+ encodeURIComponent('serviceKey')
+				+ '='
+				+ 'WCGahA3n121G98lM5u0UhG3vg9D%2B7PP3IicjNlRXzvbzZm7ZpTGAdm%2FNgDks%2B0tHyibeZhJ3n64LbcUN%2B6lfsw%3D%3D'; /*Service Key*/
+		queryParams += '&' + encodeURIComponent('numOfRows') + '='
+				+ encodeURIComponent('10'); /**/
+		queryParams += '&' + encodeURIComponent('pageNo') + '='
+				+ encodeURIComponent('1'); /**/
+		queryParams += '&' + encodeURIComponent('countryName') + '='
+				+ encodeURIComponent('[[${dto.nName}]]'); /**/
+		xhr.open('GET', url + queryParams);
+		xhr.onreadystatechange = function() {
+			if (this.readyState == 4) {
+				let XmlNode = new DOMParser().parseFromString(
+						this.responseText, "text/xml");
+				console.log(xmlToJson(XmlNode).response.body.items);
+
+				let test = xmlToJson(XmlNode).response.body.items.item.basic;
+				let tag = '';
+
+				tag += `${test}`;
+				$('p').html(tag);
+			}
+
+		};
+
+		xhr.send('');
+
+		var xhr1 = new XMLHttpRequest();
+		var url = 'http://apis.data.go.kr/1262000/CountryFlagService2/getCountryFlagList2'; /*URL*/
+		var queryParams1 = '?'
+				+ encodeURIComponent('serviceKey')
+				+ '='
+				+ 'gIRuJ6SH90S7hO6ge7hXAuHS%2B4vIFD7xlcE0wYySD1oJjLDjM%2Fk9jPakuzBfc%2FGKN5ru6syjhABujJX4yWUC3Q%3D%3D'; /*Service Key*/
+		queryParams1 += '&' + encodeURIComponent('returnType') + '='
+				+ encodeURIComponent('JSON'); /**/
+		queryParams1 += '&' + encodeURIComponent('numOfRows') + '='
+				+ encodeURIComponent('10'); /**/
+		queryParams1 += '&' + encodeURIComponent('cond[country_nm::EQ]') + '='
+				+ encodeURIComponent('[[${dto.nName}]]'); /**/
+		xhr1.open('GET', url + queryParams1);
+		xhr1.onreadystatechange = function() {
+			if (this.readyState == 4) {
+				console.log(this);
+				var obj = JSON.parse(this.responseText);
+				console.log(obj.data[0].download_url);
+				let flag = obj.data[0].download_url;
+				$('#infoimg').attr('src', flag);
+			}
+		};
+
+		xhr1.send('');
+
+	})
+</script>
+<script th:if="${session.member==null}">
 	alert('로그인 후 이용 가능합니다');
-	location.href="/needlogin";
+	location.href = "/needlogin";
 </script>
 
 </head>
 <body>
-<th:block th:include="/fragments/header.html"></th:block>
-    <nav>
-        <form action="/country/search" method="get" class="frm_search">
-            <div class="search_container">
-                <input type="text" name="nName" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
-                <button type="submit" class="ct_search" th:if="${session.member!=null}">검색</button>
-            </div>
-        </form>
-    </nav>
-   <section class="main_container">
-        <article class="container1">
-            <h1>대한민국</h1>
-            <h3 class="subname">Republic of Korea</h3>
-            <div class="conutryinfo">
-            <ul>
-                <li>(예시임)</li>
-                <li>면 적 : 51.4만 k㎡(한반도의 2.3배)</li>
-                <li>인 구 : 약 6,407만명(2012년)</li>
-                <li>수 도 : 방콕시(Bangkok : 인구 570만명), 방콕시 및 인근지역(약 1,200만명)</li>
-                <li>민 족 : 타이족 85%, 화교 12%, 말레이족 2%, 기타 1% </li>
-                <li>종 교 : 불교 94% 이슬람교 4% 기독교 0.4% </li>
-                <li>언 어 : 타이어(공용어) </li>
-                <li>시 차 : -2시간</li>
-            </ul>
-        </div>
-        <div>
-            <img src="/img/PAGE0.png" id="infoimg">
-        </div>
-        </article>
-        <article class="container2">
-            <p class="subname">▶[검색 나라 이름] 핫플레이스 </p>
-            
-            <div class="con2">
-            <div>
-                <div>
-                    <img th:src="@{'/cimg/'+${dto.nCity1}+'.png'}" alt="nCity1" class="cimg">
-                </div>
-                    <p>[[${dto.nCity1}]]</p>
-            </div>
-            <div>
-                <div>
-                    <img th:src="@{'/cimg/'+${dto.nCity2 }+'.png'}" alt="nCity2" class="cimg">
-                </div>
-                    <p>[[${dto.nCity2}]]</p>
-            </div>
-            <div>
-                <div>
-                     <img th:src="@{'/cimg/'+${dto.nCity3 }+'.png'}" alt="nCity3" class="cimg">
-                </div>
-                 <p>[[${dto.nCity3}]]</p>
-            </div>
-        </div>
-        </article>
+	<th:block th:include="/fragments/header.html"></th:block>
+	<nav>
+		<form action="/country/search" method="get" class="frm_search">
+			<div class="search_container">
+				<input type="text" name="nName" class="ct"
+					placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
+				<button type="submit" class="ct_search"
+					th:if="${session.member!=null}">검색</button>
+			</div>
+		</form>
+	</nav>
+	<section class="main_container">
 
-        <article class="container3_1">
-        <p class="subname">▶여행할 국가 여행경보 및 환율</p>
-        <div class="con3_1">
-            <ul>
-                <li>원화 <input type="text" placeholder="기본금액" readonly></li><br>
+		<article class="container1">
+			<h1>[[${dto.nName}]]</h1>
+			<div class="conutryinfo">
+				<ul>
+					<p class="result"></p>
+				</ul>
+			</div>
+			<div>
+				<img src="" id="infoimg">
+			</div>
+		</article>
 
-                <li>검색 나라 <input type="text" placeholder="환율계산가격" readonly></li>
-            </ul>
-        </div>
-        </article>
-        <article class="container3_2">
-        <p class="subname">▶여행할 국가 항공편</p>
-        <div class="con3_2">
-            <div class="a">
-            <p>항공편 직항 여부</p>
-                <img th:src="@{'/cimg/'+${dto.air }+'.png'}" alt="">
-            </div>        
-        </div> 
-        </article>
-        <br>
-    </section>
-    <footer class="container4">
-    <p class="subname">▶여행할 국가 관련 사이트</p>
-    <div class="con4">
-        <button id="button" type="button" href="https://www.0404.go.kr/dev/main.mofa">외교부 해외 안전여행</button>
-        <button id="button" type="button" href="http://www.tourinfo.or.kr/v2/info/linksite.asp">여행 정보 센터</button>
-        <button id="button" type="button" href="https://gtn.co.kr/">세계 여행 신문</button> 
-        <button id="button" type="button" ></button>
-    </div>
-    </footer>
-    
+		<article class="container2">
+			<li class="subname">▶[[${dto.nName}]] 핫플레이스</li>
+
+			<div class="con2">
+				<div>
+					<div>
+						<img th:src="@{'/cimg/'+${dto.nCity1}+'.png'}" alt="nCity1"
+							class="cimg">
+					</div>
+					<li id="nCity">[[${dto.nCity1}]]</li>
+				</div>
+				<div>
+					<div>
+						<img th:src="@{'/cimg/'+${dto.nCity2 }+'.png'}" alt="nCity2"
+							class="cimg">
+					</div>
+					<li id="nCity">[[${dto.nCity2}]]</li>
+				</div>
+				<div>
+					<div>
+						<img th:src="@{'/cimg/'+${dto.nCity3 }+'.png'}" alt="nCity3"
+							class="cimg">
+					</div>
+					<li id="nCity">[[${dto.nCity3}]]</li>
+				</div>
+			</div>
+		</article>
+
+		<article class="container3_1">
+			<li class="subname">▶[[${dto.nName}]] 오늘 환율</li>
+			<div class="con3_1">
+				<ul>
+					<li>원화 <input type="text" placeholder="기본금액" readonly></li>
+					<br>
+
+					<li>검색 나라 <input type="text" placeholder="환율계산가격" readonly></li>
+				</ul>
+			</div>
+		</article>
+		<article class="container3_2">
+			<li class="subname">▶[[${dto.nName}]] 항공편</li>
+				<div class="con3_2">
+					<div class="a">
+						<li>항공편 직항 여부</li>
+						<img th:src="@{'/cimg/'+${dto.air }+'.png'}" alt="">
+					</div>
+				</div>
+		</article>
+		<br>
+	</section>
+<!-- 
+	<footer class="container4">
+		<li class="subname">▶여행할 국가 관련 사이트</li>
+		<div class="con4">
+		<button id="button" type="button"
+				href="https://www.0404.go.kr/dev/main.mofa">외교부 해외 안전여행</button>
+			<button id="button" type="button"
+				href="http://www.tourinfo.or.kr/v2/info/linksite.asp">여행 정보
+				센터</button>
+			<button id="button" type="button" href="https://gtn.co.kr/">세계
+				여행 신문</button>
+			<button id="button" type="button"></button>
+		</div>
+	</footer>
+ -->
 </body>
 </html>
