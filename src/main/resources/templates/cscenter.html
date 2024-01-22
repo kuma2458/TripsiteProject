@@ -87,10 +87,18 @@
             font-weight: bold;
             text-align: center;
             margin-top: 150px;
+
         }
 
         .section_container{
             margin-top: 70px;
+        }
+
+
+        .section_container > div > a{
+            font-size: 20px;
+            font-weight: bold;
+            padding-left:30px;
         }
 
         #first_box{
@@ -122,7 +130,12 @@
             display: inline-block;
             vertical-align: center;
         }
-
+     .container{
+    	margin: 0 auto;
+    	width: 1300px;
+    	height: 700px;
+    	background-color: rgba(171, 212, 250, 0.3);
+    }
 
 
     </style>
@@ -137,15 +150,19 @@
             </div>
         </form>
     </nav>
+
+    <div class="container">
     <section>
         <h1>고객 센터</h1>
         <article class="section_container">
-            <div class="mypage" id="first_box"><a href="/cscenter/csnotice" title="공지사항">공지사항</a></div>
-            <div class="mypage"><a href="/cscenter/csQnA" title="QnA">QnA 자주 묻는 질문</a></div>
-            <div class="mypage"><a href="/cscenter/cschat" title="채팅 상담">채팅 상담</a></div>
-            <div class="mypage" id="last_box"><a href="/cscenter/csinquiry" title="고객센터 문의하기">고객센터 문의하기</a></div>
+            <div class="mypage" id="first_box"><a href="/cscenter/csnotice" title="공지사항">- 공지사항</a></div>
+            <div class="mypage"><a href="/cscenter/csQnA" title="QnA">- QnA 자주 묻는 질문</a></div>
+            <div class="mypage"><a href="/cscenter/cschat" title="채팅 상담">- 채팅 상담</a></div>
+            <div class="mypage" id="last_box"><a href="/cscenter/csinquiry" title="고객센터 문의하기">- 고객센터 문의하기</a></div>
         </article>
     </section>
+    </div>
+
 
     
 </body>

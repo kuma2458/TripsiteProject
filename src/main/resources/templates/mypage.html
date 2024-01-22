@@ -83,10 +83,11 @@
 
         section h1 {
             color: white;
-            font-size: 67px;
+            font-size: 67px; 
             font-weight: bold;
             text-align: center;
-            margin-top: 150px;
+            margin-top: 80px;
+            padding-top: 50px;
         }
 
         .section_container{
@@ -121,6 +122,18 @@
             display: inline-block;
             vertical-align: center;
         }
+                .section_container > div > a{
+            font-size: 20px;
+            font-weight: bold;
+            padding-left:30px;
+        }
+        
+   .container{
+    	margin: 0 auto;
+    	width: 1300px;
+    	height: 700px;
+    	background-color: rgba(171, 212, 250, 0.3);
+    }
 
 
 
@@ -131,8 +144,10 @@
 </script>
 </head>
 <body>
+	
 	<th:block th:include="/fragments/header.html"></th:block>
     <nav>
+	
         <form action="/search/country" method="get" class="frm_search">
             <div class="search_container">
                 <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
@@ -140,16 +155,17 @@
             </div>
         </form>
     </nav>
+    <div class="container">
     <section>
         <h1>마이 페이지</h1>
         <article class="section_container">
-            <div class="mypage" id="first_box"><a th:if="${session.member!=null}" th:href="@{/member/Update(mId=${session.member.mId})}" title="개인정보 수정">개인정보 수정</a></div>
-            <div class="mypage"><a href="/mypage/myreview" title="작성 글 관리">내가 작성한 글 관리</a></div>
-            <div class="mypage"><a href="/mypage/mycomment" title="작성 댓글 관리">내가 작성한 댓글 관리</a></div>
-            <div class="mypage" id="last_box"><a href="/mypage/inquiry" title="고객센터 문의 내역">고객센터 문의 내역</a></div>
+            <div class="mypage" id="first_box"><a th:if="${session.member!=null}" th:href="@{/member/Update(mId=${session.member.mId})}" title="개인정보 수정">- 개인정보 수정</a></div>
+            <div class="mypage"><a href="/mypage/myreview" title="작성 글 관리">- 내가 작성한 글 관리</a></div>
+            <div class="mypage"><a href="/mypage/mycomment" title="작성 댓글 관리">- 내가 작성한 댓글 관리</a></div>
+            <div class="mypage" id="last_box"><a href="/mypage/inquiry" title="고객센터 문의 내역">- 고객센터 문의 내역</a></div>
         </article>
     </section>
-
+</div>
     
 </body>
 </html>

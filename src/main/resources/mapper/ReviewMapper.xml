@@ -76,6 +76,7 @@
 	<select id="getfilelist" parameterType="int" resultType="file">
 		select * from board_file where REVIEW_NO = #{qno}
 	</select>
+	
 	<delete id="deleteReview" parameterType="hashmap">
 		DELETE FROM REVIEW WHERE REVIEW_NO = #{rno} AND MEMBER_ID =#{rId} 
 	</delete>
@@ -116,7 +117,14 @@
 	<select id="reviewtotalhate" parameterType="int">
 		select count(*) from REVIEW_hate where REVIEW_NO = #{rno}
 	</select>
-
+	
+<update id="updatereview" parameterType="review">
+    UPDATE review SET
+        REVIEW_TITLE = #{rTitle},
+        REVIEW_CONTENT = #{rContent},
+        REVIEW_ITEM = #{rItem}
+    	WHERE REVIEW_NO = #{rno}
+</update>
 </mapper>
 
 

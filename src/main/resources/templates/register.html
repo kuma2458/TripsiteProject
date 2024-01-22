@@ -27,8 +27,15 @@
         margin-bottom: 50px;
         padding-top: 30px;
     }
+
+    
+ 	header > h1 {
+    	font-size: 50px;
+    }
+
     nav{
         width: 1200px;
+
         margin: 0 auto;
         text-align: center;
         margin-bottom: 50px;
@@ -125,6 +132,7 @@
         background-color: #A95D27;
         color: white;
         margin-bottom: 30px;
+        font-weight: bold;
         font-size: 16px;
     }
     
@@ -187,6 +195,33 @@
      	width: 350px;
      	height: 45px;
      }
+     
+     #agree_ask{
+   		font-size: 16px;
+     }
+     
+     #already_register, #login_go{
+     	text-decoration: none;
+     	font-size: 18px;
+     	color: black;
+     }
+     
+	 #kakao_btn{
+    	margin-top: 10px;
+    }
+
+    #naver_btn{
+    	margin-top: 15px;
+    	margin-bottom: 15px;
+    }
+    
+   .container{
+    	margin: 0 auto;
+    	width: 800px;
+    	height: 1300px;
+    	background-color: rgba(171, 212, 250, 0.3);
+    }
+     
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
@@ -293,7 +328,11 @@ $(() => {
         });
 </script>
 <body>
+<<<<<<< HEAD
+    <div class="container">
+=======
     <div class="container"></div>
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
     <header>
         <h1>회원가입</h1>
     </header>
@@ -329,6 +368,18 @@ $(() => {
              <input type="text" name="mName" class="person" placeholder="이름을 입력하세요">
              <div class="agree">
              <input type="checkbox" name="agree" required>
+<<<<<<< HEAD
+             <label for="agree" id="agree_ask">이용약관에 동의하십니까?</label>
+            </div>
+             <button type="submit" class="btn_login">회원가입 하기</button>
+             <p>Or With</p>
+			<a th:href="${apiURL}"><img alt="" src="/img/kakao_login_medium_wide.png" id="kakao_btn"></a>
+			<a th:href="${napiURL}"><img alt="" src="/img/naver_btnG.png" id="naver_btn"></a>
+         </form>
+         <div class="check">
+         <p class="already" id="already_register">이미 회원가입을 하셨습니까?</p>  
+         <a href="login" id="login_go">로그인</a>
+=======
              <label for="agree" >이용약관에 동의하십니까?</label>
             </div>
              <button type="submit" class="btn_login">회원가입 하기</button>
@@ -339,11 +390,16 @@ $(() => {
          <div class="check">
          <p class="already">이미 회원가입을 하셨습니까?</p>  
          <a href="login">로그인</a>
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
         </div>
         </div>
         
     </section>
+<<<<<<< HEAD
+</div>
+=======
 
+>>>>>>> 61c0b93b5c1612d6eff2d70e5e2d7bd4ebfaa23f
 
 </body>
 </html>

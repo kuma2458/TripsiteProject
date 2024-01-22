@@ -20,12 +20,17 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+    
     header{
         width: 1200px;
         margin: 0 auto;
         text-align: center;
         margin-bottom: 50px;
         padding-top: 30px;
+    }
+    
+    header > h1 {
+    	font-size: 50px;
     }
     
     nav{
@@ -35,6 +40,7 @@
         margin-bottom: 50px;
     }
     section{
+
         width: 1200px;
         margin: 0 auto;
     }
@@ -64,6 +70,9 @@
         border: 1px solid rgb(95,95,95);
         
         background-color: rgba(0, 0, 0, 0);
+
+        padding-left: 10px;
+
     }
     
     
@@ -80,7 +89,12 @@
         background-color: #A95D27;
         color: white;
         margin-bottom: 30px;
+
+        font-weight: bold;
+        margin-bottom: 40px;
+
         font-size: 16px;
+
     }
     
 
@@ -125,6 +139,35 @@
         width: 350px;
         height: 45px;
     }
+
+    
+    #search_pw:link, #search_pw:visited {
+    	text-decoration:none;
+    	color: black;
+    	font-size: 18px;
+    }
+
+    #join_site{
+    	text-decoration:none;
+    	font-size: 18px;
+    }
+    
+    #kakao_btn{
+    	margin-top: 40px;
+    }
+
+    #naver_btn{
+    	margin-top: 15px;
+    }
+    
+    .container{
+    	margin: 0 auto;
+    	width: 800px;
+    	height: 850px;
+    	background-color: rgba(171, 212, 250, 0.3);
+    }
+    
+
 </style>
 <script>
 window.onload=()=>{
@@ -140,7 +183,8 @@ window.onload=()=>{
 
   </script>
 <body>
-    <div class="container"></div>
+
+    <div class="container">
     <header>
         <h1>로그인</h1>
     </header>
@@ -156,11 +200,11 @@ window.onload=()=>{
              <button type="submit" class="btn_login">로그인 하기</button>
              <p>Or With</p>
              <div class="check">
-             <a href="register" class="already">회원가입을 하시겠습니까?</a>  
-             <a href="/main/findpass">비밀번호찾기</a>
+             <a href="register" class="already" id="join_site">회원가입을 하시겠습니까?</a>  
+             <a href="" id = "search_pw">비밀번호찾기</a>
             </div>
-<a th:href="${apiURL}"><img alt="" src="/img/kakao_login_medium_wide.png"></a>
-<a th:href="${napiURL}"><img alt="" src="/img/naver_btnG.png"></a>
+		<a th:href="${apiURL}"><img alt="" src="/img/kakao_login_medium_wide.png" id="kakao_btn"></a>
+		<a th:href="${napiURL}"><img alt="" src="/img/naver_btnG.png" id="naver_btn"></a>
 	         </form>
         </div>
         
