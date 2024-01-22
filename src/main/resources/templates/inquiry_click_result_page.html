@@ -434,22 +434,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 
-function movefirstcomment(){
-    let firstcomment= document.querySelector('.article_container5').firstElementChild;
-	let location=firstcomment.offsetTop;
-	window.scrollTo({ top: location-450, behavior: "auto" });
-	
-}
-function movelastcomment(){
-    let lastcomment= document.querySelector('.article_container5').lastElementChild;
-	let location=lastcomment.offsetTop;
-	window.scrollTo({ top: location, behavior: "auto" });
-	
-}
-window.onload=()=>{
-    $('#last_comment').click(movelastcomment);
-    $('#first_comment').click(movefirstcomment);
-
+function deleteqna(qNo){
+	if(confirm('삭제하시겠습니까?')){
+		location.href='/inquiry/delete/'+qNo;
+	}
 }
 </script>
 	<th:block th:insert="~{/fragments/header.html}"></th:block>
@@ -476,7 +464,7 @@ window.onload=()=>{
                 </div>
                 <th:block th:if="${session.member!=null}">
                 <div th:if="${qna.qId==session.member.mId}"  class="write_button">
-					<button th:onclick="|location.href='@{/inquiry/delete/{qNo}(qNo=${qna.qNo})}'|">삭제</button>
+					<button th:onclick="deleteqna([[${qna.qNo}]])">삭제</button>
                 </div>
                 </th:block>
                 <p id="info_last">작성 시간 : [[${qna.qTime}]] </p>
