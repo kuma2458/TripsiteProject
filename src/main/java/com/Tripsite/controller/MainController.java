@@ -11,7 +11,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -209,8 +208,11 @@ public class MainController {
 		return "redirect:/main";
 	}
 	@RequestMapping("/main/findpass")
-	public ModelAndView findpage(ModelAndView view) {
-		view.setViewName("findpass");
+	public ModelAndView findpage(ModelAndView view, HttpSession session) {
+String msg=(String)session.getAttribute("msg");
+		view.addObject("msg", msg);
+		session.removeAttribute("msg");		
+view.setViewName("findpass");
 		return view;
 	}
 	@PostMapping("/main/findpass1")
@@ -218,7 +220,8 @@ public class MainController {
 		
 	    MemberDTO Dto = memberService.find(mId, mName);
 	    if(Dto == null) {
-	    	return "redirect:/main/findpass";	    	
+session.setAttribute("msg", "해당 아이디나, 이름이 없습니다. 다시 확인해주세요.");	    	
+return "redirect:/main/findpass";	    	
 	    }
 	    
 	    session.setAttribute("findMember", Dto);
@@ -754,7 +757,21 @@ public class MainController {
 		view.setViewName("review_write_page");
 		return view;
 	}
+	
+	@GetMapping("/review/update/{rno}")
+	public ModelAndView reviewUpdateView(ModelAndView view, @PathVariable(name = "rno") int rno) {
+	    ReviewDTO review = reviewService.selectreviewcontent(rno);
+	    view.setViewName("review_update_view");
+	    view.addObject("review", review);  // 뷰로 전달할 데이터 추가
+	    return view;
+	}
 
+	@PostMapping("/review/doUpdate")
+	public String reviewUpdate(ReviewDTO review, HttpSession session) {
+	    System.out.println(review);
+	    reviewService.updateReview(review);
+	    return "redirect:/review/" + review.getRno();
+	}
 	
 	@GetMapping("/country/search")
 	public ModelAndView searchCountryView(String nName, ModelAndView view) {
