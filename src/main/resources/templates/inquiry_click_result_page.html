@@ -433,116 +433,13 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-$(function() {
-	let rno = [[${review.rno}]];
-	let member='[[${session.member}]]';
-	$("#btn_like").click(function() {
-		if(member==''){
-			alert('로그인 후 좋아요가 가능합니다');
-			location.href="/needlogin";
-		}
-		$.ajax({
-			url: "/review/like",
-			type:"post",
-			data : {
-				rno : rno
-			},
-			dataType: "json",
-			success : function(r){
-				console.log(r);
-				alert(r.msg);
-				let tag=`좋아요 : ${r.count}`
-				$("#btn_like").next().html(tag);
-			}
-		});
-	});
-	$("#btn_hate").click(function() {
-		if(member==''){
-			alert('로그인 후 싫어요가 가능합니다');
-			location.href="/needlogin";
-		}
-		$.ajax({
-			url: "/review/hate",
-			type:"post",
-			data : {
-				rno : rno
-			},
-			dataType: "json",
-			success : function(r){
-				console.log(r);
-				alert(r.msg);
-				let tag=`싫어요 : ${r.count}`
-				$("#btn_hate").next().html(tag);
-			}
-		});
-	});
-	$(".btn_comment_like").click(function(){
-		let cno=$(this).parents(".comment_profile").find('input').val();
-		if(member==''){
-			alert('로그인 후 좋아요가 가능합니다');
-			location.href="/needlogin";
-		}
-		$.ajax({
-			url:'/review/comment/like',
-			data:{
-				cNo : cno
-			},
-			type:'get',
-			datatype:'json',
-			success:(r)=>{
-				alert(r.msg);
-				let tag= `좋아요 : ${r.count}`;
-				$(this).next().html(tag);
-			}
-			
-			
-		});
-		
-	});
-	$(".btn_comment_hate").click(function(){
-		let cno=$(this).parents(".comment_profile").find('input').val();
-		if(member==''){
-			alert('로그인 후 싫어요가 가능합니다');
-			location.href="/needlogin";
-		}
-		$.ajax({
 
-			url:'/review/comment/hate',
-			data:{
-				cNo : cno
-			},
-			type:'get',
-			datatype:'json',
-			success:(r)=>{
-				alert(r.msg);
-				let tag= `싫어요 : ${r.count}`;
-				$(this).find('span').html(tag);
-			}
-			
-			
-		});
-		
-	});
-});
-
-
-function movefirstcomment(){
-    let firstcomment= document.querySelector('.article_container5').firstElementChild;
-	let location=firstcomment.offsetTop;
-	window.scrollTo({ top: location-450, behavior: "auto" });
-	
+function deleteqna(qNo){
+	if(confirm('삭제하시겠습니까?')){
+		location.href='/inquiry/delete/'+qNo;
+	}
 }
-function movelastcomment(){
-    let lastcomment= document.querySelector('.article_container5').lastElementChild;
-	let location=lastcomment.offsetTop;
-	window.scrollTo({ top: location, behavior: "auto" });
-	
-}
-window.onload=()=>{
-    $('#last_comment').click(movelastcomment);
-    $('#first_comment').click(movefirstcomment);
 
-}
 </script>
 	<th:block th:insert="~{/fragments/header.html}"></th:block>
     <nav>
@@ -556,85 +453,36 @@ window.onload=()=>{
     <section>
             <article class="article_container1">
                 <div class="article_category">
-                    <p>[[${review.rItem}]]</p>
+                    <p>[[${qna.qItem}]]</p>
                 </div>
             </article>
             <article class="article_container1_bottom">
                 <div class="writer_profile">
                     <img src="/img/profile2.png" alt="프로필사진">
-                    <span>[[${review.rNick}]]</span> 
+                    <span>[[${qna.qNick}]]</span> 
                     <span class="writer_profile_icon"><a href="#" id="writer_chat"><img src="/img/chat.png" alt="채팅아이콘"></a></span>
                     <span class="writer_profile_text"><a href="#">채팅</a></span>
                 </div>
                 <th:block th:if="${session.member!=null}">
-                <div th:if="${review.rId==session.member.mId}"  class="write_button">
-              		<button th:onclick="|location.href='@{/review/update/{rno}(rno=${review.rno})}'|">수정</button>
-					<button th:onclick="|location.href='@{/review/delete/{rno}(rno=${review.rno})}'|">삭제</button>
-                
+                <div th:if="${qna.qId==session.member.mId}"  class="write_button">
+					<button th:onclick="deleteqna([[${qna.qNo}]])">삭제</button>
                 </div>
                 </th:block>
-                <p id="info_last">[[${review.rTime}]] 조회수: [[${review.rCount}]] </p>
+                <p id="info_last">작성 시간 : [[${qna.qTime}]] </p>
         
             </article>
             
             <article class="article_container2">
-                <h2>[[${review.rTitle}]]</h2>
+                <h2>[[${qna.qTitle}]]</h2>
                 <div class="article_content">
-                    [(${review.rContent})]
+                    [(${qna.qContent})]
                 </div>
             </article>    
             
-            <article class="article_container3">
-           
-                <span>댓글 [[${commentcount}]] ></span>
-                <div>
-                    <button id="btn_like"><img src="/img/like.png"></button>
-  					<span>좋아요 : [[${review.rLike}]]</span>
-                    <button id="btn_hate"><img src="/img/hate.png"></button>
-                    <span>좋아요 : [[${review.rHate}]]</span>
-                </div>
+            <article class="article_container3"> 
+                <span></span>
             </article>
 
-            <article class="article_container4">
-                <div class="container4_textarea">
-                	<form action="/review/comment" method="post">
-					<input type="hidden" name="rNo" th:value="${review.rno}">
-                   		 <textarea name="cContent" id="comment_area" cols="30" rows="10" placeholder="댓글을 작성하세요." ></textarea>
-                   		 <button class="comment_btn">작성</button>
-					</form>
-                </div>
-            </article>
-            
-            <article class="article_container0">
-            <button id="last_comment">마지막 댓글로</button>
-            </article>
-            <article class="article_container5">
-            
-                    <div class="comment_container" th:each="c:${commentlist}">
-                        <div class="comment_profile">
-                         <input type="hidden" name="cNo" th:value="${c.cNo}">
-                            <img src="/img/profile2.png" alt=""><span>&nbsp;&nbsp;[[${c.cNick}]]</span>
-				               <th:block th:if="${session.member!=null}">
-									<button id="deletecomment_btn" th:if="${c.cId==session.member.mId}" th:onclick="|location.href='@{/comment/delete/{cNo}(cNo=${c.cNo})}'|">삭제</button>				               
-				               </th:block>
-                           
-                            <span>
-                                <button class="btn_comment_hate"><img src="/img/hate.png"></button>
-                                <span>싫어요 : [[${c.cHate}]]</span>
-                                <button class="btn_comment_like"><img src="/img/like.png"></button>
-                                <span>좋아요 : [[${c.cLike}]]</span>
-                            </span>
-                        </div>
-                        <p class="comment_content">[[${c.cContent}]]
-                        <br><br><span class="comment_time">[[${c.cTime}]] &nbsp;&nbsp; <a href="#"><img src="/img/reply.png" alt="답글아이콘">답글</a></span></p>
-                    </div>
-                </article>
-                <footer>
-                    <div class="footer_container">
-                        <button id="footer_left">다음 댓글 더보기</button>
-                        <button id="first_comment">첫 댓글로</button>
-                    </div>
-                </footer>
     </section>
 </body>
 </html>

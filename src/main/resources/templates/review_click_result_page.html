@@ -215,6 +215,7 @@
             width: 672px;
             border: 1px solid black;
             margin: 0 auto;
+            padding:10px 0px;
         }
 
         .article_container2 h2{
@@ -433,6 +434,16 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+function deletereview(rno){
+	if(confirm('삭제하시겠습니까?')){
+		location.href='/review/delete/'+rno;
+	}
+}
+function deletecomment(cno){
+	if(confirm('삭제하시겠습니까?')){
+		location.href='/comment/delete/'+cno;
+	}
+}
 $(function() {
 	let rno = [[${review.rno}]];
 	let member='[[${session.member}]]';
@@ -569,11 +580,11 @@ window.onload=()=>{
                 <th:block th:if="${session.member!=null}">
                 <div th:if="${review.rId==session.member.mId}"  class="write_button">
               		<button th:onclick="|location.href='@{/review/update/{rno}(rno=${review.rno})}'|">수정</button>
-					<button th:onclick="|location.href='@{/review/delete/{rno}(rno=${review.rno})}'|">삭제</button>
+					<button th:onclick="deletereview([[${review.rno}]])">삭제</button>
                 
                 </div>
                 </th:block>
-                <p id="info_last">[[${review.rTime}]] 조회수: [[${review.rCount}]] </p>
+                <p id="info_last">작성 시간 : [[${review.rTime}]] 조회수: [[${review.rCount}]] </p>
         
             </article>
             
@@ -616,7 +627,7 @@ window.onload=()=>{
                          <input type="hidden" name="cNo" th:value="${c.cNo}">
                             <img src="/img/profile2.png" alt=""><span>&nbsp;&nbsp;[[${c.cNick}]]</span>
 				               <th:block th:if="${session.member!=null}">
-									<button id="deletecomment_btn" th:if="${c.cId==session.member.mId}" th:onclick="|location.href='@{/comment/delete/{cNo}(cNo=${c.cNo})}'|">삭제</button>				               
+									<button id="deletecomment_btn" th:if="${c.cId==session.member.mId}" th:onclick="deletecomment([[${c.cNo}]])">삭제</button>				               
 				               </th:block>
                            
                             <span>

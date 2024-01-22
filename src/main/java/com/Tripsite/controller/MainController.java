@@ -35,10 +35,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.Tripsite.dto.QnaDTO;
 import com.Tripsite.dto.CommentDTO;
+import com.Tripsite.dto.CountryDTO;
 import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.MemberDTO;
 
 import com.Tripsite.service.CommentService;
+import com.Tripsite.service.CountryService;
 import com.Tripsite.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,7 +58,7 @@ public class MainController {
 	private MemberService memberService;
 	private QnaService qnaService;
 	private CommentService commentService;
-	
+	private CountryService countryService;
 	
 	//카카오톡 로그인
 	private final String REST_API_KEY = "a1278d0bc20e7a09c712e850dcb69c01";
@@ -68,11 +70,12 @@ public class MainController {
 	private final String CLIENT_SECRET_ID = "zYbrueytwq";
 	
 	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService,
-			CommentService commentService) {
+			CommentService commentService, CountryService countryService) {
 		this.reviewService = reviewService;
 		this.memberService = memberService;
 		this.qnaService = qnaService;
 		this.commentService = commentService;
+		this.countryService = countryService;
 	}
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
@@ -500,6 +503,15 @@ public class MainController {
 		view.setViewName("review_click_result_page");
 		return view;
 	}
+	@RequestMapping("/inquiry/{qNo}")
+	public ModelAndView selectqnapage(ModelAndView view,@PathVariable(name="qNo") int qNo) {
+		QnaDTO dto=qnaService.selectqnacontent(qNo);
+		List<FileDTO> filelist=qnaService.getfilelist(qNo);
+ 		view.addObject("filelist", filelist);
+		view.addObject("qna", dto);
+		view.setViewName("inquiry_click_result_page");
+		return view;
+	}
 	
 	@RequestMapping("/review/like")
 	public ResponseEntity<String> reviewlike(int rno, HttpSession session) {
@@ -710,6 +722,21 @@ public class MainController {
 		  String rId=dto.getmId();
 		  reviewService.deleteReview(rno,rId);
 		  String reurl=request.getHeader("Referer");
+		  if(reurl.contains("/review/")) {
+			  reurl="http://localhost:9999/review";
+		  }
+		  return "redirect:"+reurl;
+	  }
+	  
+	  @RequestMapping("/inquiry/delete/{qNo}")
+	  public String deleteinquiry(@PathVariable(name="qNo") int qNo, HttpSession session,HttpServletRequest request) {
+		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
+		  String qId=dto.getmId();
+		  qnaService.deleteReview(qNo,qId);
+		  String reurl=request.getHeader("Referer");
+		  if(reurl.contains("/inquiry/")) {
+			  reurl="http://localhost:9999/mypage/inquiry";
+		  }
 		  return "redirect:"+reurl;
 	  }
 	  
@@ -739,8 +766,15 @@ public class MainController {
 	public String reviewUpdate(ReviewDTO review, HttpSession session) {
 	    System.out.println(review);
 	    reviewService.updateReview(review);
-
 	    return "redirect:/review/" + review.getRno();
+	}
+	
+	@GetMapping("/country/search")
+	public ModelAndView searchCountryView(String nName, ModelAndView view) {
+		CountryDTO dto = countryService.selectCountry(nName);
+		view.addObject("dto", dto);
+		view.setViewName("country_page");
+		return view;
 	}
 	
 }
