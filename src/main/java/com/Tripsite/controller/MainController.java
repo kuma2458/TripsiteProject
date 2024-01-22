@@ -1,27 +1,18 @@
 package com.Tripsite.controller;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +27,6 @@ import com.Tripsite.dto.CommentDTO;
 import com.Tripsite.dto.FileDTO;
 import com.Tripsite.dto.MemberDTO;
 import com.Tripsite.service.CommentService;
-import com.Tripsite.service.CountryService;
 import com.Tripsite.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,32 +37,20 @@ import com.Tripsite.service.QnaService;
 import com.Tripsite.service.ReviewService;
 import com.Tripsite.vo.PagginVO;
 
-@Component
+
 @Controller
 public class MainController {
 	private ReviewService reviewService;
 	private MemberService memberService;
 	private QnaService qnaService;
 	private CommentService commentService;
-<<<<<<< HEAD
-	private CountryService countryService;
 
-=======
-	
-	
-	
-	private final String REST_API_KEY = "application.properties에서 찾아서 적으세여";
-	private final String REDIRECT_URI = "http://localhost:9999/main/callback";
-	private final String Scope = "profile_nickname,profile_image";
-	
->>>>>>> ba648b4353012c56464ded60a4b80d50c0edb881
 	public MainController(ReviewService reviewService, MemberService memberService, QnaService qnaService,
-			CommentService commentService, CountryService countryService) {
+			CommentService commentService) {
 		this.reviewService = reviewService;
 		this.memberService = memberService;
 		this.qnaService = qnaService;
 		this.commentService = commentService;
-		this.countryService = countryService;
 	}
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView view) {
@@ -98,11 +76,6 @@ public class MainController {
 	
 	@RequestMapping("/main/login")
 	public ModelAndView loginpage(ModelAndView view) {
-		
-		String apiURL = "https://kauth.kakao.com/oauth/authorize?response_type=code&" + "client_id=" + REST_API_KEY
-				+ "&redirect_uri=" + REDIRECT_URI + "&scope = " + Scope;
-		
-		view.addObject("apiURL", apiURL);
 		view.setViewName("login");
 		return view;
 	}
@@ -110,17 +83,9 @@ public class MainController {
 	 public String login(String mId, String mPass, HttpSession session) {
 		
 	    MemberDTO dto = memberService.login(mId, mPass);
-	    if(dto == null) {
-//	    	session.setAttribute("msg", "아이디와 비밀번호 다시 확인해주세요");
-//	    	session.setAttribute("url", "/main/login");
-//	    	return "alert";
 	    if(dto == null) 
 	    	return "redirect:/main/login";
-	    }
-	    //로그인 성공 시 처리
 	    session.setAttribute("member", dto);
-	    
-		
 	    if(session.getAttribute("reurl")!=null) {
 	    	String reurl=(String)session.getAttribute("reurl");
 	    	session.removeAttribute("reurl");
@@ -129,38 +94,6 @@ public class MainController {
 
 	    return "redirect:/main";
 	  }
-	private String requestKaKaoServer(String apiURL, String header) {
-		StringBuilder res = new StringBuilder();
-		try {
-			URL url = new URL(apiURL);
-			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			con.setRequestMethod("POST");
-			con.setDoOutput(true);
-			if (header != null && !header.equals("")) {
-				con.setRequestProperty("Authorization", header);
-			}
-
-			int responseCode = con.getResponseCode();
-			BufferedReader br;
-			if (responseCode == 200) { // 정상 호출
-				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			} else { // 에러 발생
-				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-			}
-			String inputLine;
-			while ((inputLine = br.readLine()) != null) {
-				res.append(inputLine);
-			}
-			br.close();
-			if (responseCode == 200) {
-				System.out.println(res.toString());
-			}
-		} catch (Exception e) {
-			// Exception 로깅
-		}
-		return res.toString();
-	}
-
 	@RequestMapping("/main/findpass")
 	public ModelAndView findpage(ModelAndView view) {
 		view.setViewName("findpass");
@@ -184,60 +117,11 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("redirect:/main/login");
 		return mv;
 	}
-	@RequestMapping("/main/callback")
-	public String kakaoCallBack(HttpSession session, String code)
-			throws UnsupportedEncodingException, JSONException {
-
-		String apiURL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code" 
-				+ "&client_id=" + REST_API_KEY
-				+ "&redirect_uri=" + REDIRECT_URI
-				+ "&scope=" + Scope
-				+ "&code=" + code;
-
-		String res = requestKaKaoServer(apiURL, null);
-		System.out.println(res);
-		if (res != null && !res.equals("")) {
-			JSONObject json = new JSONObject(res);
-			session.setAttribute("user", res);
-			session.setAttribute("accessToken", json.getString("access_token"));
-			session.setAttribute("refreshToken", json.getString("refresh_token"));
-			
-			
-			
-	        String profileURL = "https://kapi.kakao.com/v2/user/me";
-	        String userInfoResponse = requestKaKaoServer(profileURL, "Bearer " + json.getString("access_token"));
-
-	        if (userInfoResponse != null && !userInfoResponse.equals("")) {
-	            JSONObject userInfoJson = new JSONObject(userInfoResponse);
-
-	            // 사용자 정보 응답에서 사용자의 닉네임 가져오기
-	            if (userInfoJson.has("properties") && userInfoJson.getJSONObject("properties").has("nickname")) {
-	                String nickname = userInfoJson.getJSONObject("properties").getString("nickname");
-	                // 세션에 사용자의 닉네임 설정
-	                session.setAttribute("nick", nickname);
-	            }
-	        }
-		} 
-
-		return "redirect:/main";
-	}
 	@RequestMapping("/main/logout")
 	public ModelAndView logoutpage(ModelAndView view, HttpSession session) {
-	    // 카카오 로그아웃 처리
-	    String apiURL = "https://kapi.kakao.com/v1/user/logout";
-	    String token = (String) session.getAttribute("accessToken");
-	    if (token != null) {
-	        String header = "Bearer " + token;
-	        String result = requestKaKaoServer(apiURL, header);
-	    }
-
-	    // 세션 초기화
-	    session.removeAttribute("member");
-	    session.invalidate();
-
-	    // 로그아웃 후 메인 페이지로 리다이렉트
-	    view.setViewName("main_page");
-	    return view;
+		session.removeAttribute("member");
+		view.setViewName("main_page");
+		return view;
 	}
 
 	@RequestMapping("/main/register")
