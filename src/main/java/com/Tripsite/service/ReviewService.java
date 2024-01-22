@@ -97,10 +97,20 @@ public class ReviewService {
 	public int selectReviewNo() {
 		return mapper.selectReviewNo();
 	}
-
 	public int insertReview(ReviewDTO review) {
 		return mapper.insertReview(review);
 	}
+
+
+	public int updateReview(ReviewDTO review) {
+		return mapper.updatereview(review);
+		
+	}
+
+
+
+
+
 
 
 	

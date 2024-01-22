@@ -11,7 +11,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -727,5 +726,21 @@ public class MainController {
 		view.setViewName("review_write_page");
 		return view;
 	}
+	
+	@GetMapping("/review/update/{rno}")
+	public ModelAndView reviewUpdateView(ModelAndView view, @PathVariable(name = "rno") int rno) {
+	    ReviewDTO review = reviewService.selectreviewcontent(rno);
+	    view.setViewName("review_update_view");
+	    view.addObject("review", review);  // 뷰로 전달할 데이터 추가
+	    return view;
+	}
 
+	@PostMapping("/review/doUpdate")
+	public String reviewUpdate(ReviewDTO review, HttpSession session) {
+	    System.out.println(review);
+	    reviewService.updateReview(review);
+
+	    return "redirect:/review/" + review.getRno();
+	}
+	
 }
