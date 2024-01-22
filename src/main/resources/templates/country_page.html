@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인페이지</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body{
+            padding-top: 50px;
+            padding-bottom: 50px;
+            height: 100vh;
+            width: 100vw;
+            background-image: url(/img/conutry_page.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+          
+        } 
+
+        .search_container{
+            width: 310px;
+            height: 36px;
+            margin-top: 22px;
+            margin-bottom: 76px;
+            margin-right: 30px;
+            display: flex;
+            flex-flow: row nowrap;            
+            
+        }
+
+        .ct{
+            width: 220.95px;
+            height: 35.03px;
+
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.51);
+            
+            text-align: center;
+            color: rgba(0, 0, 0, 0.70);
+            font-size: 9px;
+            line-height: 9px;
+            font-weight: 400;
+
+            padding-left: 20px;
+            background-image: url("/img/search.png");
+            background-repeat: no-repeat;
+            background-position: 10px center;
+
+            
+        }
+
+        .ct_search{
+            width: 53.48px;
+            height: 35.03px;
+            padding: 9px, 11.48px, 7.03px 12px;
+            align-items: center;
+            margin-left: 22.42px;
+
+            border-radius: 10px;
+            border: 1px solid #000;
+            background: #000;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 16px;
+            color: white;
+        }
+        nav{
+            width: 1500px;
+            height: 100px;
+            margin: 0 auto;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: end;
+        }
+
+/* <---------------------------작업 구간--------------------------------------------------> */
+
+        section {
+            width: 1200px;
+            height: 1600px;
+            background-color: transparent;
+            margin: 0 auto;
+            
+        }
+        section h1 {
+            color: white;
+            font-size: 90px;
+            font-weight: bold;
+            left: 0px;
+         
+        }
+        article{
+            border-bottom: 3px solid white;
+        }
+        .section_container{
+            margin-top: 70px;
+        }
+
+        #first_box{
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        #last_box{
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+/* <---------------------------container 1--------------------------------------------------> */
+        .container1{
+            width: 100%;
+            margin: 0 auto;
+        }
+        .conutryinfo{
+            width: 500px;
+            height: 300px;
+            background-color: white;
+            opacity: 0.6;
+            border-radius: 10px;
+            box-sizing: border-box;
+            float: left;
+            font-size: 1.2em;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-top: 15px;
+            
+        }
+        .conutryinfo li{
+            opacity: 1;
+            list-style-type: none;
+        }
+        #infoimg{
+            width: 600px;
+            height: 400px;
+            margin-left: 20px;
+            box-sizing: border-box;
+
+        }
+        .subname{
+            font-size: 40px;
+            font-weight: bold;
+            color: white;
+        }
+
+/* <---------------------------container 2--------------------------------------------------> */
+        .container2{
+            width: 100%;
+            margin-top: 50px;
+        }
+        .con2{
+            font-size: 2em;
+            color: white;
+            display: flex;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+        .container2 img,p{
+            margin-left: 35px;
+        }
+        #a{
+            font-size: 25px;
+            float: right;
+            color: white;
+        }
+/* <---------------------------container 3--------------------------------------------------> */
+    .container3_1{
+        width: 55%;
+        height: 400px;
+        box-sizing: border-box;
+        float: left;
+        margin-top: 20px;
+        color: white;
+    }
+    .con3_1{
+        width: 500px;
+        font-size: 1.5em;
+        font-weight: bold;
+        flex-direction: column;
+    }
+    .con3_1 li{
+        margin-top: 50px;
+        margin-bottom: 40px;
+        margin-left: 50px;
+    }
+    .con3_1 input{
+        width: 300px;
+        height: 60px;
+        float: right;
+        border: 1px solid black;
+        border-radius: 15px;       
+    }
+    .con3_1 ::placeholder{
+        font-size: 1.5em;
+        padding-left: 20px;
+    }
+    .container3_2{
+        width: 45%;
+        height: 400px;
+        box-sizing: border-box;
+        float: left;
+        margin-top: 20px;
+        color: white;
+    }
+    .con3_2{
+        font-size: 2em;
+        font-weight: bold;
+        margin-top: 30px;
+        text-align: center;
+    }
+    .con3_2 img{
+        width: 250px;
+        height: 250px;
+    }
+
+
+    
+/* <---------------------------container 4--------------------------------------------------> */
+    .container4 {
+        width: 1400px;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+    .container4 p{
+       margin-left: 140px;
+    }
+    .con4{
+        
+        text-align: center;
+       
+    }
+    .con4 button{
+         width: 500px;
+        height: 100px;
+        margin-left: 40px;
+        margin-bottom: 20px;
+        margin-top: 30px;
+        font-size: 2em;
+        font-weight: bold;
+        background-color: darkgray;
+        border-radius: 10px;
+    }
+    </style>
+</head>
+<body>
+<th:block th:include="/fragments/header.html"></th:block>
+    <nav>
+        <form action="/search/country" method="get" class="frm_search">
+            <div class="search_container">
+                <input type="text" name="country" class="ct" placeholder="국가 이름을 입력해주세요(ex:가나,Ghana,GH)">
+                <button type="submit" class="ct_search">검색</button>
+            </div>
+        </form>
+    </nav>
+    <section class="main_container">
+        
+        <article class="container1">
+            <h1>대한민국</h1>
+            <h3 class="subname">Republic of Korea</h3>
+            <div class="conutryinfo">
+            <ul>
+                <li>(예시임)</li>
+                <li>면 적 : 51.4만 k㎡(한반도의 2.3배)</li>
+                <li>인 구 : 약 6,407만명(2012년)</li>
+                <li>수 도 : 방콕시(Bangkok : 인구 570만명), 방콕시 및 인근지역(약 1,200만명)</li>
+                <li>민 족 : 타이족 85%, 화교 12%, 말레이족 2%, 기타 1% </li>
+                <li>종 교 : 불교 94% 이슬람교 4% 기독교 0.4% </li>
+                <li>언 어 : 타이어(공용어) </li>
+                <li>시 차 : -2시간</li>
+            </ul>
+        </div>
+        <div>
+            <img src="/img/PAGE0.png" id="infoimg">
+        </div>
+        </article>
+   
+        <article class="container2">
+            <p class="subname">▶[검색 나라 이름] 핫플레이스 </p>
+            
+            <div class="con2">
+            <div>
+                <div>
+                    <img src="/img/PAGE1.png" alt="">
+                </div>
+                    <p>관광지1</p>
+            </div>
+            <div>
+                <div>
+                    <img src="/img/PAGE2.png" alt="">
+                </div>
+                    <p>관광지2</p>
+            </div>
+            <div>
+                <div>
+                    <img src="/img/PAGE3.png" alt="">
+                </div>
+                    <p>관광지3</p>
+            </div>
+        </div>
+        </article>
+
+        <article class="container3_1">
+        <p class="subname">▶여행할 국가 여행경보 및 환율</p>
+        <div class="con3_1">
+            <ul>
+                <li>원화 <input type="text" placeholder="기본금액" readonly></li><br>
+
+                <li>검색 나라 <input type="text" placeholder="환율계산가격" readonly></li>
+            </ul>
+        </div>
+        </article>
+        <form action="/country/airUpdate" method= "post">
+        <article class="container3_2">
+        <p class="subname">▶여행할 국가 항공편</p>
+        <div class="con3_2">
+            <div class="a">
+            <p>항공편 직항 여부</p>
+                <img src="/img/oo.png" alt="">
+            </div>
+         </form>
+<!--          
+            <div class="b">
+			<p>경유</p>
+                <img src="/img/xx.png" alt="">
+            </div>  
+-->           
+        </div> 
+        </article>
+        <br>
+    </section>
+    <footer class="container4">
+    <p class="subname">▶여행할 국가 관련 사이트</p>
+    <div class="con4">
+        <button id="button" type="button" >대충 어디사이트 링크 or 배너</button>
+        <button id="button" type="button" >대충 어디사이트 링크 or 배너</button>
+        <button id="button" type="button" >대충 어디사이트 링크 or 배너</button>
+        <button id="button" type="button" >대충 어디사이트 링크 or 배너</button>
+    </div>
+    </footer>
+    
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리뷰 글 작성</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            text-decoration: none;
+        }
+        
+        body{
+            padding-top: 50px;
+            padding-bottom: 50px;
+            height: 100vh;
+            width: 100vw;
+            background-image: url(/img/membercenter.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        } 
+
+       
+      
+
+       
+       
+        
+        
+        nav > h2 {            
+            font-size: 2.5em;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        section {
+            display: flex;
+            justify-content: center;            
+        }
+
+        .review_container {
+            width: 700px;   
+            padding: 20px;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 10px;
+            
+        }
+        .continent_btn_container {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+        }
+        .continent_btn {   
+            
+            width: 80px;
+            height: 40px;
+            border: none;
+            background-color: #D9D9D9;
+            font-weight: bold;
+            font-size: 10px;
+            
+        }
+        
+        .review_category {
+            width: 700px;
+            height: 40px;
+            margin-top: 40px;
+            background-color: #D9D9D9;
+            border: none;
+        }
+
+        .ckeditor {
+            margin-top: 20px;
+            width: 100%;
+            height: 40px;
+            border: 1px solid black;            
+        }
+        .ck-editor__editable_inline {
+			min-height: 300px;
+		}
+
+        .context_title {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #context_area {
+            background-color: #D9D9D9;
+            color: #978C8C;
+            margin-top: 20px;
+            width: 680px;
+            padding: 10px;
+            border: none;
+            
+        }
+        .image_title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .image_box {
+            display: flex;
+            flex-flow: row nowrap;
+            margin-top: 20px;
+            width: 80px;
+            height: 80px;
+            background-color: #D9D9D9;
+            margin-right: 10px;
+            
+        }
+        .image_box > p {
+            display: flex;
+            align-items: center;
+            padding-left: 34px;
+            
+        }
+
+        .image_box_container {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: left;
+            
+        }
+
+
+
+
+        .last_info {
+            margin-top: 10px;
+            color: #978C8C;
+            font-size: 15px;
+            padding-left: 40px;
+        }
+
+        
+        .regist > button {
+            width: 220px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background-color: black;
+            margin: 0 20px;
+       
+        }
+         .regist > button a {
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+        }
+
+        #kind{
+			width: 660px;
+			height: 30px;
+			background-color: #D9D9D9;
+			border-radius: 10px;
+			margin-bottom: 20px;
+		}
+		      .title_container {
+        margin: 0 auto;      
+      }
+      .title_container > h2 {
+        color: white;
+        font-size: 3.5em;
+      }
+		.regist{
+		 text-align: center;
+		 margin-top:30px;
+		}
+		      .context_container > div:first-child {
+        border-radius: 10px 10px 0 0;
+      }
+      .context_container > div:last-child {
+        border-radius: 0 0 10px 10px;
+        border: none;
+      }
+    </style>
+    <script th:if="${session.member == null  }" >
+    alert('로그인하셔야 이용가능합니다.');
+    location.href='/main/login';
+
+  </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="/js/ckeditor.js"></script>
+	<script src="/js/UploadAdapter.js"></script>
+	<script>
+		$(function() {
+			let count = 3;
+			$("#plus").click(function() {
+				if(count == 5) return;
+				count++;
+				$("#file_form").append("<p><input type=\"file\" name=\"file\"></p>");
+			});
+			$("#minus").click(function() {
+				if(count == 1) return;
+				count--;
+				$("#file_form").children("p").last().remove();
+			});
+			
+			//-------------------------------------------
+			ClassicEditor
+	        .create( document.querySelector( '#content' ),{
+	        	extraPlugins:[uploadAdaterPlugin]
+	        } )
+	        .catch( error => {
+	            console.error( error );
+	        } );
+			
+		});
+		function uploadAdaterPlugin(editor){
+			editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+				return new UploadAdapter(loader);
+			}
+		}
+	</script>
+    <script >
+
+        window.onload=()=>{
+            let test= document.querySelector('.review_category');
+            $('#eu').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            $('#asia').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            $('#africa').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            $('#oceania').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            $('#northAmerica').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            $('#southAmerica').click(function(){
+                console.log($(this).val());
+                test.setAttribute("list","");
+                test.setAttribute("list",$(this).val());
+                console.log($('#review_category'));       
+            });
+            
+        }
+    </script>
+</head>
+<body>
+	<th:block th:include="/fragments/header.html"></th:block>
+
+    <nav>
+        <h2>리뷰 글 작성</h2>
+    </nav>
+    <section>
+        <div class="review_container">
+            <form action="">
+                <table>
+                    
+                    <tr>
+                        <td>
+                   <select name="kind" id="kind" required>
+						<option value="" disabled selected>지역 선택해주세요</option>
+						<option value="유럽">유럽</option>
+						<option value="아시아">아시아</option>
+						<option value="아프리카">아프리카</option>
+						<option value="북아메리카">북아메리카</option>
+						<option value="남아메리카">남아메리카</option>	
+					</select>
+                        </td>
+                    </tr>
+                    <tr>
+					<td><textarea name="content" id="content" placeholder="내용 입력해주세요"
+					 ></textarea></td>
+					
+				</tr>
+                    
+                   
+                                       <tr>
+                        <td><ul class="last_info">
+                            <li>작성하신 후기는 이용자에게 공개됩니다.</li>
+                            <li>관련 없는 사진, 타인의 사진을 도용한 경우 비노출 처리 됩니다.                                
+                            </li>
+                        </ul></td>
+                    </tr>
+                </table>
+            <div class="regist">
+            <button><a href="">취소하기</a></button>
+            <button><a href="">등록하기</a></button>
+            </div>
+            </form>
+        </div>
+    </section>
+    
+</body>
+</html>

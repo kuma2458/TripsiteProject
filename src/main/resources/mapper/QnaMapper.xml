@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Tripsite.mapper.QnaMapper">
+	<resultMap type="qna" id="qna">
+		<id column="QNA_NO" property="qNo" />
+		<result column="QNA_TITLE" property="qTitle" />
+		<result column="QNA_CONTENT" property="qContent" />
+		<result column="QNA_ITEM" property="qItem" />
+		<result column="MEMBER_ID" property="qId" />
+		<result column="MEMBER_NICK" property="qNick" />
+		<result column="QNA_COMMENT_TIME" property="qTime" />
+	</resultMap>
+
+	<select id="selectMyQna" resultMap="qna" parameterType="hashmap">
+		SELECT * from(
+		SELECT CEIL(rownum/10) AS pageno , d.* from(
+		SELECT q.QNA_TITLE ,q.QNA_CONTENT,q.MEMBER_ID, q.QNA_NO ,q.QNA_ITEM
+		FROM QNA q
+		where q.MEMBER_ID like #{mId}
+		ORDER BY q.QNA_NO DESC) d)
+		WHERE pageno=#{pageNo}
+	</select>
+	
+	<select id="countQna">
+		select count(*) from REVIEW
+	</select>
+	
+	<select id="selectQnaNo" resultType="int">
+		SELECT Qna_no.nextval FROM dual
+	</select>
+	
+	<insert id="insertQna" parameterType="qna">
+		insert into QNA (QNA_NO,QNA_title,QNA_CONTENT,MEMBER_ID,QNA_ITEM)
+		values(#{qNo},#{qTitle},#{qContent},#{qId},#{qItem})
+	</insert>
+
+	<insert id="insertFile" parameterType="file">
+		insert into QNA_file(QNA_FILE_NO,FILE_URL,QNA_NO) values(#{fno},#{path},#{qno})
+	</insert>
+	
+	<select id="getfilelist" parameterType="int" resultType="file">
+		select * from QNA_file where QNA_NO = #{qno}
+	</select>
+	
+	<select id="selectfile" parameterType="hashmap" resultType="file">
+		select *from QNA_file where QNA_NO=#{qno} and QNA_FILE_NO=#{fno}
+	</select>
+	
+	<select id="selectImageFile" parameterType="int" resultType="file">
+        select * from QNA_file_table where QNA_FILE_NO = #{fno}
+     </select>
+     <select id="selectImageFileNo" resultType="int">
+         select QNA_FILE_NO.nextval from dual
+     </select>
+     <insert id="insertImageFile" parameterType="file">
+        insert into QNA_file_table values(#{fno}, #{path})
+    </insert>
+	
+	<select id="selectqnacontent" parameterType="int" resultMap="qna">
+		select q.QNA_NO, Q.QNA_TITLE, Q.QNA_CONTENT,Q.QNA_ITEM, Q.MEMBER_ID,M.MEMBER_NICK,TO_CHAR(Q.QNA_comment_time,'YYYY-MM-DD HH:mm') as QNA_comment_time 
+		from QNA q JOIN MEMBER M ON Q.MEMBER_ID=M.MEMBER_ID
+		where q.QNA_NO=#{qNo}
+	
+	</select>
+	
+	<delete id="deleteReview" parameterType="hashmap">
+		delete from QNA where QNA_NO=#{qNo} and MEMBER_ID LIKE #{qId}
+	</delete>
+</mapper>
+
+
+
+
+
+
+

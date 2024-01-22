@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색결과</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body{
+            padding-top: 50px;
+            padding-bottom: 50px;
+            height: 100vh;
+            width: 100vw;
+            background-image: url("/img/black.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        } 
+
+        .search_container{
+            width: 310px;
+            height: 70px;
+            border: 1px solid #c8D7E2;
+            background-color: #c8D7E2;
+            border-radius: 20px 20px 0px 0px;
+
+            margin-bottom: 19px;
+            margin-right: 234px;
+            float: right;
+        }
+
+        .ct{
+            width: 150px;
+            height: 35px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+            margin-top: 18.85px;
+            margin-left: 9.63px;
+            text-align: center;
+        }
+
+        .ct_search{
+            width: 122px;
+            height: 31px;
+            padding: 5.538px, 37.4px, 4.692px 28.396px;
+            align-items: center;
+            border-radius: 10px;
+            background: #A95D27;
+            font-size: 18px;
+            line-height: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+
+        section h1 {
+            color: white;
+            font-size: 67px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 150px;
+        }
+
+        .section_container{
+            margin-top: 70px;
+        }
+
+        #first_box{
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        #last_box{
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .mypage{
+            width: 800px;
+            height: 70px;
+            margin: 0 auto;
+            border: 1px solid #d2e2f1;
+            border-bottom: 1px solid black;
+            background-color: #d2e2f1;
+        }
+        
+        .mypage a:link, .mypage a:visited {
+            text-decoration: none;
+            padding-left: 20px;
+            padding-top: 25px;
+            color: black;
+            font-size: 18px;
+            
+            display: inline-block;
+            vertical-align: center;
+        }
+
+    </style>
+</head>
+<body>
+	<th:block th:include="/fragments/header.html"></th:block>
+    <nav>
+        <form class="frm_search">
+            <div class="search_container">
+                <input type="text" name="country" class="ct" placeholder="여행을 떠날 곳 입력">
+                <button type="submit" class="ct_search">search</button>
+            </div>
+        </form>
+    </nav>
+    <section>
+        <h1>마이 페이지</h1>
+        <article class="section_container">
+            <p>ㅇㅇ</p>
+        </article>
+    </section>
+
+    
+</body>
+</html>

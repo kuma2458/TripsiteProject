@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Tripsite.mapper.CommentMapper">
+	<resultMap type="comment" id="comment">
+		<id column="REVIEW_COMMENT_NO" property="cNo"/>
+		<result column="MEMBER_ID" property="cId"/>
+		<result column="REVIEW_COMMENT_TIME" property="cTime"/>
+		<result column="REVIEW_COMMENT_CONTENT" property="cContent"/>
+		<result column="REVIEW_NO" property="rNo"/>
+		<result column="MEMBER_NICK" property="cNick" />
+	</resultMap>
+
+	<select id="selectmycomment" resultMap="comment" parameterType="hashmap">
+		SELECT * from(
+		select  d.* , CEIL(rownum/10) AS pageno from (SELECT TO_NUMBER(rc.REVIEW_COMMENT_NO) as REVIEW_COMMENT_NO ,rc.MEMBER_ID,TO_CHAR(rc.review_comment_time,'YYYY-MM-DD') as REVIEW_COMMENT_TIME ,rc.REVIEW_COMMENT_CONTENT  ,rc.REVIEW_NO,m.MEMBER_NICK,NVL(chate,0) AS chate ,NVL(clike,0) AS clike 
+		from REVIEW_COMMENT rc 
+		join MEMBER m on rc.MEMBER_ID=m.MEMBER_ID
+		LEFT OUTER JOIN (SELECT rch.review_COMMENT_no AS rchno, count(*) AS chate FROM REVIEW_COMMENT_HATE rch GROUP BY rch.REVIEW_COMMENT_NO) ON rchno=rc.review_COMMENT_no
+		LEFT OUTER JOIN (SELECT rcl.review_COMMENT_no AS rclno, count(*) AS clike FROM REVIEW_COMMENT_LIKE rcl GROUP BY rcl.REVIEW_COMMENT_NO) ON rclno=rc.review_COMMENT_no
+		where rc.MEMBER_ID like #{mId}
+		order by TO_NUMBER(rc.REVIEW_COMMENT_NO) DESC)d)
+		WHERE pageno=#{pageNo}
+	</select>
+	
+	<select id="countmycomment" parameterType="String">
+		select count(*) from REVIEW_COMMENT rc where rc.MEMBER_ID like #{mId}
+	</select>
+	
+	<select id="countcomment" parameterType="int">
+		select count(*) from REVIEW_COMMENT rc where rc.review_no = #{rno}
+	</select>
+	
+	<select id="getcomment" parameterType="int" resultMap="comment">
+		SELECT TO_NUMBER(rc.REVIEW_COMMENT_NO) as REVIEW_COMMENT_NO ,rc.MEMBER_ID,TO_CHAR(rc.review_comment_time,'YYYY-MM-DD HH:mm') as REVIEW_COMMENT_TIME ,rc.REVIEW_COMMENT_CONTENT  ,rc.REVIEW_NO,m.MEMBER_NICK,NVL(chate,0) AS chate ,NVL(clike,0) AS clike 
+		from REVIEW_COMMENT rc 
+		join MEMBER m on rc.MEMBER_ID=m.MEMBER_ID
+		LEFT OUTER JOIN (SELECT rch.review_COMMENT_no AS rchno, count(*) AS chate FROM REVIEW_COMMENT_HATE rch GROUP BY rch.REVIEW_COMMENT_NO) ON rchno=rc.review_COMMENT_no
+		LEFT OUTER JOIN (SELECT rcl.review_COMMENT_no AS rclno, count(*) AS clike FROM REVIEW_COMMENT_LIKE rcl GROUP BY rcl.REVIEW_COMMENT_NO) ON rclno=rc.review_COMMENT_no
+		where rc.review_no=#{rno}
+		order by TO_NUMBER(rc.REVIEW_COMMENT_NO)
+	</select>
+	
+	<insert id="registercomment" parameterType="comment">
+		insert into review_comment(REVIEW_COMMENT_NO,MEMBER_ID,REVIEW_COMMENT_CONTENT,REVIEW_NO)
+		values(REVIEW_comment_no.nextval,#{cId},#{cContent},#{rNo})
+	</insert>
+	
+	<delete id="deleteComment" parameterType="hashmap">
+		DELETE FROM REVIEW_COMMENT WHERE REVIEW_COMMENT_NO = #{cNo} AND MEMBER_ID =#{cId} 
+	</delete>
+	
+	<insert id="commentlikeup" parameterType="hashmap">
+		INSERT INTO REVIEW_COMMENT_LIKE(REVIEW_COMMENT_NO,MEMBER_ID) values(#{cNo},#{cId})
+	</insert>
+	<delete id="commentlikedown" parameterType="hashmap">
+		delete from REVIEW_comment_like where REVIEW_COMMENT_NO = #{cNo} and MEMBER_ID like #{cId}
+	</delete>
+	
+	<select id="commenttotallike" parameterType="int">
+		select count(*) from REVIEW_comment_like where REVIEW_COMMENT_NO = #{cNo}
+	</select>
+	
+	<insert id="commenthateup" parameterType="hashmap">
+		INSERT INTO REVIEW_COMMENT_hate(REVIEW_COMMENT_NO,MEMBER_ID) values(#{cNo},#{cId})
+	</insert>
+		<delete id="commenthatedown" parameterType="hashmap">
+		delete from REVIEW_comment_hate where REVIEW_COMMENT_NO = #{cNo} and MEMBER_ID like #{cId}
+	</delete>
+	
+	<select id="commenttotalhate" parameterType="int">
+		select count(*) from REVIEW_comment_hate where REVIEW_COMMENT_NO = #{cNo}
+	</select>
+	
+	
+	
+</mapper>
+
+
+
+
+
+
