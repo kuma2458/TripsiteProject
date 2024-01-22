@@ -585,6 +585,7 @@ public class MainController {
 
 
 			int qno = reviewService.selectReviewNo();
+			review.setRno(qno);
 			System.out.println(review.toString());
 			//	2. QnaDTO에 게시글 번호 저장 후 DB에 저장
 			reviewService.insertReview(review);
