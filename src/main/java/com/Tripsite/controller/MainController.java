@@ -119,6 +119,9 @@ public class MainController {
 		napiURL += "&state=" + state;
 		view.addObject("napiURL", napiURL);
 		session.setAttribute("state", state);
+		String msg=(String)session.getAttribute("msg");
+		view.addObject("msg", msg);
+		session.removeAttribute("msg");
 		
 		view.setViewName("login");
 		return view;
@@ -127,8 +130,10 @@ public class MainController {
 	 public String login(String mId, String mPass, HttpSession session) {
 		
 	    MemberDTO dto = memberService.login(mId, mPass);
-	    if(dto == null) 
+	    if(dto == null) {
+	    	session.setAttribute("msg", "정보가 틀립니다. 아이디나 비밀번호 확인 해주세요");
 	    	return "redirect:/main/login";
+	    }
 	    session.setAttribute("member", dto);
 	    if(session.getAttribute("reurl")!=null) {
 	    	String reurl=(String)session.getAttribute("reurl");
