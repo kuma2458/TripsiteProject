@@ -9,6 +9,8 @@
 		<result column="QNA_CONTENT" property="qContent" />
 		<result column="QNA_ITEM" property="qItem" />
 		<result column="MEMBER_ID" property="qId" />
+		<result column="MEMBER_NICK" property="qNick" />
+		<result column="QNA_COMMENT_TIME" property="qTime" />
 	</resultMap>
 
 	<select id="selectMyQna" resultMap="qna" parameterType="hashmap">
@@ -56,7 +58,16 @@
         insert into QNA_file_table values(#{fno}, #{path})
     </insert>
 	
+	<select id="selectqnacontent" parameterType="int" resultMap="qna">
+		select q.QNA_NO, Q.QNA_TITLE, Q.QNA_CONTENT,Q.QNA_ITEM, Q.MEMBER_ID,M.MEMBER_NICK,TO_CHAR(Q.QNA_comment_time,'YYYY-MM-DD HH:mm') as QNA_comment_time 
+		from QNA q JOIN MEMBER M ON Q.MEMBER_ID=M.MEMBER_ID
+		where q.QNA_NO=#{qNo}
 	
+	</select>
+	
+	<delete id="deleteReview" parameterType="hashmap">
+		delete from QNA where QNA_NO=#{qNo} and MEMBER_ID LIKE #{qId}
+	</delete>
 </mapper>
 
 

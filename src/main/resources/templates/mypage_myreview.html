@@ -181,6 +181,14 @@ p {
 	alert('로그인 후 이용 가능합니다');
 	location.href="/main";
 </script>
+<script>
+	function deletereview(rno){
+		if(confirm('삭제하시겠습니까?')){
+			location.href='/review/delete/'+rno;
+		}
+	}
+
+</script>
 </head>
 <body>
 	<th:block th:insert="~{/fragments/header.html}"></th:block>
@@ -217,8 +225,8 @@ p {
 						<td>[[${r.rCount}]]</td>
 						<td>[[${r.rNick}]]</td>
 						<td>
-						<button th:onclick="|location.href='@{/review/update/{rno}(rno=${r.rno})}'|">수정</button>
-						<button th:onclick="|location.href='@{/review/delete/{rno}(rno=${r.rno})}'|">삭제</button>
+						<button id="update" th:onclick="|location.href='@{/review/update/{rno}(rno=${r.rno})}'|">수정</button>
+						<button id="delete" th:onclick="deletereview([[${r.rno}]])">삭제</button>
 						</td>
 					</tr>
 				</tbody>

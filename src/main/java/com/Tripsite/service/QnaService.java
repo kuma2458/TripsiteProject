@@ -67,6 +67,18 @@ public class QnaService {
 	public FileDTO selectImageFile(int fno) {
 		return mapper.selectImageFile(fno);
 	}
+
+	public QnaDTO selectqnacontent(int qNo) {
+		return mapper.selectqnacontent(qNo);
+	}
+
+	public int deleteReview(int qNo, String qId) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("qNo", qNo);
+		map.put("qId", qId);
+		return mapper.deleteReview(map);
+	}
+
 	
 	
 }

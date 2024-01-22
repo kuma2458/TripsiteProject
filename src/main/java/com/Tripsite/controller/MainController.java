@@ -501,6 +501,15 @@ public class MainController {
 		view.setViewName("review_click_result_page");
 		return view;
 	}
+	@RequestMapping("/inquiry/{qNo}")
+	public ModelAndView selectqnapage(ModelAndView view,@PathVariable(name="qNo") int qNo) {
+		QnaDTO dto=qnaService.selectqnacontent(qNo);
+		List<FileDTO> filelist=qnaService.getfilelist(qNo);
+ 		view.addObject("filelist", filelist);
+		view.addObject("qna", dto);
+		view.setViewName("inquiry_click_result_page");
+		return view;
+	}
 	
 	@RequestMapping("/review/like")
 	public ResponseEntity<String> reviewlike(int rno, HttpSession session) {
@@ -711,6 +720,21 @@ public class MainController {
 		  String rId=dto.getmId();
 		  reviewService.deleteReview(rno,rId);
 		  String reurl=request.getHeader("Referer");
+		  if(reurl.contains("/review/")) {
+			  reurl="http://localhost:9999/review";
+		  }
+		  return "redirect:"+reurl;
+	  }
+	  
+	  @RequestMapping("/inquiry/delete/{qNo}")
+	  public String deleteinquiry(@PathVariable(name="qNo") int qNo, HttpSession session,HttpServletRequest request) {
+		  MemberDTO dto = (MemberDTO) session.getAttribute("member");
+		  String qId=dto.getmId();
+		  qnaService.deleteReview(qNo,qId);
+		  String reurl=request.getHeader("Referer");
+		  if(reurl.contains("/inquiry/")) {
+			  reurl="http://localhost:9999/mypage/inquiry";
+		  }
 		  return "redirect:"+reurl;
 	  }
 	  

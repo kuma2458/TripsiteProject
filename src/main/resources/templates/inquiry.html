@@ -197,7 +197,7 @@
                 <tbody>
                     <tr th:each="q:${qnalist}">
                         <td>[[${q.qNo}]]</td>
-                        <td><a>[[${q.qTitle}]]</a></td>
+                        <td><a th:href="@{/inquiry/{qNo}(qNo=${q.qNo})}">[[${q.qTitle}]]</a></td>
                         <td>[[${q.qItem}]]</td>
                     </tr>
                 </tbody>

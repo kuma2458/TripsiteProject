@@ -28,5 +28,6 @@ public interface QnaMapper {
 
 	FileDTO selectImageFile(int fno);
 	List<FileDTO> getfilelist(int qno);
-
+	QnaDTO selectqnacontent(int qNo);
+	int deleteReview(HashMap<String, Object> map);
 }
