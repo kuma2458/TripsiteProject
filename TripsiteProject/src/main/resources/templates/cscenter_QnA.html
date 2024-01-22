@@ -118,8 +118,8 @@
             //let content = document.querySelectorAll('.content');
             document.querySelectorAll('.title').forEach((obj, idx) => {
                 obj.onclick = () => {
-                    console.log(obj.nextElementSibling);//현재 태그의 다음 형제 요소
-                    console.log(obj.previousElementSibling);//현재 태그의 이전 형제 요소
+                    console.log(obj.nextElementSibling);
+                    console.log(obj.previousElementSibling);
                     if(obj.nextElementSibling.clientHeight == 0){
                         obj.nextElementSibling.style.height = obj.nextElementSibling.scrollHeight + "px";
                         }else{
