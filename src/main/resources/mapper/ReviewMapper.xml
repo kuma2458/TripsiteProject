@@ -76,6 +76,7 @@
 	<select id="getfilelist" parameterType="int" resultType="file">
 		select * from board_file where REVIEW_NO = #{qno}
 	</select>
+	
 	<delete id="deleteReview" parameterType="hashmap">
 		DELETE FROM REVIEW WHERE REVIEW_NO = #{rno} AND MEMBER_ID =#{rId} 
 	</delete>
